@@ -1,11 +1,4 @@
-import {
-  boolean,
-  pgEnum,
-  pgTable,
-  serial,
-  uuid,
-  varchar,
-} from "drizzle-orm/pg-core"
+import { boolean, pgEnum, pgTable, serial, uuid, varchar } from "drizzle-orm/pg-core"
 
 export const sectionEnum = pgEnum("section", ["male", "female"])
 export const colledgeEnum = pgEnum("colledge", ["CS", "IT", "COE"])

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { ProjectCard } from "@/components/project-card"
 
 export default function Page() {
   return (
@@ -9,6 +10,7 @@ export default function Page() {
           <p>يمكنك الآن إضافة المكونات والبدء بالبناء.</p>
           <p>لقد أضفنا مكون الزر بالفعل من أجلك.</p>
           <Button className="mt-2">زر</Button>
+          <ProjectCard projectId="5d341e43-f607-4bef-8078-8a65b5b50a9c" />
         </div>
       </div>
     </div>

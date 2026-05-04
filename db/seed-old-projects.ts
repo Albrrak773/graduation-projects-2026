@@ -1,9 +1,7 @@
 // run with infisical run --env=dev -- pnpm tsx db/seed-old-projects.ts
 import "dotenv/config"
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
-import { drizzle } from "drizzle-orm/node-postgres"
 import { eq } from "drizzle-orm"
-import pg from "pg"
 import { randomUUID } from "crypto"
 import { projectsTable, tagsTable, projectParticipantsTable } from "./schema.js"
 import { config } from "../lib/config.js"
@@ -93,8 +91,7 @@ async function uploadImageToR2(s3: S3Client, imageBuffer: Buffer, key: string): 
 async function main() {
   console.log("🌱 Seeding old projects...")
 
-  const pool = new pg.Pool({ connectionString: config.databaseUrl })
-  const db = drizzle(pool)
+  const db = config.db
 
   const s3 = new S3Client({
     region: "auto",
@@ -202,7 +199,7 @@ async function main() {
   }
 
   console.log(`\n🏁 Done! Created: ${created}, Skipped: ${skipped}`)
-  await pool.end()
+  process.exit(0)
 }
 
 main().catch((err) => {

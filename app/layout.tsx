@@ -1,19 +1,55 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import localFont from "next/font/local"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { DirectionProvider } from "@/components/ui/direction"
-import { Noto_Sans_Arabic } from "next/font/google"
 
-const fontSans = Noto_Sans_Arabic({
-  subsets: ["arabic"],
+const fontSans = localFont({
+  src: [
+    { path: "../public/fonts/thmanyah/sans/thmanyahsans-Light.woff2", weight: "300", style: "normal" },
+    { path: "../public/fonts/thmanyah/sans/thmanyahsans-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/thmanyah/sans/thmanyahsans-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../public/fonts/thmanyah/sans/thmanyahsans-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../public/fonts/thmanyah/sans/thmanyahsans-Black.woff2", weight: "900", style: "normal" },
+  ],
   variable: "--font-sans",
+  display: "swap",
+  preload: true,
 })
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+const fontHeading = localFont({
+  src: [
+    { path: "../public/fonts/thmanyah/serif-display/thmanyahserifdisplay-Light.woff2", weight: "300", style: "normal" },
+    {
+      path: "../public/fonts/thmanyah/serif-display/thmanyahserifdisplay-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/thmanyah/serif-display/thmanyahserifdisplay-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    { path: "../public/fonts/thmanyah/serif-display/thmanyahserifdisplay-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../public/fonts/thmanyah/serif-display/thmanyahserifdisplay-Black.woff2", weight: "900", style: "normal" },
+  ],
+  variable: "--font-heading",
+  display: "swap",
+  preload: true,
+})
+
+const fontSerif = localFont({
+  src: [
+    { path: "../public/fonts/thmanyah/serif-text/thmanyahseriftext-Light.woff2", weight: "300", style: "normal" },
+    { path: "../public/fonts/thmanyah/serif-text/thmanyahseriftext-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/thmanyah/serif-text/thmanyahseriftext-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../public/fonts/thmanyah/serif-text/thmanyahseriftext-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../public/fonts/thmanyah/serif-text/thmanyahseriftext-Black.woff2", weight: "900", style: "normal" },
+  ],
+  variable: "--font-serif",
+  display: "swap",
+  preload: false,
 })
 
 export default function RootLayout({
@@ -26,12 +62,7 @@ export default function RootLayout({
       lang="ar"
       dir="rtl"
       suppressHydrationWarning
-      className={cn(
-        "antialiased",
-        fontMono.variable,
-        "font-sans",
-        fontSans.variable
-      )}
+      className={cn("font-sans antialiased", fontSans.variable, fontHeading.variable, fontSerif.variable)}
     >
       <body>
         <DirectionProvider direction="rtl">
