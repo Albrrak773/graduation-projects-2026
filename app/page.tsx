@@ -5,7 +5,6 @@ import { config, COLLEDGE_LABELS, TEAM_MEMBERS } from "@/lib/config"
 import { projectsTable } from "@/db/schema"
 import { eq, desc } from "drizzle-orm"
 import { ProjectCard } from "@/components/project-card"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 const COLLEGES = ["CS", "IT", "COE"] as const
 const PROJECTS_PER_SECTION = 10
@@ -22,15 +21,18 @@ async function CollegeSection({ college }: { college: (typeof COLLEGES)[number] 
 
   return (
     <section className="relative">
-      <div className="flex items-center justify-between px-6 py-4 md:px-12">
-        <h2 className="font-heading text-xl font-bold text-foreground md:text-2xl">{COLLEDGE_LABELS[college]}</h2>
-        <Link href="#" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
+      <div className="flex items-center justify-between px-6 py-6 md:px-12">
+        <h2 className="font-heading text-2xl font-bold text-foreground md:text-3xl">{COLLEDGE_LABELS[college]}</h2>
+        <Link
+          href="#"
+          className="rounded-full border border-primary/20 bg-primary/8 px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary/15"
+        >
           الكل
         </Link>
       </div>
 
-      <ScrollArea className="w-full">
-        <div className="flex gap-4 px-6 pb-4 md:px-12">
+      <div className="w-full overflow-x-auto overflow-y-hidden scroll-smooth [-webkit-overflow-scrolling:touch]">
+        <div className="flex gap-5 px-6 pb-4 md:px-12">
           {projects.map((p) => (
             <div key={p.id} className="w-[260px] shrink-0 md:w-[280px]">
               <Suspense fallback={<div className="aspect-[3/4] animate-pulse rounded-2xl bg-muted" />}>
@@ -39,8 +41,7 @@ async function CollegeSection({ college }: { college: (typeof COLLEGES)[number] 
             </div>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      </div>
     </section>
   )
 }
@@ -91,28 +92,22 @@ function Footer() {
 
 function HeroSection() {
   return (
-    <section className="relative flex flex-col items-center justify-center px-6 pt-16 pb-12 md:pt-24 md:pb-16">
+    <section className="relative flex flex-col items-center justify-center px-6 pt-20 pb-16 md:pt-32 md:pb-20">
       <Image
         src="/design/logo.png"
         alt="مشاريع التخرج"
-        className="h-28 w-auto md:h-40"
-        width={280}
-        height={112}
+        className="w-full max-w-md md:max-w-lg"
+        width={480}
+        height={200}
         priority
       />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute top-0 right-0 -z-10 opacity-[0.06] md:opacity-[0.08]"
-      >
-        <Image src="/design/asset-5.png" alt="" width={500} height={500} className="h-auto w-[300px] md:w-[500px]" />
-      </div>
     </section>
   )
 }
 
 function SectionFallback() {
   return (
-    <div className="flex gap-4 px-6 pb-4 md:px-12">
+    <div className="flex gap-5 px-6 pb-4 md:px-12">
       {Array.from({ length: 4 }).map((_, i) => (
         <div key={i} className="w-[260px] shrink-0 md:w-[280px]">
           <div className="aspect-[3/4] animate-pulse rounded-2xl bg-muted" />
@@ -127,7 +122,7 @@ export default function HomePage() {
     <div className="relative min-h-screen">
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.03]"
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
         style={{
           backgroundImage: "url('/design/pattern-2.png')",
           backgroundSize: "300px",
