@@ -21,6 +21,14 @@ export const COLLEDGE_COLORS: Record<string, string> = {
   COE: "bg-[#0d2b6b]/10 text-[#0d2b6b] dark:bg-[#0d2b6b]/20 dark:text-[#7986cb]",
 }
 
+export const TEAM_MEMBERS = [
+  {
+    name: "albrrak773",
+    github: "https://github.com/albrrak773",
+    x: "https://x.com/albrrak773",
+  },
+]
+
 const pool = new pg.Pool({
   connectionString: assertEnv("DATABASE_URL", process.env.DATABASE_URL),
 })
