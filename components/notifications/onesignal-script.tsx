@@ -2,7 +2,7 @@
 
 import Script from "next/script"
 
-const ONEIGNAL_APP_ID = "b811652a-61e7-4fc8-b989-ec55ceebf5fc"
+const ONEIGNAL_APP_ID = "658a1ccd-e66c-4008-a6e6-285059302383"
 
 export function OneSignalScript() {
   return (
