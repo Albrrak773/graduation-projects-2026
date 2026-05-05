@@ -16,10 +16,12 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { OPEN_NOTIFICATIONS_DRAWER_EVENT } from "@/components/notifications/notification-events"
+import { cn } from "@/lib/utils"
 
 const DISMISS_STORAGE_KEY = "notifications-banner-dismissed-until"
 const DISMISS_TTL_MS = 30 * 60 * 1000
 const CLIENT_NOW = typeof window === "undefined" ? 0 : Date.now()
+const ACTION_TIMEOUT_MS = 8000
 
 type SubscriptionChangeEvent = {
   current: {
@@ -33,6 +35,7 @@ type OneSignalState = {
   subscribed: boolean
   permission: NotificationPermission
   error: boolean
+  errorMessage?: string | null
 }
 
 const initialState: OneSignalState = {
@@ -41,6 +44,7 @@ const initialState: OneSignalState = {
   subscribed: false,
   permission: "default",
   error: false,
+  errorMessage: null,
 }
 
 export function NotificationBanner() {
@@ -49,6 +53,19 @@ export function NotificationBanner() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const initAttempted = useRef(false)
   const dismissTimeout = useRef<number | null>(null)
+  const [actionMessage, setActionMessage] = useState<string | null>(null)
+  const [actionStatus, setActionStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [serviceWorkerStatus, setServiceWorkerStatus] = useState<"unknown" | "missing" | "active">("unknown")
+  const [serviceWorkerScriptUrl, setServiceWorkerScriptUrl] = useState<string | null>(null)
+  const [serviceWorkerError, setServiceWorkerError] = useState<string | null>(null)
+
+  const logInfo = useCallback((...args: unknown[]) => {
+    console.info("[notifications]", ...args)
+  }, [])
+
+  const logError = useCallback((...args: unknown[]) => {
+    console.error("[notifications]", ...args)
+  }, [])
 
   const [isDismissed, setIsDismissed] = useState(() => {
     if (typeof window === "undefined") return false
@@ -75,18 +92,25 @@ export function NotificationBanner() {
   })
 
   const handlePermissionChange = useCallback(() => {
+    const nextPermission = OneSignal.Notifications.permissionNative || Notification.permission || "default"
+    logInfo("permissionChange", nextPermission)
     setOneSignalState((prev) => ({
       ...prev,
-      permission: OneSignal.Notifications.permissionNative,
+      permission: nextPermission,
     }))
-  }, [])
+  }, [logInfo])
 
-  const handleSubscriptionChange = useCallback((event: SubscriptionChangeEvent) => {
-    setOneSignalState((prev) => ({
-      ...prev,
-      subscribed: Boolean(event.current.optedIn),
-    }))
-  }, [])
+  const handleSubscriptionChange = useCallback(
+    (event: SubscriptionChangeEvent) => {
+      const nextSubscribed = Boolean(event.current.optedIn)
+      logInfo("subscriptionChange", nextSubscribed)
+      setOneSignalState((prev) => ({
+        ...prev,
+        subscribed: nextSubscribed,
+      }))
+    },
+    [logInfo]
+  )
 
   useEffect(() => {
     if (initAttempted.current) return
@@ -94,6 +118,7 @@ export function NotificationBanner() {
     let isActive = true
 
     async function initOneSignal() {
+      logInfo("init:start")
       try {
         try {
           await OneSignal.init({
@@ -145,6 +170,7 @@ export function NotificationBanner() {
         const supported = OneSignal.Notifications.isPushSupported()
         const permission = OneSignal.Notifications.permissionNative || Notification.permission || "default"
         const subscribed = Boolean(OneSignal.User.PushSubscription.optedIn)
+        logInfo("init:state", { supported, permission, subscribed })
 
         setOneSignalState({
           ready: true,
@@ -152,13 +178,83 @@ export function NotificationBanner() {
           subscribed,
           permission,
           error: false,
+          errorMessage: null,
         })
 
         OneSignal.Notifications.addEventListener("permissionChange", handlePermissionChange)
         OneSignal.User.PushSubscription.addEventListener("change", handleSubscriptionChange)
-      } catch {
+
+        if ("serviceWorker" in navigator) {
+          const secureContext = window.isSecureContext
+          if (!secureContext) {
+            setServiceWorkerError("السياق غير آمن. إشعارات الويب تتطلب HTTPS أو localhost.")
+          } else {
+            setServiceWorkerError(null)
+          }
+
+          const listRegistrations = async () => {
+            const registrations = await navigator.serviceWorker.getRegistrations()
+            const candidates = registrations.map((registration) => ({
+              scope: registration.scope,
+              scriptUrl:
+                registration.active?.scriptURL ||
+                registration.waiting?.scriptURL ||
+                registration.installing?.scriptURL ||
+                null,
+            }))
+            logInfo("serviceWorker:list", candidates)
+            return candidates
+          }
+
+          const ensureOneSignalWorker = async () => {
+            const candidates = await listRegistrations()
+            const oneSignalRegistration = candidates.find((registration) =>
+              registration.scriptUrl?.includes("OneSignalSDKWorker.js")
+            )
+
+            if (oneSignalRegistration) {
+              setServiceWorkerStatus("active")
+              setServiceWorkerScriptUrl(oneSignalRegistration.scriptUrl)
+              logInfo("serviceWorker:active", oneSignalRegistration)
+              return
+            }
+
+            setServiceWorkerStatus("missing")
+            setServiceWorkerScriptUrl(null)
+            logInfo("serviceWorker:missing")
+
+            try {
+              const registration = await navigator.serviceWorker.register("/OneSignalSDKWorker.js", { scope: "/" })
+              logInfo("serviceWorker:registered", registration.scope)
+              const updated = await listRegistrations()
+              const updatedOneSignal = updated.find((entry) => entry.scriptUrl?.includes("OneSignalSDKWorker.js"))
+              if (updatedOneSignal) {
+                setServiceWorkerStatus("active")
+                setServiceWorkerScriptUrl(updatedOneSignal.scriptUrl)
+                logInfo("serviceWorker:active", updatedOneSignal)
+              }
+            } catch (error) {
+              logError("serviceWorker:register-error", error)
+              setServiceWorkerError("تعذر تسجيل عامل الخدمة. تحقق من إعدادات المتصفح.")
+            }
+          }
+
+          ensureOneSignalWorker().catch((error) => {
+            logError("serviceWorker:error", error)
+            setServiceWorkerStatus("missing")
+          })
+
+          fetch("/OneSignalSDKWorker.js", { cache: "no-store" })
+            .then((response) => {
+              logInfo("serviceWorker:fetch", response.status)
+            })
+            .catch((error) => logError("serviceWorker:fetch-error", error))
+        }
+      } catch (error) {
         if (!isActive) return
-        setOneSignalState((prev) => ({ ...prev, ready: true, error: true }))
+        const message = error instanceof Error ? error.message : "تعذر تهيئة خدمة الإشعارات. حاول تحديث الصفحة لاحقاً."
+        logError("init:error", error)
+        setOneSignalState((prev) => ({ ...prev, ready: true, error: true, errorMessage: message }))
       }
     }
 
@@ -173,11 +269,13 @@ export function NotificationBanner() {
         return
       }
     }
-  }, [handlePermissionChange, handleSubscriptionChange])
+  }, [handlePermissionChange, handleSubscriptionChange, logError, logInfo])
 
   useEffect(() => {
     function handleOpenDrawer() {
       setIsDrawerOpen(true)
+      setActionMessage(null)
+      setActionStatus("idle")
     }
 
     window.addEventListener(OPEN_NOTIFICATIONS_DRAWER_EVENT, handleOpenDrawer)
@@ -243,10 +341,18 @@ export function NotificationBanner() {
     if (isProcessing) return
     if (isIosSetupRequired) return
     if (!oneSignalState.supported) return
+    if (oneSignalState.error) {
+      setActionMessage("تعذر تهيئة خدمة الإشعارات. حاول تحديث الصفحة.")
+      setActionStatus("error")
+      return
+    }
 
     setIsProcessing(true)
+    setActionStatus("loading")
+    setActionMessage("جارٍ تفعيل الإشعارات...")
     try {
       if (oneSignalState.permission !== "granted") {
+        logInfo("subscribe:request-permission")
         const granted = await OneSignal.Notifications.requestPermission()
         const nextPermission = granted
           ? "granted"
@@ -255,36 +361,78 @@ export function NotificationBanner() {
           ...prev,
           permission: nextPermission,
         }))
+        logInfo("subscribe:permission-result", nextPermission)
         if (!granted) {
+          setActionStatus("error")
+          setActionMessage("لم يتم منح الإذن للإشعارات.")
           return
         }
       }
 
-      await OneSignal.User.PushSubscription.optIn()
+      const timeout = new Promise<void>((_, reject) => {
+        window.setTimeout(() => reject(new Error("timeout")), ACTION_TIMEOUT_MS)
+      })
+      logInfo("subscribe:opt-in")
+      await Promise.race([OneSignal.User.PushSubscription.optIn(), timeout])
       setOneSignalState((prev) => ({ ...prev, subscribed: true }))
-    } catch {
+      setActionStatus("success")
+      setActionMessage("تم تفعيل الإشعارات بنجاح.")
+    } catch (error) {
+      logError("subscribe:error", error)
+      setActionStatus("error")
+      setActionMessage("تعذر تفعيل الإشعارات حالياً. حاول مرة أخرى.")
       return
     } finally {
       setIsProcessing(false)
     }
-  }, [isIosSetupRequired, isProcessing, oneSignalState.permission, oneSignalState.supported])
+  }, [
+    isIosSetupRequired,
+    isProcessing,
+    logError,
+    logInfo,
+    oneSignalState.error,
+    oneSignalState.permission,
+    oneSignalState.supported,
+  ])
 
   const handleUnsubscribe = useCallback(async () => {
     if (isProcessing) return
+    if (!oneSignalState.subscribed) {
+      setActionMessage("أنت غير مشترك حالياً.")
+      setActionStatus("success")
+      return
+    }
+    if (oneSignalState.error) {
+      setActionMessage("تعذر تهيئة خدمة الإشعارات. حاول تحديث الصفحة.")
+      setActionStatus("error")
+      return
+    }
     setIsProcessing(true)
+    setActionStatus("loading")
+    setActionMessage("جارٍ إيقاف الإشعارات...")
     try {
-      await OneSignal.User.PushSubscription.optOut()
+      const timeout = new Promise<void>((_, reject) => {
+        window.setTimeout(() => reject(new Error("timeout")), ACTION_TIMEOUT_MS)
+      })
+      logInfo("unsubscribe:opt-out")
+      await Promise.race([OneSignal.User.PushSubscription.optOut(), timeout])
       setOneSignalState((prev) => ({ ...prev, subscribed: false }))
-    } catch {
+      setActionStatus("success")
+      setActionMessage("تم إيقاف الإشعارات لهذا الجهاز.")
+    } catch (error) {
+      logError("unsubscribe:error", error)
+      setActionStatus("error")
+      setActionMessage("تعذر إيقاف الإشعارات حالياً. حاول مرة أخرى.")
       return
     } finally {
       setIsProcessing(false)
     }
-  }, [isProcessing])
+  }, [isProcessing, logError, logInfo, oneSignalState.error, oneSignalState.subscribed])
 
   if (!shouldShowBanner) return null
 
   const actionLabel = oneSignalState.subscribed ? "إيقاف الإشعارات" : "تفعيل الإشعارات"
+  const actionBusyLabel = oneSignalState.subscribed ? "جارٍ إيقاف الإشعارات..." : "جارٍ تفعيل الإشعارات..."
   const actionHandler = oneSignalState.subscribed ? handleUnsubscribe : handleSubscribe
   const actionVariant = oneSignalState.subscribed ? "outline" : "default"
   const isActionDisabled =
@@ -332,6 +480,33 @@ export function NotificationBanner() {
                   <span className="text-xs text-muted-foreground">{statusMessage}</span>
                 </div>
 
+                {oneSignalState.errorMessage ? (
+                  <p className="text-xs text-destructive">{oneSignalState.errorMessage}</p>
+                ) : null}
+
+                {actionMessage ? (
+                  <p
+                    className={cn(
+                      "text-xs",
+                      actionStatus === "error" && "text-destructive",
+                      actionStatus === "success" && "text-primary",
+                      actionStatus === "loading" && "text-muted-foreground",
+                      actionStatus === "idle" && "text-foreground"
+                    )}
+                  >
+                    {actionMessage}
+                  </p>
+                ) : null}
+
+                {serviceWorkerError ? <p className="text-xs text-destructive">{serviceWorkerError}</p> : null}
+
+                {serviceWorkerStatus !== "unknown" ? (
+                  <p className="text-xs text-muted-foreground">
+                    حالة عامل الخدمة: {serviceWorkerStatus === "active" ? "نشط" : "غير مسجل"}
+                    {serviceWorkerScriptUrl ? ` (${serviceWorkerScriptUrl})` : ""}
+                  </p>
+                ) : null}
+
                 {isIosSetupRequired ? (
                   <div className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-muted/40 px-4 py-3 text-xs text-muted-foreground">
                     <div className="flex items-center gap-2 text-foreground">
@@ -358,7 +533,11 @@ export function NotificationBanner() {
 
               <DrawerFooter className="gap-3">
                 <Button size="lg" variant={actionVariant} onClick={actionHandler} disabled={isActionDisabled}>
-                  {isIosSetupRequired ? "التفعيل متاح بعد الإضافة للشاشة الرئيسية" : actionLabel}
+                  {isIosSetupRequired
+                    ? "التفعيل متاح بعد الإضافة للشاشة الرئيسية"
+                    : isProcessing
+                      ? actionBusyLabel
+                      : actionLabel}
                 </Button>
                 <DrawerClose asChild>
                   <Button variant="ghost" size="lg">
