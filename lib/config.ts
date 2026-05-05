@@ -12,14 +12,6 @@ function assertEnv<T extends string>(key: string, value: T | undefined): T {
   return value
 }
 
-export const TEAM_MEMBERS = [
-  {
-    name: "albrrak773",
-    github: "https://github.com/albrrak773",
-    x: "https://x.com/albrrak773",
-  },
-]
-
 const pool = new pg.Pool({
   connectionString: assertEnv("DATABASE_URL", process.env.DATABASE_URL),
 })

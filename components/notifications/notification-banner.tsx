@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import OneSignal from "react-onesignal"
 import { IconBell, IconDeviceMobile } from "@tabler/icons-react"
 
@@ -15,6 +15,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import { OPEN_NOTIFICATIONS_DRAWER_EVENT } from "@/components/notifications/notification-events"
 
 const DISMISS_STORAGE_KEY = "notifications-banner-dismissed-until"
 const DISMISS_TTL_MS = 30 * 60 * 1000
@@ -46,6 +47,8 @@ export function NotificationBanner() {
   const [oneSignalState, setOneSignalState] = useState<OneSignalState>(initialState)
   const [isProcessing, setIsProcessing] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const initAttempted = useRef(false)
+  const dismissTimeout = useRef<number | null>(null)
 
   const [isDismissed, setIsDismissed] = useState(() => {
     if (typeof window === "undefined") return false
@@ -86,54 +89,61 @@ export function NotificationBanner() {
   }, [])
 
   useEffect(() => {
+    if (initAttempted.current) return
+    initAttempted.current = true
     let isActive = true
 
     async function initOneSignal() {
       try {
-        await OneSignal.init({
-          appId: "b811652a-61e7-4fc8-b989-ec55ceebf5fc",
-          allowLocalhostAsSecureOrigin: true,
-          autoResubscribe: true,
-          notifyButton: {
-            enable: false,
-            prenotify: false,
-            showCredit: false,
-            text: {
-              "dialog.blocked.message": "",
-              "dialog.blocked.title": "",
-              "dialog.main.button.subscribe": "",
-              "dialog.main.button.unsubscribe": "",
-              "dialog.main.title": "",
-              "message.action.resubscribed": "",
-              "message.action.subscribed": "",
-              "message.action.subscribing": "",
-              "message.action.unsubscribed": "",
-              "message.prenotify": "",
-              "tip.state.blocked": "",
-              "tip.state.subscribed": "",
-              "tip.state.unsubscribed": "",
+        try {
+          await OneSignal.init({
+            appId: "b811652a-61e7-4fc8-b989-ec55ceebf5fc",
+            allowLocalhostAsSecureOrigin: true,
+            autoResubscribe: true,
+            notifyButton: {
+              enable: false,
+              prenotify: false,
+              showCredit: false,
+              text: {
+                "dialog.blocked.message": "",
+                "dialog.blocked.title": "",
+                "dialog.main.button.subscribe": "",
+                "dialog.main.button.unsubscribe": "",
+                "dialog.main.title": "",
+                "message.action.resubscribed": "",
+                "message.action.subscribed": "",
+                "message.action.subscribing": "",
+                "message.action.unsubscribed": "",
+                "message.prenotify": "",
+                "tip.state.blocked": "",
+                "tip.state.subscribed": "",
+                "tip.state.unsubscribed": "",
+              },
             },
-          },
-          promptOptions: {
-            slidedown: {
-              prompts: [
-                {
-                  type: "push",
-                  autoPrompt: false,
-                  delay: { timeDelay: 0 },
-                },
-              ],
+            promptOptions: {
+              slidedown: {
+                prompts: [
+                  {
+                    type: "push",
+                    autoPrompt: false,
+                    delay: { timeDelay: 0 },
+                  },
+                ],
+              },
             },
-          },
-          serviceWorkerPath: "/onesignal/OneSignalSDKWorker.js",
-          serviceWorkerParam: { scope: "/" },
-          welcomeNotification: { disable: true, message: "" },
-        })
+            serviceWorkerPath: "/OneSignalSDKWorker.js",
+            welcomeNotification: { disable: true, message: "" },
+          })
+        } catch (initError) {
+          if (typeof initError === "string" && initError.includes("already initialized")) {
+            // Ignore double-init in React dev or fast refresh
+          }
+        }
 
         if (!isActive) return
 
         const supported = OneSignal.Notifications.isPushSupported()
-        const permission = OneSignal.Notifications.permissionNative
+        const permission = OneSignal.Notifications.permissionNative || Notification.permission || "default"
         const subscribed = Boolean(OneSignal.User.PushSubscription.optedIn)
 
         setOneSignalState({
@@ -165,10 +175,20 @@ export function NotificationBanner() {
     }
   }, [handlePermissionChange, handleSubscriptionChange])
 
+  useEffect(() => {
+    function handleOpenDrawer() {
+      setIsDrawerOpen(true)
+    }
+
+    window.addEventListener(OPEN_NOTIFICATIONS_DRAWER_EVENT, handleOpenDrawer)
+
+    return () => {
+      window.removeEventListener(OPEN_NOTIFICATIONS_DRAWER_EVENT, handleOpenDrawer)
+    }
+  }, [])
+
   const isIosSetupRequired = isIos && !isStandalone
-  const shouldShowBanner =
-    oneSignalState.ready &&
-    (isDrawerOpen || (!isDismissed && !oneSignalState.subscribed && (oneSignalState.supported || isIosSetupRequired)))
+  const shouldShowBanner = oneSignalState.ready && (isDrawerOpen || (!isDismissed && !oneSignalState.subscribed))
 
   const statusMessage = useMemo(() => {
     if (oneSignalState.subscribed) {
@@ -178,25 +198,45 @@ export function NotificationBanner() {
       return "التفعيل على iOS يتطلب إضافة الموقع إلى الشاشة الرئيسية أولاً."
     }
     if (!oneSignalState.supported) {
-      return "المتصفح الحالي لا يدعم إشعارات الويب."
+      return "المتصفح الحالي لا يدعم إشعارات الويب أو لم يتم تفعيل HTTPS."
     }
     if (oneSignalState.permission === "denied") {
       return "الإشعارات محظورة من إعدادات المتصفح."
     }
+    if (oneSignalState.error) {
+      return "تعذر تفعيل الإشعارات حالياً. حاول تحديث الصفحة أو تعطيل مانع الإعلانات."
+    }
     return "الإشعارات غير مفعلة حالياً."
-  }, [isIosSetupRequired, oneSignalState.permission, oneSignalState.subscribed, oneSignalState.supported])
+  }, [
+    isIosSetupRequired,
+    oneSignalState.error,
+    oneSignalState.permission,
+    oneSignalState.subscribed,
+    oneSignalState.supported,
+  ])
 
   const handleDismiss = useCallback(() => {
     if (typeof window !== "undefined") {
       const dismissedUntil = Date.now() + DISMISS_TTL_MS
       window.localStorage.setItem(DISMISS_STORAGE_KEY, String(dismissedUntil))
-      window.setTimeout(() => {
+      if (dismissTimeout.current) {
+        window.clearTimeout(dismissTimeout.current)
+      }
+      dismissTimeout.current = window.setTimeout(() => {
         window.localStorage.removeItem(DISMISS_STORAGE_KEY)
         setIsDismissed(false)
       }, DISMISS_TTL_MS)
     }
     setIsDismissed(true)
     setIsDrawerOpen(false)
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      if (dismissTimeout.current) {
+        window.clearTimeout(dismissTimeout.current)
+      }
+    }
   }, [])
 
   const handleSubscribe = useCallback(async () => {
@@ -208,9 +248,12 @@ export function NotificationBanner() {
     try {
       if (oneSignalState.permission !== "granted") {
         const granted = await OneSignal.Notifications.requestPermission()
+        const nextPermission = granted
+          ? "granted"
+          : OneSignal.Notifications.permissionNative || Notification.permission || "default"
         setOneSignalState((prev) => ({
           ...prev,
-          permission: granted ? "granted" : OneSignal.Notifications.permissionNative,
+          permission: nextPermission,
         }))
         if (!granted) {
           return
@@ -249,7 +292,7 @@ export function NotificationBanner() {
     oneSignalState.error ||
     (oneSignalState.permission === "denied" && !oneSignalState.subscribed) ||
     isIosSetupRequired ||
-    (!oneSignalState.supported && !isIosSetupRequired)
+    !oneSignalState.supported
 
   return (
     <div className="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur">
