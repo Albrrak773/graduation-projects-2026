@@ -1,44 +1,36 @@
-import { config } from "@/lib/config"
-import { projectsTable, tagsTable } from "@/db/schema"
-import { eq, sql, count } from "drizzle-orm"
 import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { COLLEDGE_LABELS, COLLEDGE_COLORS } from "@/lib/config"
+import { COLLEDGE_LABELS, COLLEDGE_COLORS } from "@/lib/labels"
+
+export type ProjectCardProject = {
+  id: string
+  title: string
+  image_url: string | null
+  colledge: string | null
+  section: string | null
+  base: string | null
+  discription: string | null
+  supervisor: string | null
+  is_public: boolean | null
+  project_external_link: string | null
+}
+
+export type ProjectCardTag = {
+  id: number
+  project_id: string
+  name: string
+}
 
 const MAX_VISIBLE_TAGS = 2
 
-
-// all project data (title, description, participants...) is in english (unlike the content of the site which all in arabic)
-export async function ProjectCard({ projectId }: { projectId: string }) {
-  const [projectRows, projectTags, tagCountRows] = await Promise.all([
-    config.db
-      .select({
-        id: projectsTable.id,
-        title: projectsTable.title,
-        imageUrl: projectsTable.image_url,
-        colledge: projectsTable.colledge,
-      })
-      .from(projectsTable)
-      .where(eq(projectsTable.id, projectId))
-      .limit(1),
-    config.db
-      .select({ name: tagsTable.name })
-      .from(tagsTable)
-      .where(eq(tagsTable.project_id, projectId))
-      .orderBy(sql`LENGTH(${tagsTable.name})`)
-      .limit(MAX_VISIBLE_TAGS),
-    config.db.select({ count: count() }).from(tagsTable).where(eq(tagsTable.project_id, projectId)),
-  ])
-
-  const project = projectRows[0]
-  if (!project) return null
-
-  const totalTags = tagCountRows[0]?.count ?? 0
+export function ProjectCard({ project, tags }: { project: ProjectCardProject; tags: ProjectCardTag[] }) {
+  const totalTags = tags.length
+  const visibleTags = tags.slice(0, MAX_VISIBLE_TAGS)
   const remainingCount = Math.max(0, totalTags - MAX_VISIBLE_TAGS)
   const collegeLabel = project.colledge ? (COLLEDGE_LABELS[project.colledge] ?? project.colledge) : null
   const collegeColor = project.colledge ? (COLLEDGE_COLORS[project.colledge] ?? "") : ""
-  const hasImage = project.imageUrl && project.imageUrl.length > 0
+  const hasImage = project.image_url && project.image_url.length > 0
 
   return (
     <Link
@@ -53,7 +45,7 @@ export async function ProjectCard({ projectId }: { projectId: string }) {
       <div className="relative aspect-3/4 overflow-hidden bg-muted">
         {hasImage ? (
           <Image
-            src={project.imageUrl!}
+            src={project.image_url!}
             alt={project.title}
             fill
             className="object-cover object-top"
@@ -75,9 +67,9 @@ export async function ProjectCard({ projectId }: { projectId: string }) {
 
         {totalTags > 0 && (
           <div className="flex items-center gap-1.5 overflow-hidden">
-            {projectTags.map((tag) => (
+            {visibleTags.map((tag) => (
               <span
-                key={tag.name}
+                key={tag.id}
                 className="shrink-0 truncate rounded-full border border-border/60 bg-background px-2.5 py-0.5 text-[0.6875rem] font-medium text-muted-foreground"
               >
                 {tag.name}

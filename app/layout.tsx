@@ -1,4 +1,5 @@
 import localFont from "next/font/local"
+import { NuqsAdapter } from "nuqs/adapters/next/app"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -66,7 +67,20 @@ export default function RootLayout({
     >
       <body>
         <DirectionProvider direction="rtl">
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <NuqsAdapter>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
+                style={{
+                  backgroundImage: "url('/design/pattern-2.png')",
+                  backgroundSize: "300px",
+                  backgroundRepeat: "repeat",
+                }}
+              />
+              <div className="relative z-10">{children}</div>
+            </NuqsAdapter>
+          </ThemeProvider>
         </DirectionProvider>
       </body>
     </html>

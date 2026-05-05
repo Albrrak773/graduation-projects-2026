@@ -41,8 +41,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
-      </div>
+      <div className="flex justify-center"></div>
     </footer>
   )
 }
