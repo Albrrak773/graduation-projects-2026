@@ -11,6 +11,7 @@ import {
   IconExternalLink,
   IconMail,
   IconMailFilled,
+  IconSchool,
 } from "@tabler/icons-react"
 import { getProjectById } from "@/db/queries"
 import { COLLEDGE_LABELS, COLLEDGE_COLORS, SECTION_LABELS } from "@/db/enums"
@@ -152,7 +153,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="space-y-1">
                           <p className="font-heading text-base font-bold text-foreground">{participant.name}</p>
-                          <p className="text-xs font-semibold text-muted-foreground">{participant.uni_id}</p>
+                          <p className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
+                            <IconSchool className="size-3.5" />
+                            {participant.uni_id}
+                          </p>
                         </div>
                         <div className="flex items-center gap-1.5">
                           {participant.github_url && (

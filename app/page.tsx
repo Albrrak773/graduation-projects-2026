@@ -40,8 +40,8 @@ function CollegeSection({ college }: { college: (typeof COLLEDGE_VALUES)[number]
           الكل
         </Link>
       </div>
-      <div className="w-full overflow-x-auto overflow-y-hidden scroll-smooth [-webkit-overflow-scrolling:touch]">
-        <div className="flex gap-5 px-6 pb-4 md:px-12">
+      <div className="w-full overflow-x-auto overflow-y-visible scroll-smooth [-webkit-overflow-scrolling:touch]">
+        <div className="flex gap-5 px-6 pt-3 pb-4 md:px-12">
           <Suspense fallback={<SectionFallback />}>
             <CollegeProjectList college={college} />
           </Suspense>
