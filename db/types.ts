@@ -1,7 +1,8 @@
 import { type InferSelectModel } from "drizzle-orm"
-import { projectsTable, tagsTable } from "./schema"
+import { projectParticipantsTable, projectsTable, tagsTable } from "./schema"
 
 type ProjectRow = InferSelectModel<typeof projectsTable>
 type TagRow = InferSelectModel<typeof tagsTable>
+type ProjectParticipantRow = InferSelectModel<typeof projectParticipantsTable>
 
-export type Project = ProjectRow & { tags: TagRow[] }
+export type Project = ProjectRow & { tags: TagRow[]; participants: ProjectParticipantRow[] }

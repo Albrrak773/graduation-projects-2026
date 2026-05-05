@@ -41,11 +41,19 @@ export const projectParticipantsTable = pgTable("project_participants", {
 
 export const projectsRelations = relations(projectsTable, ({ many }) => ({
   tags: many(tagsTable),
+  participants: many(projectParticipantsTable),
 }))
 
 export const tagsRelations = relations(tagsTable, ({ one }) => ({
   project: one(projectsTable, {
     fields: [tagsTable.project_id],
+    references: [projectsTable.id],
+  }),
+}))
+
+export const projectParticipantsRelations = relations(projectParticipantsTable, ({ one }) => ({
+  project: one(projectsTable, {
+    fields: [projectParticipantsTable.project_id],
     references: [projectsTable.id],
   }),
 }))
