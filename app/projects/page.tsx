@@ -1,23 +1,15 @@
 import { Suspense } from "react"
-import { config, COLLEDGE_LABELS, SECTION_LABELS } from "@/lib/config"
-import { projectsTable, tagsTable } from "@/db/schema"
 import { eq } from "drizzle-orm"
+import { projectsTable } from "@/db/schema"
+import { getProjects } from "@/db/queries"
 import { Hero } from "@/components/hero"
 import { Footer } from "@/components/footer"
 import { ProjectsSearch } from "@/components/projects-search"
 
 async function ProjectsData() {
-  const [projects, allTags] = await Promise.all([
-    config.db.select().from(projectsTable).where(eq(projectsTable.is_public, true)),
-    config.db.select().from(tagsTable),
-  ])
+  const data = await getProjects(eq(projectsTable.is_public, true))
 
-  const data = projects.map((project) => ({
-    project,
-    tags: allTags.filter((t) => t.project_id === project.id),
-  }))
-
-  return <ProjectsSearch data={data} collegeLabels={COLLEDGE_LABELS} sectionLabels={SECTION_LABELS} />
+  return <ProjectsSearch data={data} />
 }
 
 function ProjectsFallback() {

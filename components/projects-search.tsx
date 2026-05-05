@@ -4,30 +4,16 @@ import { useMemo } from "react"
 import Fuse from "fuse.js"
 import { useQueryState, parseAsArrayOf, parseAsStringEnum } from "nuqs"
 import { IconSearch } from "@tabler/icons-react"
-import { ProjectCard, type ProjectCardProject, type ProjectCardTag } from "@/components/project-card"
+import { COLLEDGE_VALUES, COLLEDGE_LABELS, SECTION_VALUES, SECTION_LABELS } from "@/db/enums"
+import { ProjectCard } from "@/components/project-card"
 import { Input } from "@/components/ui/input"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import type { Project } from "@/db/types"
 
-export type ProjectData = {
-  project: ProjectCardProject
-  tags: ProjectCardTag[]
-}
+const collegeParser = parseAsArrayOf(parseAsStringEnum([...COLLEDGE_VALUES])).withOptions({ throttleMs: 0 })
+const sectionParser = parseAsArrayOf(parseAsStringEnum([...SECTION_VALUES])).withOptions({ throttleMs: 0 })
 
-const COLLEGES = ["CS", "IT", "COE"]
-const SECTIONS = ["male", "female"]
-
-const collegeParser = parseAsArrayOf(parseAsStringEnum(COLLEGES)).withOptions({ throttleMs: 0 })
-const sectionParser = parseAsArrayOf(parseAsStringEnum(SECTIONS)).withOptions({ throttleMs: 0 })
-
-export function ProjectsSearch({
-  data,
-  collegeLabels,
-  sectionLabels,
-}: {
-  data: ProjectData[]
-  collegeLabels: Record<string, string>
-  sectionLabels: Record<string, string>
-}) {
+export function ProjectsSearch({ data }: { data: Project[] }) {
   const [search, setSearch] = useQueryState("search", { defaultValue: "", throttleMs: 300 })
   const [selectedColleges, setSelectedColleges] = useQueryState("college", collegeParser)
   const [selectedSections, setSelectedSections] = useQueryState("section", sectionParser)
@@ -35,12 +21,11 @@ export function ProjectsSearch({
   const fuseIndex = useMemo(
     () =>
       new Fuse(
-        data.map(({ project, tags }) => ({
+        data.map((project) => ({
           id: project.id,
           title: project.title,
-          tagNames: tags.map((t) => t.name).join(" "),
+          tagNames: project.tags.map((t) => t.name).join(" "),
           project,
-          tags,
         })),
         {
           keys: [
@@ -55,22 +40,19 @@ export function ProjectsSearch({
   )
 
   const results = useMemo(() => {
-    let items: ProjectData[] = data
+    let items: Project[] = data
 
     if (search.trim()) {
       const fuseResults = fuseIndex.search(search.trim())
-      items = fuseResults.map((r) => ({
-        project: r.item.project,
-        tags: r.item.tags,
-      }))
+      items = fuseResults.map((r) => r.item.project)
     }
 
     if (selectedColleges && selectedColleges.length > 0) {
-      items = items.filter((item) => item.project.colledge && selectedColleges.includes(item.project.colledge))
+      items = items.filter((item) => item.colledge && selectedColleges.includes(item.colledge))
     }
 
     if (selectedSections && selectedSections.length > 0) {
-      items = items.filter((item) => item.project.section && selectedSections.includes(item.project.section))
+      items = items.filter((item) => item.section && selectedSections.includes(item.section))
     }
 
     return items
@@ -101,9 +83,9 @@ export function ProjectsSearch({
               value={(selectedColleges ?? []) as string[]}
               onValueChange={(vals) => setSelectedColleges(vals.length > 0 ? (vals as typeof selectedColleges) : null)}
             >
-              {COLLEGES.map((c) => (
+              {COLLEDGE_VALUES.map((c) => (
                 <ToggleGroupItem key={c} value={c}>
-                  {collegeLabels[c] ?? c}
+                  {COLLEDGE_LABELS[c]}
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
@@ -117,9 +99,9 @@ export function ProjectsSearch({
               value={(selectedSections ?? []) as string[]}
               onValueChange={(vals) => setSelectedSections(vals.length > 0 ? (vals as typeof selectedSections) : null)}
             >
-              {SECTIONS.map((s) => (
+              {SECTION_VALUES.map((s) => (
                 <ToggleGroupItem key={s} value={s}>
-                  {sectionLabels[s] ?? s}
+                  {SECTION_LABELS[s]}
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
@@ -130,8 +112,8 @@ export function ProjectsSearch({
           <p className="py-16 text-center text-muted-foreground">لا توجد نتائج</p>
         ) : (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map(({ project, tags }) => (
-              <ProjectCard key={project.id} project={project} tags={tags} />
+            {results.map((project) => (
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         )}

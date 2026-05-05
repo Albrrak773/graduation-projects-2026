@@ -26,24 +26,24 @@ type OldProject = {
   "Contact Methods": { email: string; phone: string; LinkedIn: string }
 }
 
-function mapSection(section: string): "male" | "female" | null {
+function mapSection(section: string): "male" | "female" {
   if (section === "طلاب") return "male"
   if (section === "طالبات") return "female"
-  return null
+  return "male"
 }
 
-function mapCampus(campus: string): "Main" | "Unaizah" | "Ar-Rass" | null {
+function mapCampus(campus: string): "Main" | "Unaizah" | "Ar-Rass" {
   if (campus === "المقر الرئيسي") return "Main"
   if (campus === "عنيزة") return "Unaizah"
   if (campus === "الرس") return "Ar-Rass"
-  return null
+  return "Main"
 }
 
-function mapDepartment(dept: string): "CS" | "IT" | "COE" | null {
+function mapDepartment(dept: string): "CS" | "IT" | "COE" {
   if (dept === "Computer Science") return "CS"
   if (dept === "Information Technology") return "IT"
   if (dept === "Computer Engineering") return "COE"
-  return null
+  return "CS"
 }
 
 function isValidUniId(id: string | null): boolean {

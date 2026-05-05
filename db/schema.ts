@@ -1,20 +1,21 @@
 import { boolean, pgEnum, pgTable, serial, uuid, varchar } from "drizzle-orm/pg-core"
+import { relations } from "drizzle-orm"
+import { COLLEDGE_VALUES, SECTION_VALUES } from "./enums"
 
-export const sectionEnum = pgEnum("section", ["male", "female"])
-export const colledgeEnum = pgEnum("colledge", ["CS", "IT", "COE"])
+export const sectionEnum = pgEnum("section", [...SECTION_VALUES])
+export const colledgeEnum = pgEnum("colledge", [...COLLEDGE_VALUES])
 export const baseEnum = pgEnum("base", ["Main", "Unaizah", "Ar-Rass"])
 
-// all project data is in english (unlike the content of the site which all in arabic)
 export const projectsTable = pgTable("projects", {
   id: uuid().defaultRandom().primaryKey(),
   image_url: varchar(),
   title: varchar({ length: 255 }).notNull(),
   discription: varchar({ length: 10000 }),
-  supervisor: varchar({ length: 255 }),
+  supervisor: varchar({ length: 255 }).notNull(),
   is_public: boolean().default(false),
-  section: sectionEnum(),
-  colledge: colledgeEnum(),
-  base: baseEnum(),
+  section: sectionEnum().notNull(),
+  colledge: colledgeEnum().notNull(),
+  base: baseEnum().notNull(),
   project_external_link: varchar(),
 })
 
@@ -37,3 +38,14 @@ export const projectParticipantsTable = pgTable("project_participants", {
   github_url: varchar(),
   email: varchar(),
 })
+
+export const projectsRelations = relations(projectsTable, ({ many }) => ({
+  tags: many(tagsTable),
+}))
+
+export const tagsRelations = relations(tagsTable, ({ one }) => ({
+  project: one(projectsTable, {
+    fields: [tagsTable.project_id],
+    references: [projectsTable.id],
+  }),
+}))

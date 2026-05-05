@@ -2,8 +2,6 @@ import { drizzle } from "drizzle-orm/node-postgres"
 import pg from "pg"
 import * as schema from "@/db/schema"
 
-export { COLLEDGE_LABELS, SECTION_LABELS, COLLEDGE_COLORS } from "./labels"
-
 function assertEnv<T extends string>(key: string, value: T | undefined): T {
   if (!value) {
     throw new Error(`Missing required environment variable: ${key}`)

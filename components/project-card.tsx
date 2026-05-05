@@ -1,35 +1,17 @@
 import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { COLLEDGE_LABELS, COLLEDGE_COLORS } from "@/lib/labels"
-
-export type ProjectCardProject = {
-  id: string
-  title: string
-  image_url: string | null
-  colledge: string | null
-  section: string | null
-  base: string | null
-  discription: string | null
-  supervisor: string | null
-  is_public: boolean | null
-  project_external_link: string | null
-}
-
-export type ProjectCardTag = {
-  id: number
-  project_id: string
-  name: string
-}
+import { COLLEDGE_LABELS, COLLEDGE_COLORS } from "@/db/enums"
+import type { Project } from "@/db/types"
 
 const MAX_VISIBLE_TAGS = 2
 
-export function ProjectCard({ project, tags }: { project: ProjectCardProject; tags: ProjectCardTag[] }) {
-  const totalTags = tags.length
-  const visibleTags = tags.slice(0, MAX_VISIBLE_TAGS)
+export function ProjectCard({ project }: { project: Project }) {
+  const totalTags = project.tags.length
+  const visibleTags = project.tags.slice(0, MAX_VISIBLE_TAGS)
   const remainingCount = Math.max(0, totalTags - MAX_VISIBLE_TAGS)
-  const collegeLabel = project.colledge ? (COLLEDGE_LABELS[project.colledge] ?? project.colledge) : null
-  const collegeColor = project.colledge ? (COLLEDGE_COLORS[project.colledge] ?? "") : ""
+  const collegeLabel = COLLEDGE_LABELS[project.colledge]
+  const collegeColor = COLLEDGE_COLORS[project.colledge]
   const hasImage = project.image_url && project.image_url.length > 0
 
   return (

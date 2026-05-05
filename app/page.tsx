@@ -1,20 +1,17 @@
 import Link from "next/link"
 import { Suspense } from "react"
-import { config, COLLEDGE_LABELS } from "@/lib/config"
-import { colledgeEnum, projectsTable, tagsTable } from "@/db/schema"
+import { COLLEDGE_LABELS, COLLEDGE_VALUES } from "@/db/enums"
+import { projectsTable } from "@/db/schema"
 import { eq } from "drizzle-orm"
+import { getProjects } from "@/db/queries"
 import { ProjectCard } from "@/components/project-card"
 import { Footer } from "@/components/footer"
 import { Hero } from "@/components/hero"
 
-const COLLEGES = colledgeEnum.enumValues
 const PROJECTS_PER_SECTION = 10
 
-async function CollegeProjectList({ college }: { college: (typeof COLLEGES)[number] }) {
-  const [projects, allTags] = await Promise.all([
-    config.db.select().from(projectsTable).where(eq(projectsTable.colledge, college)).limit(PROJECTS_PER_SECTION),
-    config.db.select().from(tagsTable),
-  ])
+async function CollegeProjectList({ college }: { college: (typeof COLLEDGE_VALUES)[number] }) {
+  const projects = await getProjects(eq(projectsTable.colledge, college))
 
   if (projects.length === 0) {
     return <p className="text-sm text-muted-foreground">لا توجد مشاريع بعد</p>
@@ -22,16 +19,16 @@ async function CollegeProjectList({ college }: { college: (typeof COLLEGES)[numb
 
   return (
     <>
-      {projects.map((project) => (
+      {projects.slice(0, PROJECTS_PER_SECTION).map((project) => (
         <div key={project.id} className="w-65 shrink-0 md:w-70">
-          <ProjectCard project={project} tags={allTags.filter((t) => t.project_id === project.id)} />
+          <ProjectCard project={project} />
         </div>
       ))}
     </>
   )
 }
 
-function CollegeSection({ college }: { college: (typeof COLLEGES)[number] }) {
+function CollegeSection({ college }: { college: (typeof COLLEDGE_VALUES)[number] }) {
   return (
     <section className="relative">
       <div className="flex items-center justify-between px-6 py-6 md:px-12">
@@ -73,7 +70,7 @@ export default function HomePage() {
         <Hero />
 
         <div className="flex flex-col gap-8">
-          {COLLEGES.map((college) => (
+          {COLLEDGE_VALUES.map((college) => (
             <CollegeSection key={college} college={college} />
           ))}
         </div>
