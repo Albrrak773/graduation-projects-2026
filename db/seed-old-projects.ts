@@ -114,7 +114,21 @@ async function main() {
   let skipped = 0
 
   for (const project of projects) {
-    const title = project["Project Title"]
+    const title = project["Project Title"]?.trim()
+    const supervisor = project["Supervisor Name"]?.trim()
+
+    if (!title) {
+      console.log(`\n⏭ Skipped (missing title, ID: ${project.ID})`)
+      skipped++
+      continue
+    }
+
+    if (!supervisor) {
+      console.log(`\n⏭ Skipped (missing supervisor, title: "${title}")`)
+      skipped++
+      continue
+    }
+
     console.log(`\nProcessing: "${title}"`)
 
     const existing = await db
@@ -148,8 +162,8 @@ async function main() {
     await db.insert(projectsTable).values({
       id: projectId,
       title,
-      discription: project["Full Project Description"],
-      supervisor: project["Supervisor Name"],
+      discription: project["Full Project Description"] ?? null,
+      supervisor,
       is_public: true,
       section,
       colledge: college,
@@ -177,11 +191,12 @@ async function main() {
     const students = project["Students Names with IDs"] || []
     const participants = students
       .filter((s): s is typeof s & { id: string } => s.id !== null && isValidUniId(s.id))
+      .filter((s) => s.name?.trim())
       .map((s) => {
         const isEmailOwner = s.id === emailId
         return {
           project_id: projectId,
-          name: s.name,
+          name: s.name.trim(),
           uni_id: s.id,
           email: isEmailOwner ? project.Email : null,
           x_url: null,

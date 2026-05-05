@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "infisical run --env=dev -- next dev --turbopack",
     "build": "infisical run --env=prod -- next build",
+    "build:dev": "infisical run --env=dev -- next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",

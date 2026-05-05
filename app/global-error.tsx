@@ -1,6 +1,7 @@
 "use client"
 
 import localFont from "next/font/local"
+import Link from "next/link"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -75,9 +76,14 @@ export default function GlobalError({ reset }: { error: Error & { digest?: strin
                   <p className="max-w-lg text-lg text-muted-foreground md:text-xl">
                     حاول مرة ثانية وذا استمرت المشكلة تواصل معنا وبنحاول نحلها باسرع وقت ان شاء الله
                   </p>
-                  <Button variant="default" className="h-11 px-8 text-base md:h-12 md:text-lg" onClick={reset}>
-                    حاول مرة ثانية
-                  </Button>
+                  <div className="flex flex-wrap items-center justify-center gap-3">
+                    <Button variant="default" className="h-11 px-8 text-base md:h-12 md:text-lg" onClick={reset}>
+                      حاول مرة ثانية
+                    </Button>
+                    <Button asChild variant="outline" className="h-11 px-8 text-base md:h-12 md:text-lg">
+                      <Link href="/">العودة للرئيسية</Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

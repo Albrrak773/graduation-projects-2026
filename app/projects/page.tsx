@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import { cacheLife, cacheTag } from "next/cache"
 import { eq } from "drizzle-orm"
 import { projectsTable } from "@/db/schema"
 import { getProjects } from "@/db/queries"
@@ -7,6 +8,9 @@ import { Footer } from "@/components/footer"
 import { ProjectsSearch } from "@/components/projects-search"
 
 async function ProjectsData() {
+  "use cache"
+  cacheLife("days")
+  cacheTag("projects")
   const data = await getProjects(eq(projectsTable.is_public, true))
 
   return <ProjectsSearch data={data} />

@@ -1,6 +1,9 @@
 import { drizzle } from "drizzle-orm/node-postgres"
 import pg from "pg"
 import * as schema from "@/db/schema"
+import dotenv from "dotenv"
+
+dotenv.config({ override: true })
 
 function assertEnv<T extends string>(key: string, value: T | undefined): T {
   if (!value) {

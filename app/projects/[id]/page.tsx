@@ -1,6 +1,6 @@
-import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { getAllProjectIds, getProjectById } from "@/db/queries"
 import {
   IconBrandGithub,
   IconBrandGithubFilled,
@@ -13,7 +13,6 @@ import {
   IconMailFilled,
   IconSchool,
 } from "@tabler/icons-react"
-import { getProjectById } from "@/db/queries"
 import { COLLEDGE_LABELS, COLLEDGE_COLORS, SECTION_LABELS } from "@/db/enums"
 import { cn } from "@/lib/utils"
 import { Footer } from "@/components/footer"
@@ -28,6 +27,11 @@ const BASE_LABELS: Record<string, string> = {
   Main: "المقر الرئيسي",
   Unaizah: "عنيزة",
   "Ar-Rass": "الرس",
+}
+
+export async function generateStaticParams() {
+  const ids = await getAllProjectIds()
+  return ids.map((id) => ({ id }))
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {

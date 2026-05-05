@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Suspense } from "react"
+import { cacheLife, cacheTag } from "next/cache"
 import { COLLEDGE_LABELS, COLLEDGE_VALUES } from "@/db/enums"
 import { projectsTable } from "@/db/schema"
 import { eq } from "drizzle-orm"
@@ -11,6 +12,9 @@ import { Hero } from "@/components/hero"
 const PROJECTS_PER_SECTION = 10
 
 async function CollegeProjectList({ college }: { college: (typeof COLLEDGE_VALUES)[number] }) {
+  "use cache"
+  cacheLife("days")
+  cacheTag("projects")
   const projects = await getProjects(eq(projectsTable.colledge, college))
 
   if (projects.length === 0) {
