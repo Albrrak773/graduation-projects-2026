@@ -5,12 +5,11 @@ import { IconBrandGithub, IconBrandGithubFilled, IconBrandX, IconBrandXFilled } 
 import { TEAM_MEMBERS } from "@/lib/team-members"
 import { SocialIconLink } from "@/components/social-icon-link"
 import { Button } from "@/components/ui/button"
-import { OPEN_NOTIFICATIONS_DRAWER_EVENT } from "@/components/notifications/notification-events"
+import { SHOW_BANNER_EVENT } from "@/components/notifications/onesignal-banner"
 
 export function Footer() {
   function handleOpenNotifications() {
-    if (typeof window === "undefined") return
-    window.dispatchEvent(new Event(OPEN_NOTIFICATIONS_DRAWER_EVENT))
+    window.dispatchEvent(new Event(SHOW_BANNER_EVENT))
   }
 
   return (

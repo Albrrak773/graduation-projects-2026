@@ -6,7 +6,8 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { DirectionProvider } from "@/components/ui/direction"
-import { NotificationBanner } from "@/components/notifications/notification-banner"
+import { OneSignalBanner } from "@/components/notifications/onesignal-banner"
+import { OneSignalScript } from "@/components/notifications/onesignal-script"
 
 const fontSans = localFont({
   src: [
@@ -85,7 +86,8 @@ export default function RootLayout({
                 }}
               />
               <div className="relative z-10">
-                <NotificationBanner />
+                <OneSignalScript />
+                <OneSignalBanner />
                 {children}
               </div>
             </NuqsAdapter>
