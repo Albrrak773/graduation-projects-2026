@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { NuqsAdapter } from "nuqs/adapters/next/app"
 
@@ -5,6 +6,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { DirectionProvider } from "@/components/ui/direction"
+import { NotificationBanner } from "@/components/notifications/notification-banner"
 
 const fontSans = localFont({
   src: [
@@ -53,6 +55,10 @@ const fontSerif = localFont({
   preload: false,
 })
 
+export const metadata: Metadata = {
+  manifest: "/site.webmanifest",
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -78,7 +84,10 @@ export default function RootLayout({
                   backgroundRepeat: "repeat",
                 }}
               />
-              <div className="relative z-10">{children}</div>
+              <div className="relative z-10">
+                <NotificationBanner />
+                {children}
+              </div>
             </NuqsAdapter>
           </ThemeProvider>
         </DirectionProvider>
