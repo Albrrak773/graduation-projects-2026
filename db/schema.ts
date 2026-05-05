@@ -4,6 +4,7 @@ export const sectionEnum = pgEnum("section", ["male", "female"])
 export const colledgeEnum = pgEnum("colledge", ["CS", "IT", "COE"])
 export const baseEnum = pgEnum("base", ["Main", "Unaizah", "Ar-Rass"])
 
+// all project data is in english (unlike the content of the site which all in arabic)
 export const projectsTable = pgTable("projects", {
   id: uuid().defaultRandom().primaryKey(),
   image_url: varchar(),

@@ -8,6 +8,8 @@ import { COLLEDGE_LABELS, COLLEDGE_COLORS } from "@/lib/config"
 
 const MAX_VISIBLE_TAGS = 2
 
+
+// all project data (title, description, participants...) is in english (unlike the content of the site which all in arabic)
 export async function ProjectCard({ projectId }: { projectId: string }) {
   const [projectRows, projectTags, tagCountRows] = await Promise.all([
     config.db
@@ -48,7 +50,7 @@ export async function ProjectCard({ projectId }: { projectId: string }) {
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
       )}
     >
-      <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+      <div className="relative aspect-3/4 overflow-hidden bg-muted">
         {hasImage ? (
           <Image
             src={project.imageUrl!}
@@ -67,7 +69,7 @@ export async function ProjectCard({ projectId }: { projectId: string }) {
       </div>
 
       <div dir="ltr" className="space-y-3 px-5 pt-4 pb-5">
-        <h3 className="line-clamp-2 min-h-[2.5rem] font-heading text-base leading-5 font-bold text-foreground">
+        <h3 className="line-clamp-2 min-h-10 font-heading text-base leading-5 font-bold text-foreground">
           {project.title}
         </h3>
 
