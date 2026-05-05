@@ -1,5 +1,5 @@
-import { boolean, pgEnum, pgTable, serial, uuid, varchar } from "drizzle-orm/pg-core"
-import { relations } from "drizzle-orm"
+import { boolean, integer, pgEnum, pgTable, serial, uuid, varchar } from "drizzle-orm/pg-core"
+import { relations, sql } from "drizzle-orm"
 import { COLLEDGE_VALUES, SECTION_VALUES } from "./enums"
 
 export const sectionEnum = pgEnum("section", [...SECTION_VALUES])
@@ -17,6 +17,7 @@ export const projectsTable = pgTable("projects", {
   colledge: colledgeEnum().notNull(),
   base: baseEnum().notNull(),
   project_external_link: varchar(),
+  year: integer().default(sql`EXTRACT(YEAR FROM CURRENT_DATE)`),
 })
 
 export const tagsTable = pgTable("tags", {

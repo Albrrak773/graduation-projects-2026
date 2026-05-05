@@ -15,6 +15,13 @@
       "when": 1777976850157,
       "tag": "0001_nice_wendell_vaughn",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777994994573,
+      "tag": "0002_narrow_mentallo",
+      "breakpoints": true
     }
   ]
 }

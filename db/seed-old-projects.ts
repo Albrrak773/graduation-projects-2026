@@ -170,6 +170,7 @@ async function main() {
       base: campus,
       image_url: imageUrl,
       project_external_link: null,
+      year: 2025,
     })
     console.log(`  ✅ Project inserted (id: ${projectId})`)
 
