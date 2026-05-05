@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useSyncExternalStore, useRef, useState } from "react"
+import { useCallback, useEffect, useSyncExternalStore, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 
@@ -49,8 +49,7 @@ export function OneSignalBanner() {
   const isDismissed = useSyncExternalStore(subscribeToDismiss, getDismissSnapshot, getDismissServerSnapshot) === "1"
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const initializedRef = useRef(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [error, setError] = useState(false)
 
   // Auto-restore banner after dismiss TTL expires
   useEffect(() => {
@@ -70,8 +69,6 @@ export function OneSignalBanner() {
   }, [])
 
   const initOneSignal = useCallback(async () => {
-    if (initializedRef.current) return
-    initializedRef.current = true
     window.OneSignalDeferred = window.OneSignalDeferred || []
     window.OneSignalDeferred.push(async (OneSignal) => {
       await OneSignal.initialized
@@ -97,17 +94,17 @@ export function OneSignalBanner() {
   }, [])
 
   function handleSubscribe() {
-    const link = containerRef.current?.querySelector("a, button")
-    if (link instanceof HTMLElement) {
-      link.click()
-      return
-    }
     window.OneSignalDeferred = window.OneSignalDeferred || []
     window.OneSignalDeferred.push(async (OneSignal) => {
       setIsLoading(true)
+      setError(false)
       try {
-        await OneSignal.Slidedown.promptPush()
+        const granted = await OneSignal.Notifications.requestPermission()
+        if (granted) {
+          await OneSignal.User.PushSubscription.optIn()
+        }
       } catch {
+        setError(true)
       } finally {
         setIsLoading(false)
       }
@@ -118,9 +115,11 @@ export function OneSignalBanner() {
     window.OneSignalDeferred = window.OneSignalDeferred || []
     window.OneSignalDeferred.push(async (OneSignal) => {
       setIsLoading(true)
+      setError(false)
       try {
         await OneSignal.User.PushSubscription.optOut()
       } catch {
+        setError(true)
       } finally {
         setIsLoading(false)
       }
@@ -145,7 +144,11 @@ export function OneSignalBanner() {
           <span className="font-heading text-base font-bold">
             {isSubscribed ? "الإشعارات مفعّلة" : "فعّل إشعارات مشاريع التخرج"}
           </span>
-          {iosSafari && !isSubscribed ? (
+          {error ? (
+            <span className="text-xs text-destructive">
+              حدث خطأ أثناء تفعيل الإشعارات. تأكد من أن المتصفح يسمح بالإشعارات ثم حاول مجددًا.
+            </span>
+          ) : iosSafari && !isSubscribed ? (
             <span className="text-xs text-muted-foreground">
               أضف الموقع للشاشة الرئيسية على آيفون لتفعيل الإشعارات.
             </span>
@@ -161,11 +164,8 @@ export function OneSignalBanner() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div
-            ref={containerRef}
-            className="onesignal-customlink-container"
-            style={{ position: "absolute", width: 0, height: 0, overflow: "hidden", clip: "rect(0,0,0,0)" }}
-          />
+          {/* Required by OneSignal SDK */}
+          <div className="onesignal-customlink-container" hidden />
           {iosSafari && !isSubscribed ? (
             <Button size="sm" variant="outline" disabled>
               غير متاح على سفاري

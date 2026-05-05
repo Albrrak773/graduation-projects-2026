@@ -1,0 +1,6 @@
+/OneSignalSDKWorker.js
+  Service-Worker-Allowed: /
+  Content-Type: application/javascript
+
+/OneSignalSDK.page.js
+  Content-Type: application/javascript
