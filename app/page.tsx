@@ -2,14 +2,14 @@ import Image from "next/image"
 import Link from "next/link"
 import { Suspense } from "react"
 import { config, COLLEDGE_LABELS, TEAM_MEMBERS } from "@/lib/config"
-import { projectsTable } from "@/db/schema"
+import { colledgeEnum, projectsTable } from "@/db/schema"
 import { eq, desc } from "drizzle-orm"
 import { ProjectCard } from "@/components/project-card"
 
-const COLLEGES = ["CS", "IT", "COE"] as const
+const COLLEGES = colledgeEnum.enumValues
 const PROJECTS_PER_SECTION = 10
 
-async function CollegeSection({ college }: { college: (typeof COLLEGES)[number] }) {
+async function CollegeProjectList({ college }: { college: (typeof COLLEGES)[number] }) {
   const projects = await config.db
     .select({ id: projectsTable.id })
     .from(projectsTable)
@@ -17,8 +17,22 @@ async function CollegeSection({ college }: { college: (typeof COLLEGES)[number] 
     .orderBy(desc(projectsTable.id))
     .limit(PROJECTS_PER_SECTION)
 
-  if (projects.length === 0) return null
+  if (projects.length === 0) {
+    return <p className="text-sm text-muted-foreground">لا توجد مشاريع بعد</p>
+  }
 
+  return (
+    <>
+      {projects.map((p) => (
+        <div key={p.id} className="w-65 shrink-0 md:w-70">
+          <ProjectCard projectId={p.id} />
+        </div>
+      ))}
+    </>
+  )
+}
+
+function CollegeSection({ college }: { college: (typeof COLLEGES)[number] }) {
   return (
     <section className="relative">
       <div className="flex items-center justify-between px-6 py-6 md:px-12">
@@ -30,16 +44,11 @@ async function CollegeSection({ college }: { college: (typeof COLLEGES)[number] 
           الكل
         </Link>
       </div>
-
       <div className="w-full overflow-x-auto overflow-y-hidden scroll-smooth [-webkit-overflow-scrolling:touch]">
         <div className="flex gap-5 px-6 pb-4 md:px-12">
-          {projects.map((p) => (
-            <div key={p.id} className="w-[260px] shrink-0 md:w-[280px]">
-              <Suspense fallback={<div className="aspect-[3/4] animate-pulse rounded-2xl bg-muted" />}>
-                <ProjectCard projectId={p.id} />
-              </Suspense>
-            </div>
-          ))}
+          <Suspense fallback={<SectionFallback />}>
+            <CollegeProjectList college={college} />
+          </Suspense>
         </div>
       </div>
     </section>
@@ -107,13 +116,13 @@ function HeroSection() {
 
 function SectionFallback() {
   return (
-    <div className="flex gap-5 px-6 pb-4 md:px-12">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="w-[260px] shrink-0 md:w-[280px]">
-          <div className="aspect-[3/4] animate-pulse rounded-2xl bg-muted" />
+    <>
+      {Array.from({ length: PROJECTS_PER_SECTION }).map((_, i) => (
+        <div key={i} className="w-65 shrink-0 md:w-70">
+          <div className="aspect-3/4 animate-pulse rounded-2xl bg-muted" />
         </div>
       ))}
-    </div>
+    </>
   )
 }
 
@@ -135,11 +144,7 @@ export default function HomePage() {
 
         <div className="flex flex-col gap-8">
           {COLLEGES.map((college) => (
-            <section key={college}>
-              <Suspense fallback={<SectionFallback />}>
-                <CollegeSection college={college} />
-              </Suspense>
-            </section>
+            <CollegeSection key={college} college={college} />
           ))}
         </div>
 
