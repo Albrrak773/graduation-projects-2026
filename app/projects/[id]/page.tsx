@@ -16,6 +16,7 @@ import {
 import { COLLEDGE_LABELS, COLLEDGE_COLORS, SECTION_LABELS } from "@/db/enums"
 import { cn } from "@/lib/utils"
 import { Footer } from "@/components/footer"
+import { NavBar } from "@/components/nav-bar"
 import { ProjectHeroImage } from "@/components/project-hero-image"
 import { SocialIconLink } from "@/components/social-icon-link"
 
@@ -51,7 +52,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <div className="relative min-h-screen">
       <div className="relative z-10">
-        <section className="mx-auto flex max-w-6xl flex-col gap-8 px-6 pt-14 pb-12 md:px-12 md:pt-20">
+        <NavBar projectTitle={project.title} />
+        <section className="mx-auto flex max-w-6xl flex-col gap-8 px-6 pt-8 pb-12 md:px-12 md:pt-12">
           <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/80 shadow-sm backdrop-blur">
             <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/20 to-background/60" />
             <div className="bg-muted/30">

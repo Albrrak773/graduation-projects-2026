@@ -45,7 +45,7 @@ function AllProjectsSectionContent({
             مشاريع التخرج 2026
           </h1>
 
-          <p className="text-lg text-muted-foreground md:text-xl">{totalCount}+ مشروع تخرج من مختلف الكليات</p>
+          <p className="text-lg text-muted-foreground md:text-xl">{totalCount}+ مشروع تخرج من مختلف التخصصات</p>
 
           <div className="flex flex-wrap items-center gap-3">
             {counts.map(({ college, count }) => (

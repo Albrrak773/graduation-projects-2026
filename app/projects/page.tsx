@@ -3,7 +3,7 @@ import { cacheLife, cacheTag } from "next/cache"
 import { eq } from "drizzle-orm"
 import { projectsTable } from "@/db/schema"
 import { getProjects } from "@/db/queries"
-import { Hero } from "@/components/hero"
+import { NavBar } from "@/components/nav-bar"
 import { Footer } from "@/components/footer"
 import { ProjectsSearch } from "@/components/projects-search"
 
@@ -38,7 +38,8 @@ export default function ProjectsPage() {
   return (
     <div className="relative min-h-screen">
       <div className="relative z-10">
-        <Hero />
+        <NavBar />
+        <div className="h-8 md:h-12" />
         <Suspense fallback={<ProjectsFallback />}>
           <ProjectsData />
         </Suspense>
