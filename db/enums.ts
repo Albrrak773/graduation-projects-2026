@@ -18,3 +18,10 @@ export const COLLEDGE_COLORS: Record<string, string> = {
   IT: "bg-[#4285f4]/10 text-[#4285f4] dark:bg-[#4285f4]/20 dark:text-[#90caf9]",
   COE: "bg-[#0d2b6b]/10 text-[#0d2b6b] dark:bg-[#0d2b6b]/20 dark:text-[#7986cb]",
 }
+
+export const ADMIN_ROLE_VALUES = ["super_admin", "project_owner"] as const
+
+export const ADMIN_ROLE_LABELS: Record<string, string> = {
+  super_admin: "مشرف عام",
+  project_owner: "مالك المشروع",
+}

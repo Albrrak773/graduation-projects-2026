@@ -1,16 +1,14 @@
 "use client"
 
 import Image from "next/image"
-import { IconBrandGithub, IconBrandGithubFilled, IconBrandX, IconBrandXFilled } from "@tabler/icons-react"
+import { IconBell, IconBrandGithub, IconBrandGithubFilled, IconBrandX, IconBrandXFilled } from "@tabler/icons-react"
 import { TEAM_MEMBERS } from "@/lib/team-members"
 import { SocialIconLink } from "@/components/social-icon-link"
 import { Button } from "@/components/ui/button"
-import { SHOW_BANNER_EVENT } from "@/components/notifications/onesignal-banner"
+import { useNotification } from "@/components/notification-provider"
 
 export function Footer() {
-  function handleOpenNotifications() {
-    window.dispatchEvent(new Event(SHOW_BANNER_EVENT))
-  }
+  const { setOpenModal } = useNotification()
 
   return (
     <footer className="relative mt-16 border-t border-border bg-card">
@@ -45,11 +43,11 @@ export function Footer() {
           </div>
         </div>
 
-        <Button size="sm" variant="outline" onClick={handleOpenNotifications}>
-          إدارة الإشعارات
+        <Button variant="ghost" size="sm" onClick={() => setOpenModal(true)} className="gap-2">
+          <IconBell className="size-4" />
+          الإشعارات
         </Button>
       </div>
-      <div className="flex justify-center"></div>
     </footer>
   )
 }

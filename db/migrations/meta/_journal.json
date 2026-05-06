@@ -22,6 +22,20 @@
       "when": 1777994994573,
       "tag": "0002_narrow_mentallo",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1778080240856,
+      "tag": "0003_rapid_patriot",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1778089607486,
+      "tag": "0004_swift_quentin_quire",
+      "breakpoints": true
     }
   ]
 }
