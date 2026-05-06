@@ -1,6 +1,6 @@
 "use client"
 
-import { IconBell, IconBellRinging, IconDeviceMobile } from "@tabler/icons-react"
+import { IconBell, IconBellRinging, IconDeviceMobile, IconShare } from "@tabler/icons-react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { useNotification } from "@/components/notification-provider"
@@ -9,21 +9,22 @@ function InstallPrompt({ isIOS }: { isIOS: boolean }) {
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-border/60 bg-muted/40 p-4 text-sm">
       <div className="flex items-center gap-2 text-foreground">
-        <span className="flex size-8 items-center justify-center rounded-full border border-border/60 bg-background">
-          <IconDeviceMobile className="size-4" />
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border/60 bg-background">
+          <IconDeviceMobile className="size-5" />
         </span>
         <span className="font-heading font-bold">التثبيت مطلوب</span>
       </div>
       <p className="text-muted-foreground">الإشعارات تتطلب تثبيت التطبيق على شاشتك الرئيسية.</p>
       {isIOS ? (
-        <ol className="list-decimal space-y-1 pe-4 text-muted-foreground">
-          <li>
-            اضغط على زر <strong>المشاركة</strong> &#x2398; في أسفل سفاري
+        <ol className="list-decimal space-y-2 ps-4 text-muted-foreground">
+          <li className="break-words">
+            اضغط على زر <strong>المشاركة</strong> <IconShare className="inline size-4 align-middle text-foreground" />{" "}
+            في أسفل سفاري
           </li>
-          <li>
+          <li className="break-words">
             اضغط <strong>إضافة إلى الشاشة الرئيسية</strong> &#x2795;
           </li>
-          <li>افتح التطبيق من الشاشة الرئيسية</li>
+          <li className="break-words">افتح التطبيق من الشاشة الرئيسية</li>
         </ol>
       ) : (
         <p className="text-muted-foreground">
