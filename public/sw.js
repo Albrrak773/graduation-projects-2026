@@ -20,17 +20,3 @@ self.addEventListener("notificationclick", function (event) {
   const url = event.notification.data?.url || "/"
   event.waitUntil(clients.openWindow(url))
 })
-
-self.addEventListener("pushsubscriptionchange", function (event) {
-  event.waitUntil(
-    self.registration.pushManager
-      .subscribe({ userVisibleOnly: true, applicationServerKey: applicationServerKey })
-      .then(function (subscription) {
-        return fetch("/api/notifications/subscribe", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(subscription),
-        })
-      })
-  )
-})

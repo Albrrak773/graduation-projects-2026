@@ -48,6 +48,15 @@ export const subscriptionsTable = pgTable("subscriptions", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 })
 
+export const notificationsTable = pgTable("notifications", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  sent: integer("sent").notNull(),
+  failed: integer("failed").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+})
+
 export const adminsTable = pgTable("admins", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: text("user_id").notNull().unique(),

@@ -1,9 +1,9 @@
 "use server"
 
-import { eq } from "drizzle-orm"
+import { desc, eq } from "drizzle-orm"
 import webpush from "web-push"
 import { config } from "@/lib/config"
-import { subscriptionsTable } from "@/db/schema"
+import { notificationsTable, subscriptionsTable } from "@/db/schema"
 
 webpush.setVapidDetails(
   "mailto:albrrak773@gmail.com",
@@ -37,7 +37,7 @@ export async function unsubscribeUser(endpoint: string) {
   }
 }
 
-export async function sendNotification(message: string) {
+export async function sendNotification(title: string, body: string) {
   const allSubs = await config.db.select().from(subscriptionsTable)
 
   if (allSubs.length === 0) {
@@ -45,8 +45,8 @@ export async function sendNotification(message: string) {
   }
 
   const payload = JSON.stringify({
-    title: "مشاريع التخرج",
-    body: message,
+    title,
+    body,
     icon: "/android-chrome-192x192.png",
   })
 
@@ -71,10 +71,22 @@ export async function sendNotification(message: string) {
     }
   }
 
+  await config.db.insert(notificationsTable).values({
+    title,
+    body,
+    sent,
+    failed,
+  })
+
   return { success: true, sent, failed }
 }
 
 export async function getSubscribers() {
   const allSubs = await config.db.select().from(subscriptionsTable)
   return allSubs
+}
+
+export async function getNotifications() {
+  const allNotifs = await config.db.select().from(notificationsTable).orderBy(desc(notificationsTable.createdAt))
+  return allNotifs
 }

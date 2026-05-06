@@ -6,6 +6,9 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { DirectionProvider } from "@/components/ui/direction"
+import { NotificationProvider } from "@/components/notification-provider"
+import { NotificationBanner } from "@/components/notification-banner"
+import { NotificationModal } from "@/components/notification-modal"
 
 const fontSans = localFont({
   src: [
@@ -72,16 +75,20 @@ export default function RootLayout({
         <DirectionProvider direction="rtl">
           <ThemeProvider>
             <NuqsAdapter>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
-                style={{
-                  backgroundImage: "url('/design/pattern-2.png')",
-                  backgroundSize: "300px",
-                  backgroundRepeat: "repeat",
-                }}
-              />
-              <div className="relative z-10">{children}</div>
+              <NotificationProvider>
+                <NotificationBanner />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
+                  style={{
+                    backgroundImage: "url('/design/pattern-2.png')",
+                    backgroundSize: "300px",
+                    backgroundRepeat: "repeat",
+                  }}
+                />
+                <div className="relative z-10">{children}</div>
+                <NotificationModal />
+              </NotificationProvider>
             </NuqsAdapter>
           </ThemeProvider>
         </DirectionProvider>

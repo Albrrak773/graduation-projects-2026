@@ -29,6 +29,13 @@
       "when": 1778080240856,
       "tag": "0003_rapid_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1778089607486,
+      "tag": "0004_swift_quentin_quire",
+      "breakpoints": true
     }
   ]
 }

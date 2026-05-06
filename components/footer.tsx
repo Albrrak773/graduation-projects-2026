@@ -1,9 +1,15 @@
+"use client"
+
 import Image from "next/image"
-import { IconBrandGithub, IconBrandGithubFilled, IconBrandX, IconBrandXFilled } from "@tabler/icons-react"
+import { IconBell, IconBrandGithub, IconBrandGithubFilled, IconBrandX, IconBrandXFilled } from "@tabler/icons-react"
 import { TEAM_MEMBERS } from "@/lib/team-members"
 import { SocialIconLink } from "@/components/social-icon-link"
+import { Button } from "@/components/ui/button"
+import { useNotification } from "@/components/notification-provider"
 
 export function Footer() {
+  const { setOpenModal } = useNotification()
+
   return (
     <footer className="relative mt-16 border-t border-border bg-card">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 py-12 md:py-16">
@@ -37,7 +43,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div data-footer-notifications-slot />
+        <Button variant="ghost" size="sm" onClick={() => setOpenModal(true)} className="gap-2">
+          <IconBell className="size-4" />
+          الإشعارات
+        </Button>
       </div>
     </footer>
   )
