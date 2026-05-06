@@ -20,6 +20,20 @@ export async function subscribeUser(sub: { endpoint: string; keys: { p256dh: str
         keys: JSON.stringify(sub.keys),
       })
       .onConflictDoNothing()
+
+    try {
+      await webpush.sendNotification(
+        { endpoint: sub.endpoint, keys: sub.keys },
+        JSON.stringify({
+          title: "اهلاااا 🎉",
+          body: "الإشعارات فعّالة الحين, راح ياصلك كل جديد أول باول💙",
+          icon: "/android-chrome-192x192.png",
+        })
+      )
+    } catch (err) {
+      console.error("Failed to send welcome notification:", err)
+    }
+
     return { success: true }
   } catch (error) {
     console.error("Error saving subscription:", error)
