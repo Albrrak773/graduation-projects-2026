@@ -2,9 +2,10 @@ import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "حفل مشاريع التخرج 2026",
-    short_name: "مشاريع التخرج 2026",
-    description: "مشاريع التخرج بجامعة القصيم",
+    name: "حفل ختام مشاريع التخرج 2026",
+    short_name: "حفل الختام",
+    description:
+      "حفل ختام الأنشطة ومعرض مشاريع التخرج - موقع لعرض مشاريع التخرج لسنة 2026 ومتابعة اخبار الحفل عن طريق الإشعارات",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
