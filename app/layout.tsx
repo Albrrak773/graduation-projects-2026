@@ -54,9 +54,7 @@ const fontSerif = localFont({
   preload: false,
 })
 
-export const metadata: Metadata = {
-  manifest: "/site.webmanifest",
-}
+export const metadata: Metadata = {}
 
 export default function RootLayout({
   children,
