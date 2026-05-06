@@ -1,17 +1,9 @@
-"use client"
-
 import Image from "next/image"
 import { IconBrandGithub, IconBrandGithubFilled, IconBrandX, IconBrandXFilled } from "@tabler/icons-react"
 import { TEAM_MEMBERS } from "@/lib/team-members"
 import { SocialIconLink } from "@/components/social-icon-link"
-import { Button } from "@/components/ui/button"
-import { SHOW_BANNER_EVENT } from "@/components/notifications/onesignal-banner"
 
 export function Footer() {
-  function handleOpenNotifications() {
-    window.dispatchEvent(new Event(SHOW_BANNER_EVENT))
-  }
-
   return (
     <footer className="relative mt-16 border-t border-border bg-card">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 py-12 md:py-16">
@@ -45,11 +37,8 @@ export function Footer() {
           </div>
         </div>
 
-        <Button size="sm" variant="outline" onClick={handleOpenNotifications}>
-          إدارة الإشعارات
-        </Button>
+        <div data-footer-notifications-slot />
       </div>
-      <div className="flex justify-center"></div>
     </footer>
   )
 }

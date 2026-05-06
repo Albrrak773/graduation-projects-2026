@@ -150,10 +150,3 @@
 .overflow-x-auto::-webkit-scrollbar-thumb:hover {
   background: oklch(from var(--primary) l c h / 0.3);
 }
-
-/* OneSignal SDK overrides */
-.onesignal-customlink-container ~ .onesignal-slidedown,
-.onesignal-customlink-container ~ div[id^="onesignal"] {
-  font-family: var(--font-heading) !important;
-  direction: rtl !important;
-}
