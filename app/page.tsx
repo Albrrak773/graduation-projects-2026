@@ -9,6 +9,7 @@ import { ProjectCard } from "@/components/project-card"
 import { Footer } from "@/components/footer"
 import { Hero } from "@/components/hero"
 import { AllProjectsSection } from "@/components/all-projects-section"
+import { AnnouncementSection } from "@/components/announcement-section"
 
 const PROJECTS_PER_SECTION = 10
 
@@ -73,6 +74,9 @@ export default function HomePage() {
     <div className="relative min-h-screen">
       <div className="relative z-10">
         <Hero />
+        <Suspense fallback={null}>
+          <AnnouncementSection />
+        </Suspense>
         <AllProjectsSection />
 
         <div className="flex flex-col gap-8">
