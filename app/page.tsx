@@ -74,10 +74,11 @@ export default function HomePage() {
     <div className="relative min-h-screen">
       <div className="relative z-10">
         <Hero />
+        <AllProjectsSection />
+
         <Suspense fallback={null}>
           <AnnouncementSection />
         </Suspense>
-        <AllProjectsSection />
 
         <div className="flex flex-col gap-8">
           {COLLEDGE_VALUES.map((college) => (
