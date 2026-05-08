@@ -69,7 +69,7 @@ function AllProjectsSectionContent({
         <div className="relative flex flex-1 items-center justify-center" dir="ltr">
           {featuredImages.length >= 3 ? (
             <div className="relative h-72 w-56 md:h-96 md:w-72">
-              <div className="absolute top-4 right-0 z-0 h-56 w-40 rotate-[-6deg] overflow-hidden rounded-2xl shadow-lg md:top-6 md:right-2 md:h-72 md:w-52">
+              <div className="absolute top-4 right-0 z-0 h-56 w-40 -rotate-6 overflow-hidden rounded-2xl shadow-lg md:top-6 md:right-2 md:h-72 md:w-52">
                 <Image
                   src={featuredImages[0].image_url!}
                   alt={featuredImages[0].title}
@@ -78,7 +78,7 @@ function AllProjectsSectionContent({
                   sizes="(max-width: 768px) 160px, 208px"
                 />
               </div>
-              <div className="absolute top-0 right-16 z-10 h-56 w-40 rotate-[3deg] overflow-hidden rounded-2xl shadow-xl transition-transform duration-300 hover:scale-105 hover:rotate-0 md:right-20 md:h-72 md:w-52">
+              <div className="absolute top-0 right-16 z-10 h-56 w-40 rotate-3 overflow-hidden rounded-2xl shadow-xl transition-transform duration-300 hover:scale-105 hover:rotate-0 md:right-20 md:h-72 md:w-52">
                 <Image
                   src={featuredImages[1].image_url!}
                   alt={featuredImages[1].title}
@@ -87,7 +87,7 @@ function AllProjectsSectionContent({
                   sizes="(max-width: 768px) 160px, 208px"
                 />
               </div>
-              <div className="absolute right-32 bottom-4 z-20 h-56 w-40 rotate-[-3deg] overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 hover:rotate-0 md:right-40 md:bottom-6 md:h-72 md:w-52">
+              <div className="absolute right-32 bottom-4 z-20 h-56 w-40 -rotate-3 overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 hover:rotate-0 md:right-40 md:bottom-6 md:h-72 md:w-52">
                 <Image
                   src={featuredImages[2].image_url!}
                   alt={featuredImages[2].title}

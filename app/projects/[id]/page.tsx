@@ -55,12 +55,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <NavBar projectTitle={project.title} />
         <section className="mx-auto flex max-w-6xl flex-col gap-8 px-6 pt-8 pb-12 md:px-12 md:pt-12">
           <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/80 shadow-sm backdrop-blur">
-            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/20 to-background/60" />
+            <div className="absolute inset-0 bg-linear-to-b from-background/70 via-background/20 to-background/60" />
             <div className="bg-muted/30">
               {hasImage ? (
                 <ProjectHeroImage src={project.image_url!} alt={project.title} priority className="w-full" />
               ) : (
-                <div className="flex aspect-[3/4] w-full items-center justify-center bg-primary/5">
+                <div className="flex aspect-3/4 w-full items-center justify-center bg-primary/5">
                   <span className="flex size-20 items-center justify-center rounded-3xl bg-primary/10 font-heading text-3xl font-bold text-primary/60">
                     {project.title[0]}
                   </span>

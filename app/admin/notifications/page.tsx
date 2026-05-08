@@ -164,7 +164,7 @@ export default function AdminNotificationsPage() {
               <div key={sub.id} className="flex items-center justify-between rounded-lg border px-3 py-2">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-xs text-muted-foreground">{getPlatformHint(sub.endpoint)}</span>
-                  <span className="max-w-[240px] truncate font-mono text-[11px] text-muted-foreground/70">
+                  <span className="max-w-60 truncate font-mono text-[11px] text-muted-foreground/70">
                     ...{sub.endpoint.slice(-16)}
                   </span>
                 </div>
