@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
+import { Suspense } from "react"
 import { NuqsAdapter } from "nuqs/adapters/next/app"
+import { ClerkProvider } from "@clerk/nextjs"
+import { shadcn } from "@clerk/ui/themes"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -72,26 +75,32 @@ export default function RootLayout({
       className={cn("font-sans antialiased", fontSans.variable, fontHeading.variable, fontSerif.variable)}
     >
       <body>
-        <DirectionProvider direction="rtl">
-          <ThemeProvider>
-            <NuqsAdapter>
-              <NotificationProvider>
-                <NotificationBanner />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
-                  style={{
-                    backgroundImage: "url('/design/pattern-2.png')",
-                    backgroundSize: "300px",
-                    backgroundRepeat: "repeat",
-                  }}
-                />
-                <div className="relative z-10">{children}</div>
-                <NotificationModal />
-              </NotificationProvider>
-            </NuqsAdapter>
-          </ThemeProvider>
-        </DirectionProvider>
+        <ClerkProvider appearance={{ theme: shadcn }} signInFallbackRedirectUrl="/" signUpFallbackRedirectUrl="/">
+          <DirectionProvider direction="rtl">
+            <ThemeProvider>
+              <NuqsAdapter>
+                <NotificationProvider>
+                  <Suspense>
+                    <NotificationBanner />
+                  </Suspense>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
+                    style={{
+                      backgroundImage: "url('/design/pattern-2.png')",
+                      backgroundSize: "300px",
+                      backgroundRepeat: "repeat",
+                    }}
+                  />
+                  <div className="relative z-10">{children}</div>
+                  <Suspense>
+                    <NotificationModal />
+                  </Suspense>
+                </NotificationProvider>
+              </NuqsAdapter>
+            </ThemeProvider>
+          </DirectionProvider>
+        </ClerkProvider>
       </body>
     </html>
   )
