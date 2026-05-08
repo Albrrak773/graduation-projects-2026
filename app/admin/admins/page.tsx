@@ -1,59 +1,37 @@
-import { SearchUsers } from './SearchUsers'
-import { clerkClient } from '@clerk/nextjs/server'
-import { removeRole, setRole } from './actions'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { clerkClient } from "@clerk/nextjs/server"
+import { AdminsTable } from "./admins-table"
 
-export default async function AdminDashboard(params: {
-  searchParams: Promise<{ search?: string }>
-}) {
-  const query = (await params.searchParams).search
-
+export default async function AdminsPage() {
   const client = await clerkClient()
+  const allUsers = await client.users.getUserList({ limit: 500 })
 
-  const users = query ? (await client.users.getUserList({ query })).data : []
+  const admins = allUsers.data
+    .filter((user) => {
+      const role = user.publicMetadata.role as string | undefined
+      return role === "admin" || role === "project_owner"
+    })
+    .map((user) => ({
+      id: user.id,
+      email: user.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)?.emailAddress ?? "",
+      role: user.publicMetadata.role as string | undefined,
+      imageUrl: user.imageUrl,
+      createdAt: user.createdAt,
+      lastActiveAt: user.lastActiveAt,
+    }))
 
   return (
-    <div dir="ltr">
-      <p>This is the protected admin dashboard restricted to users with the `admin` Role.</p>
-
-      <SearchUsers />
-
-      {users.map((user) => {
-        return (
-          <div key={user.id}>
-            <div>
-              {user.firstName} {user.lastName}
-            </div>
-
-            <div>
-              {
-                user.emailAddresses.find((email) => email.id === user.primaryEmailAddressId)
-                  ?.emailAddress
-              }
-            </div>
-
-            <div>{user.publicMetadata.role as string}</div>
-
-            <form action={setRole}>
-              <Input type="hidden" value={user.id} name="id" />
-              <Input type="hidden" value="admin" name="role" />
-              <Button type="submit">Make Admin</Button>
-            </form>
-
-            <form action={setRole}>
-              <Input type="hidden" value={user.id} name="id" />
-              <Input type="hidden" value="moderator" name="role" />
-              <Button type="submit">Make Moderator</Button>
-            </form>
-
-            <form action={removeRole}>
-              <Input type="hidden" value={user.id} name="id" />
-              <Button type="submit">Remove Role</Button>
-            </form>
-          </div>
-        )
-      })}
+    <div className="flex flex-col gap-6">
+      <div>
+        <h1 className="font-heading text-2xl font-bold">المشرفين</h1>
+        <p className="mt-1 text-sm text-muted-foreground">إدارة المشرفين وأصحاب المشاريع</p>
+      </div>
+      {admins.length === 0 ? (
+        <div className="rounded-xl border bg-card p-12 text-center">
+          <p className="text-muted-foreground">لا يوجد مشرفين حالياً</p>
+        </div>
+      ) : (
+        <AdminsTable data={admins} />
+      )}
     </div>
   )
 }

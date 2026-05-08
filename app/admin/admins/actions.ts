@@ -1,37 +1,42 @@
-'use server'
+"use server"
 
-import { checkRole } from '@/lib/roles'
-import { clerkClient } from '@clerk/nextjs/server'
+import { checkRole } from "@/lib/roles"
+import { clerkClient } from "@clerk/nextjs/server"
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
+import type { Roles } from "@/types/globals"
 
 export async function setRole(formData: FormData) {
-  // Initialize `clerkClient`
+  if (!(await checkRole("admin"))) {
+    redirect("/not-authorized")
+  }
+
+  const userId = formData.get("id") as string
+  const role = formData.get("role") as Roles
+
   const client = await clerkClient()
+  const user = await client.users.getUser(userId)
 
-  // Check that the user trying to set the Role is an admin
-  if (!checkRole('admin')) {
-    return { message: 'Not Authorized' }
-  }
+  await client.users.updateUserMetadata(userId, {
+    publicMetadata: { ...user.publicMetadata, role },
+  })
 
-  try {
-    // Use the `updateUserMetadata()` method to update the user's Role
-    const res = await client.users.updateUserMetadata(formData.get('id') as string, {
-      publicMetadata: { role: formData.get('role') },
-    })
-    return { message: res.publicMetadata }
-  } catch (err) {
-    return { message: err }
-  }
+  revalidatePath("/admin/admins")
 }
 
 export async function removeRole(formData: FormData) {
-  const client = await clerkClient()
-
-  try {
-    const res = await client.users.updateUserMetadata(formData.get('id') as string, {
-      publicMetadata: { role: null },
-    })
-    return { message: res.publicMetadata }
-  } catch (err) {
-    return { message: err }
+  if (!(await checkRole("admin"))) {
+    redirect("/not-authorized")
   }
+
+  const userId = formData.get("id") as string
+
+  const client = await clerkClient()
+  const user = await client.users.getUser(userId)
+
+  await client.users.updateUserMetadata(userId, {
+    publicMetadata: { ...user.publicMetadata, role: null },
+  })
+
+  revalidatePath("/admin/admins")
 }
