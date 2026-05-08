@@ -1,9 +1,6 @@
 import { drizzle } from "drizzle-orm/node-postgres"
 import pg from "pg"
 import * as schema from "@/db/schema"
-import dotenv from "dotenv"
-
-dotenv.config({ override: true })
 
 function assertEnv<T extends string>(key: string, value: T | undefined): T {
   if (!value) {
@@ -12,9 +9,18 @@ function assertEnv<T extends string>(key: string, value: T | undefined): T {
   return value
 }
 
-const pool = new pg.Pool({
-  connectionString: assertEnv("DATABASE_URL", process.env.DATABASE_URL),
-})
+const globalForPg = globalThis as unknown as { pgPool: pg.Pool | undefined }
+
+export const pool =
+  globalForPg.pgPool ??
+  new pg.Pool({
+    connectionString: assertEnv("DATABASE_URL", process.env.DATABASE_URL),
+    max: 10,
+    connectionTimeoutMillis: 10_000,
+    idleTimeoutMillis: 30_000,
+  })
+
+if (process.env.NODE_ENV !== "production") globalForPg.pgPool = pool
 
 export const config = {
   db: drizzle(pool, { schema }),
