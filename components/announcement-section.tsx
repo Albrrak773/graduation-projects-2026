@@ -25,7 +25,7 @@ export async function AnnouncementSection() {
           <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
             <IconSpeakerphone className="size-5" />
           </span>
-          <h2 className="font-heading text-2xl font-bold text-foreground md:text-3xl">الإعلانات</h2>
+          <h2 className="font-heading text-2xl font-bold text-foreground md:text-3xl">مساحة الإعلانات</h2>
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6">

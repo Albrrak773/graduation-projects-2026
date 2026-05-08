@@ -2,21 +2,22 @@ import { Suspense } from "react"
 import { IconBell, IconFolder, IconSend, IconUsers } from "@tabler/icons-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { config } from "@/lib/config"
-import { count } from "drizzle-orm"
-import { projectsTable, adminsTable, subscriptionsTable, notificationsTable } from "@/db/schema"
+import { sql } from "drizzle-orm"
 
 async function getStats() {
-  const [projects, admins, subscribers, notifications] = await Promise.all([
-    config.db.select({ count: count() }).from(projectsTable),
-    config.db.select({ count: count() }).from(adminsTable),
-    config.db.select({ count: count() }).from(subscriptionsTable),
-    config.db.select({ count: count() }).from(notificationsTable),
-  ])
+  const result = await config.db.execute(sql`
+    SELECT
+      (SELECT COUNT(*) FROM projects) AS projects,
+      (SELECT COUNT(*) FROM admins) AS admins,
+      (SELECT COUNT(*) FROM subscriptions) AS subscribers,
+      (SELECT COUNT(*) FROM notifications) AS notifications
+  `)
+  const row = result.rows[0] as Record<string, string>
   return {
-    projects: projects[0].count,
-    admins: admins[0].count,
-    subscribers: subscribers[0].count,
-    notifications: notifications[0].count,
+    projects: Number(row.projects),
+    admins: Number(row.admins),
+    subscribers: Number(row.subscribers),
+    notifications: Number(row.notifications),
   }
 }
 
