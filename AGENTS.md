@@ -7,7 +7,7 @@
 # Common commands
 
 - Dev: `pnpm dev`
-- Build: `pnpm build`
+- Build: `pnpm build:dev`
 - Start: `pnpm start`
 - Lint: `pnpm lint`
 - Typecheck: `pnpm typecheck`
