@@ -11,10 +11,16 @@ function assertEnv<T extends string>(key: string, value: T | undefined): T {
 
 const globalForPg = globalThis as unknown as { pgPool: pg.Pool | undefined }
 
+// Initialize pool with DATABASE_URL if available
+const databaseUrl = process.env.DATABASE_URL
+if (!databaseUrl) {
+  console.error("[v0] DATABASE_URL is not set")
+}
+
 export const pool =
   globalForPg.pgPool ??
   new pg.Pool({
-    connectionString: assertEnv("DATABASE_URL", process.env.DATABASE_URL),
+    connectionString: assertEnv("DATABASE_URL", databaseUrl),
     max: 10,
     connectionTimeoutMillis: 10_000,
     idleTimeoutMillis: 30_000,
@@ -22,14 +28,17 @@ export const pool =
 
 if (process.env.NODE_ENV !== "production") globalForPg.pgPool = pool
 
+// Safely get R2 config with fallbacks
+const r2Config = {
+  accessKeyId: process.env.R2_ACCESS_KEY_ID || "",
+  secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || "",
+  accountId: process.env.R2_ACCOUNT_ID || "",
+  bucketName: process.env.R2_BUCKET_NAME || "",
+  publicUrl: process.env.R2_PUBLIC_URL || "",
+}
+
 export const config = {
   db: drizzle(pool, { schema }),
   projectImagesKey: "project-images",
-  r2: {
-    accessKeyId: assertEnv("R2_ACCESS_KEY_ID", process.env.R2_ACCESS_KEY_ID),
-    secretAccessKey: assertEnv("R2_SECRET_ACCESS_KEY", process.env.R2_SECRET_ACCESS_KEY),
-    accountId: assertEnv("R2_ACCOUNT_ID", process.env.R2_ACCOUNT_ID),
-    bucketName: assertEnv("R2_BUCKET_NAME", process.env.R2_BUCKET_NAME),
-    publicUrl: assertEnv("R2_PUBLIC_URL", process.env.R2_PUBLIC_URL),
-  },
+  r2: r2Config,
 }
