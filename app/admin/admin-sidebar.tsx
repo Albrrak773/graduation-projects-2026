@@ -3,9 +3,9 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { IconArrowLeft, IconBell, IconFolder, IconLayoutDashboard, IconLogout, IconUsers } from "@tabler/icons-react"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { IconArrowLeft, IconBell, IconFolder, IconLayoutDashboard, IconUsers } from "@tabler/icons-react"
+import { UserButton, useUser } from "@clerk/nextjs"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Sidebar,
   SidebarContent,
@@ -22,6 +22,11 @@ import {
 } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
+const roleLabels: Record<string, string> = {
+  admin: "مشرف",
+  project_owner: "صاحب مشروع",
+}
+
 const navItems = [
   { title: "الرئيسية", href: "/admin", icon: IconLayoutDashboard },
   { title: "المشاريع", href: "/admin/projects", icon: IconFolder },
@@ -31,6 +36,9 @@ const navItems = [
 
 export function AdminSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const { user } = useUser()
+  const email = user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)?.emailAddress
+  const role = user?.publicMetadata?.role as string | undefined
 
   return (
     <TooltipProvider>
@@ -94,17 +102,22 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
             </SidebarMenu>
             <div className="mx-2 border-t border-sidebar-border" />
             <div className="flex items-center gap-2 px-2 py-1">
-              <Avatar size="sm">
-                <AvatarFallback>أ</AvatarFallback>
-              </Avatar>
-              <div className="flex min-w-0 flex-1 items-center justify-between group-data-[collapsible=icon]:hidden">
-                <div className="flex flex-col">
-                  <span className="truncate text-sm font-medium">أحمد</span>
-                  <span className="text-xs text-muted-foreground">مشرف</span>
+              {user ? <UserButton /> : <Skeleton className="size-8 shrink-0 rounded-full" />}
+              <div className="flex min-w-0 flex-1 items-center group-data-[collapsible=icon]:hidden">
+                <div className="flex min-w-0 flex-col gap-0.5">
+                  {email ? (
+                    <span className="truncate text-sm font-medium">{email}</span>
+                  ) : (
+                    <Skeleton className="h-5 w-28" />
+                  )}
+                  {user ? (
+                    <span className="text-xs text-muted-foreground">
+                      {role ? (roleLabels[role] ?? role) : "بدون دور"}
+                    </span>
+                  ) : (
+                    <Skeleton className="h-4 w-16" />
+                  )}
                 </div>
-                <Button variant="ghost" size="icon-sm" className="shrink-0 text-muted-foreground">
-                  <IconLogout className="size-4" />
-                </Button>
               </div>
             </div>
           </SidebarFooter>
