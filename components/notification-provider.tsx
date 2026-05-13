@@ -49,6 +49,7 @@ function useIsStandalone() {
 }
 
 interface NotificationContextValue {
+  isInitialized: boolean
   isSupported: boolean
   subscription: PushSubscription | null
   isIOS: boolean
@@ -72,12 +73,17 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const [subscription, setSubscription] = useState<PushSubscription | null>(null)
   const [loading, setLoading] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
   const isSupported = useIsSupported()
   const isIOS = useIsIOS()
   const isStandalone = useIsStandalone()
 
   useEffect(() => {
-    if (!isSupported) return
+    if (!isSupported) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsInitialized(true)
+      return
+    }
     let cancelled = false
     async function init() {
       try {
@@ -89,6 +95,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         if (!cancelled) setSubscription(sub)
       } catch {
         // SW registration failed
+      } finally {
+        if (!cancelled) setIsInitialized(true)
       }
     }
     init()
@@ -132,6 +140,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   return (
     <NotificationContext.Provider
       value={{
+        isInitialized,
         isSupported,
         subscription,
         isIOS,

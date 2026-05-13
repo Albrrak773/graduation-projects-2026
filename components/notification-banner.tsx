@@ -40,9 +40,10 @@ function dismissBanner() {
 
 export function NotificationBanner() {
   const pathname = usePathname()
-  const { subscription, setOpenModal } = useNotification()
+  const { subscription, setOpenModal, isInitialized } = useNotification()
   const dismissed = useSyncExternalStore(subscribeDismiss, getDismissSnapshot, getDismissServerSnapshot) === "1"
 
+  if (!isInitialized) return null
   if (pathname.startsWith("/admin")) return null
   if (subscription || dismissed) return null
 
