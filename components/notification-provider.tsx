@@ -113,8 +113,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         userVisibleOnly: true,
         applicationServerKey: urlB64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!),
       })
-      setSubscription(sub)
       await subscribeUser(JSON.parse(JSON.stringify(sub)))
+      setSubscription(sub)
     } catch (err) {
       console.error("Subscribe failed:", err)
     } finally {
@@ -128,8 +128,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     try {
       const endpoint = subscription.endpoint
       await subscription.unsubscribe()
-      setSubscription(null)
       await unsubscribeUser(endpoint)
+      setSubscription(null)
     } catch (err) {
       console.error("Unsubscribe failed:", err)
     } finally {
