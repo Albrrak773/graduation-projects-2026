@@ -24,7 +24,7 @@ export function ProjectCard({ project }: { project: Project }) {
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
       )}
     >
-      <div className="relative aspect-3/4 overflow-hidden bg-muted">
+      <div className="relative aspect-square overflow-hidden bg-muted">
         {hasImage ? (
           <Image
             src={project.image_url!}
