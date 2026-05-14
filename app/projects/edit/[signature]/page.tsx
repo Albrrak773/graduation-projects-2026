@@ -35,11 +35,9 @@ export default async function EditProjectPage({ params }: EditProjectPageProps) 
           <div className="mx-auto max-w-4xl space-y-8">
             <div>
               <h1 className="font-heading text-3xl font-bold text-foreground">تعديل بيانات المشروع</h1>
-              <p className="mt-2 text-muted-foreground">
-                قم بتحديث المعلومات الأساسية للمشروع وإدارة أعضاء الفريق.
-              </p>
+              <p className="mt-2 text-muted-foreground">قم بتحديث المعلومات الأساسية للمشروع وإدارة أعضاء الفريق.</p>
             </div>
-            
+
             <EditProjectForm project={project} />
           </div>
         </main>

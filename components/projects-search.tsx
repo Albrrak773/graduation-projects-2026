@@ -6,7 +6,18 @@ import { useQueryState, parseAsArrayOf, parseAsStringEnum, parseAsString } from 
 import { IconSearch } from "@tabler/icons-react"
 import { COLLEDGE_VALUES, COLLEDGE_LABELS, SECTION_VALUES, SECTION_LABELS } from "@/db/enums"
 import { ProjectCard } from "@/components/project-card"
-import { Combobox, ComboboxChip, ComboboxChips, ComboboxChipsInput, ComboboxContent, ComboboxEmpty, ComboboxItem, ComboboxList, ComboboxValue, useComboboxAnchor} from "@/components/ui/combobox"
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxValue,
+  useComboboxAnchor,
+} from "@/components/ui/combobox"
 import { Input } from "@/components/ui/input"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import type { Project } from "@/db/types"
@@ -23,7 +34,7 @@ const sectionParser = parseAsArrayOf(parseAsStringEnum([...SECTION_VALUES])).wit
 const semesterParser = parseAsArrayOf(parseAsStringEnum([...SEMESTER_VALUES])).withOptions({ throttleMs: 0 })
 const tagsParser = parseAsArrayOf(parseAsString).withOptions({ throttleMs: 0 })
 
-export function ProjectsSearch({ data, tags }: { data: Project[], tags: string[] }) {
+export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[] }) {
   const anchor = useComboboxAnchor()
   const [search, setSearch] = useQueryState("search", { defaultValue: "", throttleMs: 300 })
   const [selectedColleges, setSelectedColleges] = useQueryState("college", collegeParser)
@@ -74,9 +85,7 @@ export function ProjectsSearch({ data, tags }: { data: Project[], tags: string[]
     }
 
     if (selectedTags && selectedTags.length > 0) {
-      items = items.filter((item) =>
-        item.tags.some((tag) => selectedTags.includes(tag.name))
-      )
+      items = items.filter((item) => item.tags.some((tag) => selectedTags.includes(tag.name)))
     }
 
     return items
@@ -87,7 +96,7 @@ export function ProjectsSearch({ data, tags }: { data: Project[], tags: string[]
       <h1 className="sr-only">جميع المشاريع</h1>
 
       <div className="mx-auto max-w-6xl space-y-6">
-        <div className="bg-white rounded-[calc(var(--radius-sm)+2px)] border border-border/70 bg-card/80 shadow-sm backdrop-blur p-4 grid gap-6">
+        <div className="grid gap-6 rounded-[calc(var(--radius-sm)+2px)] border border-border/70 bg-card/80 bg-white p-4 shadow-sm backdrop-blur">
           <div className="relative">
             <IconSearch className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -105,7 +114,9 @@ export function ProjectsSearch({ data, tags }: { data: Project[], tags: string[]
                 type="multiple"
                 variant="pill"
                 value={(selectedColleges ?? []) as string[]}
-                onValueChange={(vals) => setSelectedColleges(vals.length > 0 ? (vals as typeof selectedColleges) : null)}
+                onValueChange={(vals) =>
+                  setSelectedColleges(vals.length > 0 ? (vals as typeof selectedColleges) : null)
+                }
               >
                 {COLLEDGE_VALUES.map((c) => (
                   <ToggleGroupItem key={c} value={c}>
@@ -121,7 +132,9 @@ export function ProjectsSearch({ data, tags }: { data: Project[], tags: string[]
                 type="multiple"
                 variant="pill"
                 value={(selectedSections ?? []) as string[]}
-                onValueChange={(vals) => setSelectedSections(vals.length > 0 ? (vals as typeof selectedSections) : null)}
+                onValueChange={(vals) =>
+                  setSelectedSections(vals.length > 0 ? (vals as typeof selectedSections) : null)
+                }
               >
                 {SECTION_VALUES.map((s) => (
                   <ToggleGroupItem key={s} value={s}>
@@ -137,7 +150,9 @@ export function ProjectsSearch({ data, tags }: { data: Project[], tags: string[]
                 type="multiple"
                 variant="pill"
                 value={(selectedSemesters ?? []) as string[]}
-                onValueChange={(vals) => setSelectedSemesters(vals.length > 0 ? (vals as typeof selectedSemesters) : null)}
+                onValueChange={(vals) =>
+                  setSelectedSemesters(vals.length > 0 ? (vals as typeof selectedSemesters) : null)
+                }
               >
                 {SEMESTER_VALUES.map((s) => (
                   <ToggleGroupItem key={s} value={s}>
@@ -150,7 +165,7 @@ export function ProjectsSearch({ data, tags }: { data: Project[], tags: string[]
             {/* filter using the tags */}
             <div className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-muted-foreground">المجالات</span>
-              <Combobox 
+              <Combobox
                 multiple
                 autoHighlight
                 items={tags}

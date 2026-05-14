@@ -11,10 +11,7 @@ async function ProjectsData() {
   "use cache"
   cacheLife("days")
   cacheTag("projects")
-  const [data, tags] = await Promise.all([
-    getProjects(eq(projectsTable.is_public, true)),
-    getUniqueTags()
-  ])
+  const [data, tags] = await Promise.all([getProjects(eq(projectsTable.is_public, true)), getUniqueTags()])
 
   return <ProjectsSearch data={data} tags={tags} />
 }

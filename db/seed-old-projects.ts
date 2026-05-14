@@ -199,7 +199,7 @@ async function main() {
           project_id: projectId,
           name: s.name.trim(),
           uni_id: s.id,
-          email: isEmailOwner ? project.Email : null,
+          personal_email: null,
           x_url: null,
           linked_url: null,
           github_url: null,

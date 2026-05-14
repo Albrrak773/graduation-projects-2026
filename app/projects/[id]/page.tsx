@@ -57,7 +57,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/80 shadow-sm backdrop-blur">
             {/* Decoration */}
             <div className="absolute inset-0 bg-linear-to-b from-background/70 via-background/20 to-background/60" />
-            
+
             {/* Project Info */}
             <div className="relative flex flex-col gap-6 border-t border-border/60 px-6 py-6 md:px-8">
               <div className="space-y-4">
@@ -151,12 +151,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
             <div className="rounded-3xl border border-border/70 bg-card/85 p-6 shadow-sm backdrop-blur">
               <h2 className="font-heading text-xl font-bold text-foreground">فريق المشروع</h2>
-              <div className="rounded-2xl border border-border/60 bg-background p-4 mt-2">
+              <div className="mt-2 rounded-2xl border border-border/60 bg-background p-4">
                 <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div className="space-y-1 w-full">
-                    <p className="flex items-start flex-col gap-1.5 text-xs font-semibold text-muted-foreground">
+                  <div className="w-full space-y-1">
+                    <p className="flex flex-col items-start gap-1.5 text-xs font-semibold text-muted-foreground">
                       <span className="text-sm"> بإشراف: </span>
-                      <span className="font-bold text-lg text-foreground text-center">{project.supervisor}</span>
+                      <span className="text-center text-lg font-bold text-foreground">{project.supervisor}</span>
                     </p>
                   </div>
                 </div>

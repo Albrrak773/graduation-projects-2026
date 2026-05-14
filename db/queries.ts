@@ -15,7 +15,10 @@ export async function getAllProjectIds() {
 }
 
 export async function getAllProjectSignatures() {
-  const rows = await config.db.select({ signature: projectsTable.signature }).from(projectsTable).where(isNotNull(projectsTable.signature))
+  const rows = await config.db
+    .select({ signature: projectsTable.signature })
+    .from(projectsTable)
+    .where(isNotNull(projectsTable.signature))
   return rows.map((r) => r.signature as string)
 }
 
