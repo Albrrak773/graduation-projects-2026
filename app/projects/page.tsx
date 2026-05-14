@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import { cacheLife, cacheTag } from "next/cache"
 import { eq } from "drizzle-orm"
 import { projectsTable } from "@/db/schema"
-import { getProjects } from "@/db/queries"
+import { getProjects, getUniqueTags } from "@/db/queries"
 import { NavBar } from "@/components/nav-bar"
 import { Footer } from "@/components/footer"
 import { ProjectsSearch } from "@/components/projects-search"
@@ -11,9 +11,12 @@ async function ProjectsData() {
   "use cache"
   cacheLife("days")
   cacheTag("projects")
-  const data = await getProjects(eq(projectsTable.is_public, true))
+  const [data, tags] = await Promise.all([
+    getProjects(eq(projectsTable.is_public, true)),
+    getUniqueTags()
+  ])
 
-  return <ProjectsSearch data={data} />
+  return <ProjectsSearch data={data} tags={tags} />
 }
 
 function ProjectsFallback() {
