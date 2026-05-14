@@ -19,6 +19,7 @@ export const projectsTable = pgTable("projects", {
   base: baseEnum().notNull(),
   project_external_link: varchar(),
   year: integer().default(sql`EXTRACT(YEAR FROM CURRENT_DATE)`),
+  signature: varchar({ length: 60 }).unique(),
 })
 
 export const tagsTable = pgTable("tags", {
@@ -38,7 +39,7 @@ export const projectParticipantsTable = pgTable("project_participants", {
   x_url: varchar(),
   linked_url: varchar(),
   github_url: varchar(),
-  email: varchar(),
+  personal_email: varchar(),
 })
 
 export const subscriptionsTable = pgTable("subscriptions", {

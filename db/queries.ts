@@ -1,5 +1,5 @@
 import { config } from "@/lib/config"
-import { eq, type SQL } from "drizzle-orm"
+import { eq, isNotNull, type SQL } from "drizzle-orm"
 import { projectsTable, tagsTable } from "@/db/schema"
 
 export async function getProjects(where?: SQL) {
@@ -14,10 +14,22 @@ export async function getAllProjectIds() {
   return rows.map((r) => r.id)
 }
 
+export async function getAllProjectSignatures() {
+  const rows = await config.db.select({ signature: projectsTable.signature }).from(projectsTable).where(isNotNull(projectsTable.signature))
+  return rows.map((r) => r.signature as string)
+}
+
 export async function getProjectById(id: string) {
   return config.db.query.projectsTable.findFirst({
     with: { tags: true, participants: true },
     where: eq(projectsTable.id, id),
+  })
+}
+
+export async function getProjectBySignature(signature: string) {
+  return config.db.query.projectsTable.findFirst({
+    with: { tags: true, participants: true },
+    where: eq(projectsTable.signature, signature),
   })
 }
 
