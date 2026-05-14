@@ -9,6 +9,7 @@ import { ProjectCard } from "@/components/project-card"
 import { Footer } from "@/components/footer"
 import { Hero } from "@/components/hero"
 import { AllProjectsSection } from "@/components/all-projects-section"
+import { GDGCallout } from "@/components/gdg-callout"
 
 const PROJECTS_PER_SECTION = 10
 
@@ -83,6 +84,8 @@ export default function HomePage() {
         <Hero />
 
         <AllProjectsSection />
+
+        <GDGCallout />
 
         <div className="flex flex-col gap-12 py-16 md:py-24">
           {COLLEDGE_VALUES.map((college) => (
