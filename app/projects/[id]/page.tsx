@@ -55,18 +55,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <NavBar projectTitle={project.title} />
         <section className="mx-auto flex max-w-6xl flex-col gap-8 px-6 pt-8 pb-12 md:px-12 md:pt-12">
           <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/80 shadow-sm backdrop-blur">
+            {/* Decoration */}
             <div className="absolute inset-0 bg-linear-to-b from-background/70 via-background/20 to-background/60" />
-            <div className="bg-muted/30">
-              {hasImage ? (
-                <ProjectHeroImage src={project.image_url!} alt={project.title} priority className="w-full" />
-              ) : (
-                <div className="flex aspect-3/4 w-full items-center justify-center bg-primary/5">
-                  <span className="flex size-20 items-center justify-center rounded-3xl bg-primary/10 font-heading text-3xl font-bold text-primary/60">
-                    {project.title[0]}
-                  </span>
-                </div>
-              )}
-            </div>
+            
+            {/* Project Info */}
             <div className="relative flex flex-col gap-6 border-t border-border/60 px-6 py-6 md:px-8">
               <div className="space-y-4">
                 <div className="flex flex-wrap items-center gap-2">
@@ -95,9 +87,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   <h1 dir="auto" className="font-heading text-3xl font-bold text-foreground md:text-4xl">
                     {project.title}
                   </h1>
-                  <p className="text-sm font-medium text-muted-foreground md:text-base">
-                    بإشراف: <span className="font-semibold text-foreground">{project.supervisor}</span>
-                  </p>
                 </div>
               </div>
 
@@ -112,6 +101,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     رابط المشروع
                     <IconExternalLink className="size-4" />
                   </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Project Image */}
+            <div className="bg-muted/30">
+              {hasImage ? (
+                <ProjectHeroImage src={project.image_url!} alt={project.title} priority className="w-full" />
+              ) : (
+                <div className="flex aspect-3/4 w-full items-center justify-center bg-primary/5">
+                  <span className="flex size-20 items-center justify-center rounded-3xl bg-primary/10 font-heading text-3xl font-bold text-primary/60">
+                    {project.title[0]}
+                  </span>
                 </div>
               )}
             </div>
@@ -149,6 +151,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
             <div className="rounded-3xl border border-border/70 bg-card/85 p-6 shadow-sm backdrop-blur">
               <h2 className="font-heading text-xl font-bold text-foreground">فريق المشروع</h2>
+              <div className="rounded-2xl border border-border/60 bg-background p-4 mt-2">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="space-y-1 w-full">
+                    <p className="flex items-start flex-col gap-1.5 text-xs font-semibold text-muted-foreground">
+                      <span className="text-sm"> بإشراف: </span>
+                      <span className="font-bold text-lg text-foreground text-center">{project.supervisor}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
               {project.participants.length > 0 ? (
                 <div className="mt-4 space-y-4">
                   {project.participants.map((participant) => (
@@ -192,9 +204,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                               filledIcon={<IconBrandLinkedinFilled className="size-4" />}
                             />
                           )}
-                          {participant.email && (
+                          {participant.uni_id && (
                             <SocialIconLink
-                              href={`mailto:${participant.email}`}
+                              href={`mailto:${participant.uni_id}@qu.edu.sa`}
                               label={`${participant.name} Email`}
                               brand="mail"
                               icon={<IconMail className="size-4" />}

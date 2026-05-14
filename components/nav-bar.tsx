@@ -47,7 +47,7 @@ export function NavBar({ projectTitle }: { projectTitle?: string }) {
       <div className="mx-auto max-w-6xl rounded-2xl border border-border/70 bg-card/80 px-6 py-4 shadow-sm backdrop-blur md:px-8 md:py-5">
         <div className="flex items-center justify-between gap-4">
           <NavCrumbs projectTitle={projectTitle} />
-          <Link href="/" aria-label="الرئيسية">
+          <Link href="/" aria-label="الرئيسية" className="shrink-0">
             <Image
               src="/design/logo.png"
               alt="مشاريع التخرج"
