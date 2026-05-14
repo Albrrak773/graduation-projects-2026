@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useMemo, Fragment } from "react"
 import Fuse from "fuse.js"
 import { useQueryState, parseAsArrayOf, parseAsStringEnum, parseAsString } from "nuqs"
 import { IconSearch } from "@tabler/icons-react"
@@ -19,11 +19,11 @@ import {
   useComboboxAnchor,
 } from "@/components/ui/combobox"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import type { Project } from "@/db/types"
-import React from "react"
 
-const SEMESTER_VALUES = ["١٤٤٦", "١٤٤٧"]
+const SEMESTER_VALUES = ["١٤٤٦", "١٤٤٧"] as const
 const HIJRI_TO_GREGORIAN: Record<string, number> = {
   "١٤٤٦": 2025,
   "١٤٤٧": 2026,
@@ -31,15 +31,18 @@ const HIJRI_TO_GREGORIAN: Record<string, number> = {
 
 const collegeParser = parseAsArrayOf(parseAsStringEnum([...COLLEDGE_VALUES])).withOptions({ throttleMs: 0 })
 const sectionParser = parseAsArrayOf(parseAsStringEnum([...SECTION_VALUES])).withOptions({ throttleMs: 0 })
-const semesterParser = parseAsArrayOf(parseAsStringEnum([...SEMESTER_VALUES])).withOptions({ throttleMs: 0 })
 const tagsParser = parseAsArrayOf(parseAsString).withOptions({ throttleMs: 0 })
 
 export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[] }) {
   const anchor = useComboboxAnchor()
+
   const [search, setSearch] = useQueryState("search", { defaultValue: "", throttleMs: 300 })
   const [selectedColleges, setSelectedColleges] = useQueryState("college", collegeParser)
   const [selectedSections, setSelectedSections] = useQueryState("section", sectionParser)
-  const [selectedSemesters, setSelectedSemesters] = useQueryState("semester", semesterParser)
+  const [selectedSemester, setSelectedSemester] = useQueryState(
+    "semester",
+    parseAsStringEnum([...SEMESTER_VALUES]).withOptions({ throttleMs: 0 })
+  )
   const [selectedTags, setSelectedTags] = useQueryState("tags", tagsParser)
 
   const fuseIndex = useMemo(
@@ -79,9 +82,11 @@ export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[]
       items = items.filter((item) => item.section && selectedSections.includes(item.section))
     }
 
-    if (selectedSemesters && selectedSemesters.length > 0) {
-      const selectedGregorianYears = selectedSemesters.map((s) => HIJRI_TO_GREGORIAN[s])
-      items = items.filter((item) => item.year && selectedGregorianYears.includes(item.year))
+    if (selectedSemester) {
+      const gregorian = HIJRI_TO_GREGORIAN[selectedSemester]
+      if (gregorian) {
+        items = items.filter((item) => item.year && item.year === gregorian)
+      }
     }
 
     if (selectedTags && selectedTags.length > 0) {
@@ -89,7 +94,7 @@ export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[]
     }
 
     return items
-  }, [data, search, fuseIndex, selectedColleges, selectedSections, selectedSemesters, selectedTags])
+  }, [data, search, fuseIndex, selectedColleges, selectedSections, selectedSemester, selectedTags])
 
   return (
     <section className="px-6 pb-16 md:px-12">
@@ -146,23 +151,23 @@ export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[]
 
             <div className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-muted-foreground">العام</span>
-              <ToggleGroup
-                type="multiple"
-                variant="pill"
-                value={(selectedSemesters ?? []) as string[]}
-                onValueChange={(vals) =>
-                  setSelectedSemesters(vals.length > 0 ? (vals as typeof selectedSemesters) : null)
-                }
+              <Select
+                value={selectedSemester ?? undefined}
+                onValueChange={(val) => setSelectedSemester(val as typeof selectedSemester)}
               >
-                {SEMESTER_VALUES.map((s) => (
-                  <ToggleGroupItem key={s} value={s}>
-                    {s}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
+                <SelectTrigger className="h-[34px] rounded-full border-border bg-transparent px-4 text-sm font-medium text-muted-foreground data-[state=open]:border-primary/30 data-[state=open]:bg-primary/10 data-[state=open]:font-semibold data-[state=open]:text-primary">
+                  <SelectValue placeholder="اختر العام" />
+                </SelectTrigger>
+                <SelectContent>
+                  {SEMESTER_VALUES.map((s) => (
+                    <SelectItem key={s} value={s}>
+                      {s}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
-            {/* filter using the tags */}
             <div className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-muted-foreground">المجالات</span>
               <Combobox
@@ -175,17 +180,22 @@ export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[]
                 <ComboboxChips ref={anchor} className="w-full max-w-xs">
                   <ComboboxValue>
                     {(values) => (
-                      <React.Fragment>
+                      <Fragment>
                         {values.map((value: string) => (
-                          <ComboboxChip key={value}>{value}</ComboboxChip>
+                          <ComboboxChip
+                            key={value}
+                            className="border-primary/30 bg-primary/10 font-semibold text-primary"
+                          >
+                            {value}
+                          </ComboboxChip>
                         ))}
                         <ComboboxChipsInput />
-                      </React.Fragment>
+                      </Fragment>
                     )}
                   </ComboboxValue>
                 </ComboboxChips>
                 <ComboboxContent anchor={anchor}>
-                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxEmpty>لا توجد نتائج</ComboboxEmpty>
                   <ComboboxList>
                     {(item) => (
                       <ComboboxItem key={item} value={item}>
