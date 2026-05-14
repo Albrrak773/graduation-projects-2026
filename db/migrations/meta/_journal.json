@@ -36,6 +36,13 @@
       "when": 1778089607486,
       "tag": "0004_swift_quentin_quire",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1778777389268,
+      "tag": "0005_milky_omega_red",
+      "breakpoints": true
     }
   ]
 }
