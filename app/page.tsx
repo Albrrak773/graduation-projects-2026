@@ -12,6 +12,7 @@ import { AllProjectsSection } from "@/components/all-projects-section"
 import { Button } from "@/components/ui/button"
 import { IconArrowLeft } from "@tabler/icons-react"
 import type { Project } from "@/db/types"
+import { GDGCallout } from "@/components/gdg-callout"
 
 const PROJECTS_PER_SECTION = 10
 const CURRENT_YEAR = 2026
@@ -174,6 +175,13 @@ export default async function HomePage() {
         <PreviousProjectsSection projects={projects} />
 
         <YearBrowseSection />
+        <GDGCallout />
+
+        <div className="flex flex-col gap-12 py-16 md:py-24">
+          {COLLEDGE_VALUES.map((college) => (
+            <CollegeSection key={college} college={college} />
+          ))}
+        </div>
 
         <Footer />
       </div>

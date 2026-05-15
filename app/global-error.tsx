@@ -1,14 +1,15 @@
 "use client"
 
 import localFont from "next/font/local"
+import Image from "next/image"
 import Link from "next/link"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { DirectionProvider } from "@/components/ui/direction"
-import { Hero } from "@/components/hero"
 import { Button } from "@/components/ui/button"
+import { AlertOctagon } from "lucide-react"
 
 const fontSans = localFont({
   src: [
@@ -69,9 +70,20 @@ export default function GlobalError({ reset }: { error: Error & { digest?: strin
           <ThemeProvider>
             <div className="relative min-h-screen">
               <div className="relative z-10">
-                <Hero />
+                <div className="flex justify-center px-6 pt-6 md:pt-10">
+                  <Link href="/" aria-label="الرئيسية">
+                    <Image
+                      src="/design/logo.png"
+                      alt="مشاريع التخرج"
+                      className="h-20 w-auto md:h-24"
+                      width={480}
+                      height={200}
+                      priority
+                    />
+                  </Link>
+                </div>
                 <div className="flex flex-col items-center gap-6 px-6 py-16 text-center md:gap-8 md:py-24">
-                  <h1 className="text-6xl md:text-8xl">❌</h1>
+                  <AlertOctagon className="h-20 w-20 text-muted-foreground md:h-28 md:w-28" />
                   <h2 className="font-heading text-3xl font-bold md:text-5xl">حصل خطأ!</h2>
                   <p className="max-w-lg text-lg text-muted-foreground md:text-xl">
                     حاول مرة ثانية وذا استمرت المشكلة تواصل معنا وبنحاول نحلها باسرع وقت ان شاء الله
