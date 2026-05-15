@@ -3,6 +3,15 @@ lockfileVersion: '9.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
+  onlyBuiltDependencies:
+    - '@clerk/shared'
+    - bufferutil
+    - core-js
+    - esbuild
+    - msw
+    - sharp
+    - unrs-resolver
+    - utf-8-validate
 
 importers:
 

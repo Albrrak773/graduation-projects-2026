@@ -105,6 +105,18 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     }
   }, [isSupported])
 
+  useEffect(() => {
+    if (!isInitialized || subscription) return
+    if (sessionStorage.getItem("notification-friendly-reminder-shown") === "1") return
+
+    const timer = window.setTimeout(() => {
+      sessionStorage.setItem("notification-friendly-reminder-shown", "1")
+      setOpenModal(true)
+    }, 11000)
+
+    return () => window.clearTimeout(timer)
+  }, [isInitialized, subscription])
+
   const subscribe = useCallback(async () => {
     setLoading(true)
     try {

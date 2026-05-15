@@ -6,12 +6,18 @@ import { getProjects } from "@/db/queries"
 import { NavBar } from "@/components/nav-bar"
 import { Footer } from "@/components/footer"
 import { ProjectsSearch } from "@/components/projects-search"
+import type { Project } from "@/db/types"
 
 async function ProjectsData() {
   "use cache"
   cacheLife("days")
   cacheTag("projects")
-  const data = await getProjects(eq(projectsTable.is_public, true))
+  let data: Project[] = []
+  try {
+    data = await getProjects(eq(projectsTable.is_public, true))
+  } catch {
+    data = []
+  }
 
   return <ProjectsSearch data={data} />
 }
@@ -38,8 +44,7 @@ export default function ProjectsPage() {
   return (
     <div className="relative min-h-screen">
       <div className="relative z-10">
-        <NavBar />
-        <div className="h-8 md:h-12" />
+        <NavBar showSearch={false} hideOnScroll />
         <Suspense fallback={<ProjectsFallback />}>
           <ProjectsData />
         </Suspense>

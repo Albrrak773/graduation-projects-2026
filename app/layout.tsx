@@ -10,8 +10,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { DirectionProvider } from "@/components/ui/direction"
 import { NotificationProvider } from "@/components/notification-provider"
-import { NotificationBanner } from "@/components/notification-banner"
+import { NotificationBannerSlot } from "@/components/notification-banner-slot"
 import { NotificationModal } from "@/components/notification-modal"
+import { PageIntro } from "@/components/page-intro"
 
 const fontSans = localFont({
   src: [
@@ -75,32 +76,33 @@ export default function RootLayout({
       className={cn("font-sans antialiased", fontSans.variable, fontHeading.variable, fontSerif.variable)}
     >
       <body>
-        <ClerkProvider appearance={{ theme: shadcn }} signInFallbackRedirectUrl="/" signUpFallbackRedirectUrl="/">
-          <DirectionProvider direction="rtl">
-            <ThemeProvider>
-              <NuqsAdapter>
-                <NotificationProvider>
-                  <Suspense>
-                    <NotificationBanner />
-                  </Suspense>
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
-                    style={{
-                      backgroundImage: "url('/design/pattern-2.png')",
-                      backgroundSize: "300px",
-                      backgroundRepeat: "repeat",
-                    }}
-                  />
-                  <div className="relative z-10">{children}</div>
-                  <Suspense>
-                    <NotificationModal />
-                  </Suspense>
-                </NotificationProvider>
-              </NuqsAdapter>
-            </ThemeProvider>
-          </DirectionProvider>
-        </ClerkProvider>
+        <PageIntro />
+        <Suspense>
+          <ClerkProvider appearance={{ theme: shadcn }} signInFallbackRedirectUrl="/" signUpFallbackRedirectUrl="/">
+            <DirectionProvider direction="rtl">
+              <ThemeProvider>
+                <NuqsAdapter>
+                  <NotificationProvider>
+                    <NotificationBannerSlot />
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
+                      style={{
+                        backgroundImage: "url('/design/pattern-2.png')",
+                        backgroundSize: "300px",
+                        backgroundRepeat: "repeat",
+                      }}
+                    />
+                    <div className="relative z-10">{children}</div>
+                    <Suspense>
+                      <NotificationModal />
+                    </Suspense>
+                  </NotificationProvider>
+                </NuqsAdapter>
+              </ThemeProvider>
+            </DirectionProvider>
+          </ClerkProvider>
+        </Suspense>
       </body>
     </html>
   )

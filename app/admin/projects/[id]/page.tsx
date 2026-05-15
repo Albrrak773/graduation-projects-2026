@@ -1,7 +1,12 @@
 import { getAllProjectIds } from "@/db/queries"
 
 export async function generateStaticParams() {
-  const ids = await getAllProjectIds()
+  let ids: string[] = []
+  try {
+    ids = await getAllProjectIds()
+  } catch {
+    ids = ["__placeholder__"]
+  }
   return ids.map((id) => ({ id }))
 }
 
