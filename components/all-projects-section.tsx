@@ -4,14 +4,16 @@ import { BentoGrid } from "./bento-grid"
 import type { Project } from "@/db/types"
 
 export function AllProjectsSection({ projects }: { projects: Project[] }) {
-  if (projects.length === 0) return null
+  const currentProjects = projects.filter((p) => p.year === CURRENT_YEAR)
+
+  if (currentProjects.length === 0) return null
 
   const counts = COLLEDGE_VALUES.map((college) => {
-    const collegeProjects = projects.filter((p) => p.colledge === college)
+    const collegeProjects = currentProjects.filter((p) => p.colledge === college)
     return { college, count: collegeProjects.length }
   }).filter((item) => item.count > 0)
 
-  const totalCount = projects.length
+  const totalCount = currentProjects.length
   const previousCount = projects.filter((p) => p.year && p.year < CURRENT_YEAR).length
 
   return <BentoGrid totalCount={totalCount} counts={counts} previousCount={previousCount} />

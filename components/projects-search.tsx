@@ -6,7 +6,7 @@ import Fuse from "fuse.js"
 import { useQueryState, parseAsArrayOf, parseAsStringEnum, parseAsString } from "nuqs"
 import { IconSearch, IconX } from "@tabler/icons-react"
 import { COLLEDGE_VALUES, COLLEDGE_LABELS, SECTION_VALUES, SECTION_LABELS } from "@/db/enums"
-import { YEAR_MAP } from "@/lib/years"
+import { CURRENT_YEAR, YEAR_MAP } from "@/lib/years"
 import { ProjectCard } from "@/components/project-card"
 import {
   Combobox,
@@ -112,7 +112,11 @@ export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[]
       items = items.filter((item) => item.tags.some((tag) => selectedTags.includes(tag.name)))
     }
 
-    return items
+    return items.toSorted((a, b) => {
+      if (a.year === CURRENT_YEAR && b.year !== CURRENT_YEAR) return -1
+      if (a.year !== CURRENT_YEAR && b.year === CURRENT_YEAR) return 1
+      return (b.year ?? 0) - (a.year ?? 0)
+    })
   }, [data, search, fuseIndex, selectedColleges, selectedSections, selectedSemester, selectedTags])
 
   return (

@@ -149,25 +149,44 @@ async function main() {
     const sourceFile = project.poster_image ?? ""
 
     if (project.poster_image) {
-      const imagePath = join(imagesDir, project.poster_image)
       const ext = extname(project.poster_image).toLowerCase()
+      const imagePath = join(imagesDir, project.poster_image)
 
       if (ext === ".pptx") {
         console.log(`  ⏭ Skipping PPTX file: ${project.poster_image}`)
       } else {
         try {
-          if (ext === ".pdf") {
-            const pngBuf = convertPdfToPng(imagePath)
-            if (pngBuf) {
-              uploadBuffer = pngBuf
+          // Prefer pre-converted .png file if it exists
+          if (ext !== ".png") {
+            const pngPath = join(
+              imagesDir,
+              extname(project.poster_image).length > 0
+                ? project.poster_image.replace(/\.[^.]+$/, ".png")
+                : project.poster_image
+            )
+            try {
+              uploadBuffer = readFileSync(pngPath)
               uploadExt = ".png"
-              console.log(`  🔄 PDF converted to PNG`)
-            } else {
-              console.log(`  ⚠ PDF conversion failed: ${project.poster_image}`)
+              console.log(`  🖼 Using pre-converted PNG`)
+            } catch {
+              // No pre-converted PNG, fall back to reading the original
             }
-          } else {
-            uploadBuffer = readFileSync(imagePath)
-            uploadExt = ext
+          }
+
+          if (!uploadBuffer) {
+            if (ext === ".pdf") {
+              const pngBuf = convertPdfToPng(imagePath)
+              if (pngBuf) {
+                uploadBuffer = pngBuf
+                uploadExt = ".png"
+                console.log(`  🔄 PDF converted to PNG`)
+              } else {
+                console.log(`  ⚠ PDF conversion failed: ${project.poster_image}`)
+              }
+            } else {
+              uploadBuffer = readFileSync(imagePath)
+              uploadExt = ext
+            }
           }
         } catch (err) {
           console.warn(`  ⚠ Could not read image: ${imagePath}`, err)
