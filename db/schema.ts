@@ -1,9 +1,10 @@
 import { boolean, integer, pgEnum, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core"
 import { relations, sql } from "drizzle-orm"
-import { COLLEDGE_VALUES, SECTION_VALUES } from "./enums"
+import { COLLEDGE_VALUES, DEGREE_VALUES, SECTION_VALUES } from "./enums"
 
 export const sectionEnum = pgEnum("section", [...SECTION_VALUES])
 export const colledgeEnum = pgEnum("colledge", [...COLLEDGE_VALUES])
+export const degreeEnum = pgEnum("degree", [...DEGREE_VALUES])
 export const baseEnum = pgEnum("base", ["Main", "Unaizah", "Ar-Rass"])
 export const adminRoleEnum = pgEnum("admin_role", ["super_admin", "project_owner"])
 
@@ -16,6 +17,7 @@ export const projectsTable = pgTable("projects", {
   is_public: boolean().default(false),
   section: sectionEnum().notNull(),
   colledge: colledgeEnum().notNull(),
+  degree: degreeEnum().notNull().default("bachelor"),
   base: baseEnum().notNull(),
   project_external_link: varchar(),
   year: integer().default(sql`EXTRACT(YEAR FROM CURRENT_DATE)`),

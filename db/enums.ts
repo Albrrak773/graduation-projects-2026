@@ -19,6 +19,13 @@ export const COLLEDGE_COLORS: Record<string, string> = {
   COE: "bg-[#0d2b6b]/10 text-[#0d2b6b] dark:bg-[#0d2b6b]/20 dark:text-[#7986cb]",
 }
 
+export const DEGREE_VALUES = ["bachelor", "master"] as const
+
+export const DEGREE_LABELS: Record<string, string> = {
+  bachelor: "بكالوريوس",
+  master: "ماجستير",
+}
+
 export const ADMIN_ROLE_VALUES = ["super_admin", "project_owner"] as const
 
 export const ADMIN_ROLE_LABELS: Record<string, string> = {
