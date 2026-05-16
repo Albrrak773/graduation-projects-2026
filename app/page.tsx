@@ -4,7 +4,7 @@ import { cacheLife, cacheTag } from "next/cache"
 import { eq } from "drizzle-orm"
 import { COLLEDGE_LABELS, COLLEDGE_VALUES } from "@/db/enums"
 import { projectsTable } from "@/db/schema"
-import { getProjects } from "@/db/queries"
+import { getProjectsForCards } from "@/db/queries"
 import { ProjectCard } from "@/components/project-card"
 import { Footer } from "@/components/footer"
 import { Hero } from "@/components/hero"
@@ -22,7 +22,7 @@ async function getPublicHomeProjects() {
   cacheTag("projects")
 
   try {
-    return await getProjects(eq(projectsTable.is_public, true))
+    return await getProjectsForCards(eq(projectsTable.is_public, true))
   } catch {
     return []
   }

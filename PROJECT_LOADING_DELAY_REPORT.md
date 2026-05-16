@@ -145,3 +145,17 @@ Best fit:
 ## Expected Biggest Win
 
 Changing the intro overlay is the fastest visible improvement. It can remove up to **2.15 seconds** of perceived loading delay without touching database logic.
+
+## Optimized Branch Changes
+
+Implemented in the `optimized` branch:
+
+* `PageIntro` no longer appears on `/projects` or `/projects/[id]`.
+* `PageIntro` is first-visit-only for the rest of the site using `sessionStorage`.
+* Added `getProjectsForCards()` so listing/home card views do not fetch participants.
+* Added `getRelatedProjects()` so project detail pages fetch only 3 related projects instead of all public projects.
+* Updated `/projects` to use the lighter card query.
+* Updated `/projects/[id]` to use the limited related-project query.
+* Updated the home page to use the lighter card query.
+* Removed the `framer-motion` dependency from `ProjectCard`, removing unnecessary client-side JavaScript for card tap animation.
+* Removed the invalid `dynamicIO` key from `next.config.mjs` to avoid config warnings during build.

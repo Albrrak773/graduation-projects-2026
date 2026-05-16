@@ -1,8 +1,5 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { COLLEDGE_LABELS, COLLEDGE_COLORS } from "@/db/enums"
 import type { Project } from "@/db/types"
@@ -18,7 +15,7 @@ export function ProjectCard({ project }: { project: Project }) {
   const hasImage = project.image_url && project.image_url.length > 0
 
   return (
-    <motion.div whileTap={{ scale: 0.97 }} transition={{ duration: 0.15 }}>
+    <div>
       <Link
         href={`/projects/${project.id}`}
         className={cn(
@@ -85,6 +82,6 @@ export function ProjectCard({ project }: { project: Project }) {
           )}
         </div>
       </Link>
-    </motion.div>
+    </div>
   )
 }

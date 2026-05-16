@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import { cacheLife, cacheTag } from "next/cache"
 import { eq } from "drizzle-orm"
 import { projectsTable } from "@/db/schema"
-import { getProjects } from "@/db/queries"
+import { getProjectsForCards } from "@/db/queries"
 import { NavBar } from "@/components/nav-bar"
 import { Footer } from "@/components/footer"
 import { ProjectsSearch } from "@/components/projects-search"
@@ -14,7 +14,7 @@ async function ProjectsData() {
   cacheTag("projects")
   let data: Project[] = []
   try {
-    data = await getProjects(eq(projectsTable.is_public, true))
+    data = await getProjectsForCards(eq(projectsTable.is_public, true))
   } catch {
     data = []
   }

@@ -8,13 +8,27 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 const HOLD_MS = 1400
 const EXIT_DURATION = 0.75
+const INTRO_SEEN_KEY = "page-intro-seen"
 
 export function PageIntro() {
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
+    const pathname = window.location.pathname
+
+    if (pathname.startsWith("/projects")) {
+      window.setTimeout(() => setVisible(false), 0)
+      return
+    }
+    if (sessionStorage.getItem(INTRO_SEEN_KEY) === "1") {
+      window.setTimeout(() => setVisible(false), 0)
+      return
+    }
+
+    window.setTimeout(() => setVisible(true), 0)
     const timer = setTimeout(() => setVisible(false), HOLD_MS)
-    return () => clearTimeout(timer)
+    sessionStorage.setItem(INTRO_SEEN_KEY, "1")
+    return () => window.clearTimeout(timer)
   }, [])
 
   return (
