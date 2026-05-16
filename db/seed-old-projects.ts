@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm"
 import { randomUUID } from "crypto"
 import { projectsTable, tagsTable, projectParticipantsTable } from "./schema.js"
 import { config } from "../lib/config.js"
+import { createProjectThumbnail } from "./image-thumbnails.js"
 
 const PROJECTS_JSON_URL = "https://raw.githubusercontent.com/Albrrak773/Project-Showcase/refs/heads/main/projects.json"
 const ASSETS_BASE_URL = "https://raw.githubusercontent.com/Albrrak773/Project-Showcase/main/assets"
@@ -71,14 +72,19 @@ async function downloadImage(projectId: number): Promise<Buffer | null> {
   }
 }
 
-async function uploadImageToR2(s3: S3Client, imageBuffer: Buffer, key: string): Promise<string | null> {
+async function uploadImageToR2(
+  s3: S3Client,
+  imageBuffer: Buffer,
+  key: string,
+  contentType = "image/webp"
+): Promise<string | null> {
   try {
     await s3.send(
       new PutObjectCommand({
         Bucket: config.r2.bucketName,
         Key: key,
         Body: imageBuffer,
-        ContentType: "image/webp",
+        ContentType: contentType,
       })
     )
     return `${config.r2.publicUrl}/${key}`
@@ -146,10 +152,14 @@ async function main() {
     const projectId = randomUUID()
 
     let imageUrl: string | null = null
+    let imageThumbUrl: string | null = null
     const imageBuffer = await downloadImage(project.ID)
     if (imageBuffer) {
       const key = `${config.projectImagesKey}/${projectId}.webp`
+      const thumbnailKey = `${config.projectThumbnailsKey}/${projectId}.webp`
       imageUrl = await uploadImageToR2(s3, imageBuffer, key)
+      const thumbnailBuffer = await createProjectThumbnail(imageBuffer)
+      imageThumbUrl = await uploadImageToR2(s3, thumbnailBuffer, thumbnailKey, "image/webp")
       if (imageUrl) {
         console.log(`  📤 Image uploaded: ${key}`)
       }
@@ -169,6 +179,7 @@ async function main() {
       colledge: college,
       base: campus,
       image_url: imageUrl,
+      image_thumb_url: imageThumbUrl,
       project_external_link: null,
       year: 2025,
     })

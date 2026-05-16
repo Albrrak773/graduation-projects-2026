@@ -11,6 +11,7 @@ export const adminRoleEnum = pgEnum("admin_role", ["super_admin", "project_owner
 export const projectsTable = pgTable("projects", {
   id: uuid().defaultRandom().primaryKey(),
   image_url: varchar(),
+  image_thumb_url: varchar(),
   title: varchar({ length: 255 }).notNull(),
   discription: varchar({ length: 10000 }),
   supervisor: varchar({ length: 255 }).notNull(),

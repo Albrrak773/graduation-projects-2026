@@ -22,7 +22,14 @@ export function Footer() {
     <footer className="relative mt-16 border-t border-border bg-card">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 py-12 md:py-16">
         <div className="flex flex-col items-center gap-6">
-          <Image src="/design/logo.png" alt="مشاريع التخرج" className="h-20 w-auto md:h-24" width={200} height={80} />
+          <Image
+            src="/design/logo.png"
+            alt="مشاريع التخرج"
+            className="h-20 w-auto md:h-24"
+            width={200}
+            height={80}
+            style={{ width: "auto" }}
+          />
 
           <div className="flex flex-col items-center gap-4">
             {TEAM_MEMBERS.map((member) => (

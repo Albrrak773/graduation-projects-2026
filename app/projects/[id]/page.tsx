@@ -1,7 +1,6 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
-import { eq } from "drizzle-orm"
 import {
   IconBrandGithub,
   IconBrandGithubFilled,
@@ -15,8 +14,7 @@ import {
 } from "@tabler/icons-react"
 import { COLLEDGE_COLORS, COLLEDGE_LABELS, SECTION_LABELS } from "@/db/enums"
 import { toHijri } from "@/lib/years"
-import { getAllProjectIds, getProjectById, getProjects } from "@/db/queries"
-import { projectsTable } from "@/db/schema"
+import { getAllProjectIds, getProjectById, getRelatedProjects } from "@/db/queries"
 import type { Project } from "@/db/types"
 import { Footer } from "@/components/footer"
 import { NavBar } from "@/components/nav-bar"
@@ -63,20 +61,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound()
   }
 
-  let allProjects: Project[] = []
+  let relatedProjects: Project[] = []
 
   try {
-    allProjects = await getProjects(eq(projectsTable.is_public, true))
+    relatedProjects = await getRelatedProjects(project)
   } catch (error) {
-    console.error("Failed to fetch projects:", error)
-    allProjects = []
+    console.error("Failed to fetch related projects:", error)
+    relatedProjects = []
   }
-
-  const relatedProjects = allProjects
-    .filter(
-      (item) => item.id !== project.id && (item.colledge === project.colledge || item.section === project.section)
-    )
-    .slice(0, 3)
 
   const hasImage = Boolean(project.image_url)
   const description = project.discription?.trim()

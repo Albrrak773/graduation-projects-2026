@@ -30,13 +30,9 @@ export function PageIntro() {
           exit={{ opacity: 0 }}
           transition={{ duration: EXIT_DURATION, ease }}
         >
-          <Image
-            src="/design/pattern-1-hires.png"
-            alt=""
-            fill
+          <div
             aria-hidden
-            priority
-            className="pointer-events-none object-cover opacity-[0.055] mix-blend-screen"
+            className="pointer-events-none absolute inset-0 bg-[url('/design/pattern-1-hires.png')] bg-cover bg-center opacity-[0.055] mix-blend-screen"
           />
 
           <motion.div
@@ -50,8 +46,8 @@ export function PageIntro() {
               alt="مشاريع التخرج"
               width={320}
               height={120}
-              priority
               className="w-56 sm:w-72 md:w-80"
+              style={{ height: "auto" }}
             />
 
             <div className="w-48 overflow-hidden rounded-full bg-white/15 sm:w-64">

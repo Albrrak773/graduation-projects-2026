@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import { cacheLife, cacheTag } from "next/cache"
 import { eq } from "drizzle-orm"
 import { projectsTable } from "@/db/schema"
-import { getProjects, getUniqueTags } from "@/db/queries"
+import { getProjectsForCards, getUniqueTags } from "@/db/queries"
 import { NavBar } from "@/components/nav-bar"
 import { Footer } from "@/components/footer"
 import { ProjectsSearch } from "@/components/projects-search"
@@ -17,7 +17,7 @@ async function ProjectsData() {
   let tags: string[] = []
 
   try {
-    ;[data, tags] = await Promise.all([getProjects(eq(projectsTable.is_public, true)), getUniqueTags()])
+    ;[data, tags] = await Promise.all([getProjectsForCards(eq(projectsTable.is_public, true)), getUniqueTags()])
   } catch (error) {
     console.error("Failed to fetch projects data:", error)
     data = []

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import {
   IconPlus,
   IconTrash,
@@ -23,6 +24,7 @@ import type { Project } from "@/db/types"
 
 export function EditProjectForm({ project }: { project: Project }) {
   const [members, setMembers] = useState(project.participants || [])
+  const previewImageUrl = project.image_thumb_url || project.image_url
 
   const addMember = () => {
     setMembers([
@@ -59,11 +61,13 @@ export function EditProjectForm({ project }: { project: Project }) {
               </label>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
                 <div className="group relative flex h-40 w-40 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-border/60 bg-muted/30 transition-all hover:border-primary/50 hover:bg-muted/50">
-                  {project.image_url ? (
+                  {previewImageUrl ? (
                     <>
-                      <img
-                        src={project.image_url}
+                      <Image
+                        src={previewImageUrl}
                         alt={project.title}
+                        fill
+                        sizes="160px"
                         className="absolute inset-0 h-full w-full object-cover opacity-60 transition-opacity group-hover:opacity-40"
                       />
                       <div className="relative z-10 flex flex-col items-center gap-2 rounded-xl bg-background/80 p-3 shadow-sm backdrop-blur-md transition-transform group-hover:scale-105">

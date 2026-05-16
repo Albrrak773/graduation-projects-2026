@@ -12,13 +12,9 @@ export function Hero() {
   return (
     <section className="relative flex min-h-[70svh] flex-col items-center justify-center overflow-hidden px-4 pt-24 pb-10 sm:px-6 md:min-h-[72vh] md:pt-28">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(66,133,244,0.32),transparent_26rem),linear-gradient(135deg,#0d2b6b_0%,#0b4778_48%,#0097a7_100%)]" />
-      <Image
-        src="/design/pattern-1-hires.png"
-        alt=""
-        fill
-        priority
+      <div
         aria-hidden
-        className="pointer-events-none object-cover opacity-[0.055] mix-blend-screen"
+        className="pointer-events-none absolute inset-0 bg-[url('/design/pattern-1-hires.png')] bg-cover bg-center opacity-[0.055] mix-blend-screen"
       />
       <Image
         src="/design/Asset 5@4x.png"
@@ -26,6 +22,8 @@ export function Hero() {
         width={1100}
         height={800}
         aria-hidden
+        quality={60}
+        sizes="(max-width: 768px) 80vw, 48rem"
         className="float-soft pointer-events-none absolute -bottom-40 -left-32 w-[48rem] max-w-none opacity-30 mix-blend-screen"
       />
 
@@ -48,7 +46,7 @@ export function Hero() {
               width={210}
               height={80}
               className="h-9 w-auto"
-              priority
+              style={{ width: "auto" }}
             />
           </Link>
           <div className="flex items-center gap-1.5">
@@ -76,7 +74,9 @@ export function Hero() {
             width={1200}
             height={600}
             className="h-auto w-full drop-shadow-2xl"
+            style={{ height: "auto" }}
             priority
+            sizes="(max-width: 640px) 22rem, (max-width: 768px) 34rem, 48rem"
           />
         </Link>
       </motion.div>

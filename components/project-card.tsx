@@ -17,6 +17,7 @@ export function ProjectCard({ project }: { project: Project }) {
   const collegeLabel = COLLEDGE_LABELS[project.colledge]
   const collegeColor = COLLEDGE_COLORS[project.colledge]
   const hasImage = project.image_url && project.image_url.length > 0
+  const cardImageUrl = project.image_thumb_url || project.image_url
 
   return (
     <motion.div whileTap={{ scale: 0.97 }} transition={{ duration: 0.15 }}>
@@ -31,12 +32,12 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="relative aspect-[4/5] overflow-hidden bg-muted">
           {hasImage ? (
             <Image
-              src={project.image_url!}
+              src={cardImageUrl!}
               alt={project.title}
               fill
-              quality={60}
+              quality={65}
               className="object-cover object-top transition duration-500 group-hover/card:scale-[1.035]"
-              sizes="(max-width: 640px) 272px, (max-width: 768px) 288px, 320px"
+              sizes="(max-width: 640px) 78vw, (max-width: 768px) 288px, 320px"
             />
           ) : (
             <div className="flex h-full flex-col items-center justify-center gap-3 bg-primary/5">

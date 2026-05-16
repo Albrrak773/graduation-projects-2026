@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm"
 import { COLLEDGE_LABELS, COLLEDGE_VALUES } from "@/db/enums"
 import { CURRENT_YEAR, toHijri, YEAR_MAP } from "@/lib/years"
 import { projectsTable } from "@/db/schema"
-import { getProjects } from "@/db/queries"
+import { getProjectsForCards } from "@/db/queries"
 import { ProjectCard } from "@/components/project-card"
 import { Footer } from "@/components/footer"
 import { PageIntro } from "@/components/page-intro"
@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 import { IconArrowLeft } from "@tabler/icons-react"
 import type { Project } from "@/db/types"
 
-const PER_GENDER = 5
+const PER_GENDER = 3
 
 async function getPublicHomeProjects() {
   "use cache"
@@ -24,7 +24,7 @@ async function getPublicHomeProjects() {
   cacheTag("projects")
 
   try {
-    return await getProjects(eq(projectsTable.is_public, true))
+    return await getProjectsForCards(eq(projectsTable.is_public, true))
   } catch (error) {
     console.error("Failed to fetch public projects:", error)
     return []
@@ -60,7 +60,7 @@ function CollegeSection({ college, projects }: { college: (typeof COLLEDGE_VALUE
 
   return (
     <section
-      className="group relative mx-auto w-full max-w-[1600px] px-4 py-8 sm:px-6 md:px-12"
+      className="project-preview-section group relative mx-auto w-full max-w-[1600px] px-4 py-8 sm:px-6 md:px-12"
       id="project-categories"
     >
       <div className="mb-5 flex items-end justify-between gap-4 md:mb-7">
@@ -112,12 +112,12 @@ function PreviousProjectsSection({ projects }: { projects: Project[] }) {
             >
               {project.image_url ? (
                 <Image
-                  src={project.image_url}
+                  src={project.image_thumb_url || project.image_url}
                   alt={project.title}
                   fill
-                  quality={60}
+                  quality={65}
                   className="object-cover object-top"
-                  sizes="220px"
+                  sizes="(max-width: 768px) 30vw, 220px"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-white/10 p-3">

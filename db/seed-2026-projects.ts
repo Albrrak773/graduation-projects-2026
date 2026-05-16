@@ -9,6 +9,7 @@ import { join, extname } from "path"
 import { tmpdir } from "os"
 import { projectsTable, tagsTable, projectParticipantsTable } from "./schema.js"
 import { config } from "../lib/config.js"
+import { createProjectThumbnail } from "./image-thumbnails.js"
 
 type CleanProject = {
   id: number
@@ -86,6 +87,8 @@ type PendingUpload = {
   buffer: Buffer
   key: string
   contentType: string
+  thumbnailBuffer: Buffer
+  thumbnailKey: string
   sourceFile: string
 }
 
@@ -211,11 +214,15 @@ async function main() {
 
     if (uploadBuffer) {
       const key = `${config.projectImagesKey}/${projectId}${uploadExt}`
+      const thumbnailKey = `${config.projectThumbnailsKey}/${projectId}.webp`
+      const thumbnailBuffer = await createProjectThumbnail(uploadBuffer)
       pendingUploads.push({
         projectId,
         buffer: uploadBuffer,
         key,
         contentType: getContentType(uploadExt),
+        thumbnailBuffer,
+        thumbnailKey,
         sourceFile,
       })
     }
@@ -250,16 +257,23 @@ async function main() {
     const batch = pendingUploads.slice(i, i + CONCURRENCY)
     const results = await Promise.all(
       batch.map((upload) =>
-        uploadImageToR2(s3, upload.buffer, upload.key, upload.contentType).then((url) => ({
+        Promise.all([
+          uploadImageToR2(s3, upload.buffer, upload.key, upload.contentType),
+          uploadImageToR2(s3, upload.thumbnailBuffer, upload.thumbnailKey, "image/webp"),
+        ]).then(([url, thumbnailUrl]) => ({
           projectId: upload.projectId,
           url,
+          thumbnailUrl,
           sourceFile: upload.sourceFile,
         }))
       )
     )
-    for (const { projectId, url, sourceFile } of results) {
+    for (const { projectId, url, thumbnailUrl, sourceFile } of results) {
       if (url) {
-        await db.update(projectsTable).set({ image_url: url }).where(eq(projectsTable.id, projectId))
+        await db
+          .update(projectsTable)
+          .set({ image_url: url, image_thumb_url: thumbnailUrl })
+          .where(eq(projectsTable.id, projectId))
       } else {
         console.log(`  ⚠ Upload failed for ${sourceFile}`)
       }
