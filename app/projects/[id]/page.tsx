@@ -40,7 +40,8 @@ export async function generateStaticParams() {
 
   try {
     ids = await getAllProjectIds()
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch project IDs:", error)
     ids = ["__placeholder__"]
   }
 
@@ -53,7 +54,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   try {
     project = await getProjectById(id)
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch project:", error)
     project = undefined
   }
 
@@ -65,7 +67,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   try {
     allProjects = await getProjects(eq(projectsTable.is_public, true))
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch projects:", error)
     allProjects = []
   }
 

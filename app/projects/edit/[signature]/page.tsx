@@ -9,7 +9,13 @@ type EditProjectPageProps = {
 }
 
 export async function generateStaticParams() {
-  const signatures = await getAllProjectSignatures()
+  let signatures: string[] = []
+  try {
+    signatures = await getAllProjectSignatures()
+  } catch (error) {
+    console.error("Failed to fetch project signatures:", error)
+  }
+  if (signatures.length === 0) signatures = ["__placeholder__"]
   return signatures.map((signature) => ({ signature }))
 }
 

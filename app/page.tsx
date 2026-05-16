@@ -25,7 +25,8 @@ async function getPublicHomeProjects() {
 
   try {
     return await getProjects(eq(projectsTable.is_public, true))
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch public projects:", error)
     return []
   }
 }

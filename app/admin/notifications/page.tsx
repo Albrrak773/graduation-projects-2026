@@ -90,8 +90,8 @@ export default function AdminNotificationsPage() {
       setTitle("")
       setBody("")
       await loadData()
-    } catch {
-      // error
+    } catch (error) {
+      console.error("Failed to send notification:", error)
     } finally {
       setSending(false)
     }

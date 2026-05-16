@@ -18,7 +18,8 @@ async function ProjectsData() {
 
   try {
     ;[data, tags] = await Promise.all([getProjects(eq(projectsTable.is_public, true)), getUniqueTags()])
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch projects data:", error)
     data = []
     tags = []
   }

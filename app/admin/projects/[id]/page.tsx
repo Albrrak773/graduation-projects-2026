@@ -4,7 +4,8 @@ export async function generateStaticParams() {
   let ids: string[] = []
   try {
     ids = await getAllProjectIds()
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch project IDs:", error)
     ids = ["__placeholder__"]
   }
   return ids.map((id) => ({ id }))

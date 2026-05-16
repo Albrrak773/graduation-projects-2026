@@ -93,8 +93,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         })
         const sub = await registration.pushManager.getSubscription()
         if (!cancelled) setSubscription(sub)
-      } catch {
-        // SW registration failed
+      } catch (error) {
+        console.error("SW registration failed:", error)
       } finally {
         if (!cancelled) setIsInitialized(true)
       }
