@@ -20,7 +20,7 @@ const PER_GENDER = 3
 
 async function getPublicHomeProjects() {
   "use cache"
-  cacheLife("days")
+  cacheLife({ stale: 60, revalidate: 60, expire: 3600 })
   cacheTag("projects")
 
   try {

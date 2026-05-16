@@ -10,7 +10,7 @@ import type { Project } from "@/db/types"
 
 async function ProjectsData() {
   "use cache"
-  cacheLife("days")
+  cacheLife({ stale: 60, revalidate: 60, expire: 3600 })
   cacheTag("projects")
 
   let data: Project[] = []
