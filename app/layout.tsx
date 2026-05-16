@@ -2,8 +2,6 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { Suspense } from "react"
 import { NuqsAdapter } from "nuqs/adapters/next/app"
-import { ClerkProvider } from "@clerk/nextjs"
-import { shadcn } from "@clerk/ui/themes"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -76,30 +74,28 @@ export default function RootLayout({
     >
       <body>
         <Suspense>
-          <ClerkProvider appearance={{ theme: shadcn }} signInFallbackRedirectUrl="/" signUpFallbackRedirectUrl="/">
-            <DirectionProvider direction="rtl">
-              <ThemeProvider>
-                <NuqsAdapter>
-                  <NotificationProvider>
-                    <NotificationBannerSlot />
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
-                      style={{
-                        backgroundImage: "url('/design/pattern-2.png')",
-                        backgroundSize: "300px",
-                        backgroundRepeat: "repeat",
-                      }}
-                    />
-                    <div className="relative z-10">{children}</div>
-                    <Suspense>
-                      <NotificationModal />
-                    </Suspense>
-                  </NotificationProvider>
-                </NuqsAdapter>
-              </ThemeProvider>
-            </DirectionProvider>
-          </ClerkProvider>
+          <DirectionProvider direction="rtl">
+            <ThemeProvider>
+              <NuqsAdapter>
+                <NotificationProvider>
+                  <NotificationBannerSlot />
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none fixed inset-0 z-0 opacity-[0.04]"
+                    style={{
+                      backgroundImage: "url('/design/pattern-2.png')",
+                      backgroundSize: "300px",
+                      backgroundRepeat: "repeat",
+                    }}
+                  />
+                  <div className="relative z-10">{children}</div>
+                  <Suspense>
+                    <NotificationModal />
+                  </Suspense>
+                </NotificationProvider>
+              </NuqsAdapter>
+            </ThemeProvider>
+          </DirectionProvider>
         </Suspense>
       </body>
     </html>
