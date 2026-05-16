@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
@@ -20,7 +21,6 @@ import { projectsTable } from "@/db/schema"
 import type { Project } from "@/db/types"
 import { Footer } from "@/components/footer"
 import { NavBar } from "@/components/nav-bar"
-import { ProjectCard } from "@/components/project-card"
 import { ProjectHeroImage } from "@/components/project-hero-image"
 import { SocialIconLink } from "@/components/social-icon-link"
 import { cn } from "@/lib/utils"
@@ -63,20 +63,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound()
   }
 
-  let allProjects: Project[] = []
+  let relatedProjects: Project[] = []
 
   try {
-    allProjects = await getProjects(eq(projectsTable.is_public, true))
+    relatedProjects = await getProjects(eq(projectsTable.is_public, true))
+    relatedProjects = relatedProjects
+      .filter(
+        (item) => item.id !== project.id && (item.colledge === project.colledge || item.section === project.section)
+      )
+      .slice(0, 3)
   } catch (error) {
     console.error("Failed to fetch projects:", error)
-    allProjects = []
+    relatedProjects = []
   }
-
-  const relatedProjects = allProjects
-    .filter(
-      (item) => item.id !== project.id && (item.colledge === project.colledge || item.section === project.section)
-    )
-    .slice(0, 3)
 
   const hasImage = Boolean(project.image_url)
   const description = project.discription?.trim()
@@ -247,7 +246,52 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {relatedProjects.map((related) => (
-                  <ProjectCard key={related.id} project={related} />
+                  <Link
+                    key={related.id}
+                    href={`/projects/${related.id}`}
+                    className="overflow-hidden rounded-3xl border border-white/70 bg-white/82 shadow-[0_20px_60px_rgba(13,43,107,0.08)] backdrop-blur transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_28px_80px_rgba(13,43,107,0.14)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
+                  >
+                    {related.image_url ? (
+                      <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+                        <Image
+                          src={related.image_url}
+                          alt={related.title}
+                          fill
+                          quality={60}
+                          className="object-cover object-top"
+                          sizes="(max-width: 640px) 92vw, (max-width: 1024px) 320px, 360px"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex aspect-[4/5] items-center justify-center bg-primary/5">
+                        <span className="flex size-16 items-center justify-center rounded-2xl bg-primary/10 font-heading text-2xl font-bold text-primary/60">
+                          {related.title[0]}
+                        </span>
+                      </div>
+                    )}
+                    <div dir="auto" className="space-y-3 px-5 pt-4 pb-5">
+                      <h3 className="line-clamp-2 min-h-11 font-heading text-lg leading-6 font-black text-foreground">
+                        {related.title}
+                      </h3>
+                      {related.tags.length > 0 && (
+                        <div className="flex items-center gap-1.5 overflow-hidden">
+                          {related.tags.slice(0, 2).map((tag) => (
+                            <span
+                              key={tag.id}
+                              className="shrink-0 truncate rounded-full border border-border/60 bg-background/80 px-2.5 py-0.5 text-[0.6875rem] font-medium text-muted-foreground"
+                            >
+                              {tag.name}
+                            </span>
+                          ))}
+                          {related.tags.length > 2 && (
+                            <span className="text-[0.6875rem] font-medium text-muted-foreground">
+                              +{related.tags.length - 2}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
                 ))}
               </div>
             </section>

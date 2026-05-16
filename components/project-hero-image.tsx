@@ -1,7 +1,4 @@
-"use client"
-
 import Image from "next/image"
-import { useState } from "react"
 import { cn } from "@/lib/utils"
 
 type ProjectHeroImageProps = {
@@ -11,25 +8,17 @@ type ProjectHeroImageProps = {
   priority?: boolean
 }
 
-const DEFAULT_RATIO = 3 / 4
-
 export function ProjectHeroImage({ src, alt, className, priority }: ProjectHeroImageProps) {
-  const [ratio, setRatio] = useState(DEFAULT_RATIO)
-
   return (
-    <div className={cn("relative w-full", className)} style={{ aspectRatio: ratio }}>
+    <div className={cn("relative aspect-[3/4] w-full", className)}>
       <Image
         src={src}
         alt={alt}
         fill
         priority={priority}
         className="object-cover"
-        sizes="(max-width: 768px) 100vw, 1024px"
-        onLoadingComplete={(img) => {
-          if (img.naturalWidth && img.naturalHeight) {
-            setRatio(img.naturalWidth / img.naturalHeight)
-          }
-        }}
+        quality={60}
+        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 768px, 900px"
       />
     </div>
   )
