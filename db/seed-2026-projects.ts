@@ -53,6 +53,7 @@ async function uploadImageToR2(
 
 function getContentType(ext: string): string {
   const map: Record<string, string> = {
+    ".webp": "image/webp",
     ".png": "image/png",
     ".jpg": "image/jpeg",
     ".jpeg": "image/jpeg",
@@ -149,14 +150,30 @@ async function main() {
     const sourceFile = project.poster_image ?? ""
 
     if (project.poster_image) {
-      const imagePath = join(imagesDir, project.poster_image)
       const ext = extname(project.poster_image).toLowerCase()
+      const imagePath = join(imagesDir, project.poster_image)
 
       if (ext === ".pptx") {
         console.log(`  ⏭ Skipping PPTX file: ${project.poster_image}`)
       } else {
         try {
-          if (ext === ".pdf") {
+          const stem = project.poster_image.replace(/\.[^.]+$/, "")
+          const fileOrder = [stem + ".webp", stem + ".png", project.poster_image]
+
+          for (const candidate of fileOrder) {
+            try {
+              uploadBuffer = readFileSync(join(imagesDir, candidate))
+              uploadExt = extname(candidate).toLowerCase()
+              if (candidate !== project.poster_image) {
+                console.log(`  🖼 Using ${uploadExt.slice(1).toUpperCase()} instead of ${ext.slice(1).toUpperCase()}`)
+              }
+              break
+            } catch {
+              // file doesn't exist, try next
+            }
+          }
+
+          if (!uploadBuffer && ext === ".pdf") {
             const pngBuf = convertPdfToPng(imagePath)
             if (pngBuf) {
               uploadBuffer = pngBuf
@@ -165,9 +182,6 @@ async function main() {
             } else {
               console.log(`  ⚠ PDF conversion failed: ${project.poster_image}`)
             }
-          } else {
-            uploadBuffer = readFileSync(imagePath)
-            uploadExt = ext
           }
         } catch (err) {
           console.warn(`  ⚠ Could not read image: ${imagePath}`, err)
