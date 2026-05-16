@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 import { IconArrowLeft } from "@tabler/icons-react"
 import type { Project } from "@/db/types"
 
-const PROJECTS_PER_SECTION = 10
+const PER_GENDER = 5
 
 async function getPublicHomeProjects() {
   "use cache"
@@ -31,10 +31,22 @@ async function getPublicHomeProjects() {
   }
 }
 
+function mixByGender(projects: Project[], perGender: number): Project[] {
+  const male = projects.filter((p) => p.section === "male").slice(0, perGender)
+  const female = projects.filter((p) => p.section === "female").slice(0, perGender)
+  const mixed: Project[] = []
+  for (let i = 0; i < perGender; i++) {
+    if (male[i]) mixed.push(male[i])
+    if (female[i]) mixed.push(female[i])
+  }
+  return mixed
+}
+
 function CollegeProjectList({ projects }: { projects: Project[] }) {
+  const mixed = mixByGender(projects, PER_GENDER)
   return (
     <>
-      {projects.slice(0, PROJECTS_PER_SECTION).map((project) => (
+      {mixed.map((project) => (
         <div key={project.id} className="w-[17rem] shrink-0 snap-start sm:w-72 md:w-80">
           <ProjectCard project={project} />
         </div>
@@ -74,15 +86,10 @@ function CollegeSection({ college, projects }: { college: (typeof COLLEDGE_VALUE
   )
 }
 
-function pickProjects(projects: Project[], count: number) {
-  return projects.slice(0, count)
-}
-
 function PreviousProjectsSection({ projects }: { projects: Project[] }) {
-  const previousProjects = pickProjects(
-    projects.filter((project) => project.year === CURRENT_YEAR - 1),
-    3
-  )
+  const previousProjects = projects
+    .filter((project) => project.year === CURRENT_YEAR - 1 && project.image_url)
+    .slice(0, 3)
 
   if (previousProjects.length === 0) return null
 
@@ -189,7 +196,13 @@ export default async function HomePage() {
                 <CollegeSection
                   key={college}
                   college={college}
-                  projects={projects.filter((project) => project.colledge === college)}
+                  projects={projects.filter(
+                    (project) =>
+                      project.colledge === college &&
+                      project.year === CURRENT_YEAR &&
+                      project.image_url &&
+                      project.degree === "bachelor"
+                  )}
                 />
               ))}
             </div>

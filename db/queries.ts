@@ -1,11 +1,12 @@
 import { config } from "@/lib/config"
-import { eq, isNotNull, type SQL } from "drizzle-orm"
+import { desc, eq, isNotNull, type SQL } from "drizzle-orm"
 import { projectsTable, tagsTable } from "@/db/schema"
 
 export async function getProjects(where?: SQL) {
   return config.db.query.projectsTable.findMany({
     with: { tags: true, participants: true },
     where: where,
+    orderBy: [desc(projectsTable.year), desc(projectsTable.id)],
   })
 }
 
