@@ -60,7 +60,7 @@ function CollegeSection({ college, projects }: { college: (typeof COLLEDGE_VALUE
 
   return (
     <section
-      className="project-preview-section group relative mx-auto w-full max-w-[1600px] px-4 py-8 sm:px-6 md:px-12"
+      className="group relative mx-auto w-full max-w-[1600px] px-4 py-8 sm:px-6 md:px-12"
       id="project-categories"
     >
       <div className="mb-5 flex items-end justify-between gap-4 md:mb-7">
