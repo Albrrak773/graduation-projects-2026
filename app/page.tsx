@@ -115,6 +115,7 @@ function PreviousProjectsSection({ projects }: { projects: Project[] }) {
                   src={project.image_url}
                   alt={project.title}
                   fill
+                  quality={60}
                   className="object-cover object-top"
                   sizes="220px"
                 />

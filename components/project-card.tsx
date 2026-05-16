@@ -34,8 +34,9 @@ export function ProjectCard({ project }: { project: Project }) {
               src={project.image_url!}
               alt={project.title}
               fill
+              quality={60}
               className="object-cover object-top transition duration-500 group-hover/card:scale-[1.035]"
-              sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
+              sizes="(max-width: 640px) 272px, (max-width: 768px) 288px, 320px"
             />
           ) : (
             <div className="flex h-full flex-col items-center justify-center gap-3 bg-primary/5">
