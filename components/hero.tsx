@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { IconSearch } from "@tabler/icons-react"
+import { YEAR_MAP, CURRENT_YEAR } from "@/lib/years"
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -52,7 +53,7 @@ export function Hero() {
           </Link>
           <div className="flex items-center gap-1.5">
             <Link
-              href="/projects"
+              href={`/projects?semester=${YEAR_MAP[CURRENT_YEAR]}`}
               aria-label="البحث في المشاريع"
               className="grid size-10 place-items-center rounded-full text-white/85 transition hover:bg-white/15 hover:text-white focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:outline-none"
             >

@@ -3,6 +3,7 @@ import Link from "next/link"
 import { cacheLife, cacheTag } from "next/cache"
 import { eq } from "drizzle-orm"
 import { COLLEDGE_LABELS, COLLEDGE_VALUES } from "@/db/enums"
+import { CURRENT_YEAR, toHijri, YEAR_MAP } from "@/lib/years"
 import { projectsTable } from "@/db/schema"
 import { getProjects } from "@/db/queries"
 import { ProjectCard } from "@/components/project-card"
@@ -16,7 +17,6 @@ import { IconArrowLeft } from "@tabler/icons-react"
 import type { Project } from "@/db/types"
 
 const PROJECTS_PER_SECTION = 10
-const CURRENT_YEAR = 2026
 
 async function getPublicHomeProjects() {
   "use cache"
@@ -133,17 +133,21 @@ function YearBrowseSection() {
     <section className="px-4 pt-2 pb-8 sm:px-6 md:px-12 md:pt-3">
       <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2">
         <Link
-          href="/projects?search=2026"
+          href={`/projects?semester=${YEAR_MAP[CURRENT_YEAR]}`}
           className="group rounded-3xl border border-white/55 bg-white/58 p-6 shadow-[0_20px_70px_rgba(13,43,107,0.08)] backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/72 hover:shadow-xl md:p-8"
         >
-          <p className="mb-4 font-heading text-6xl leading-none font-black text-brand-teal md:text-8xl">2026</p>
+          <p className="mb-4 font-heading text-6xl leading-none font-black text-brand-teal md:text-8xl">
+            {toHijri(2026)}
+          </p>
           <h2 className="font-heading text-2xl font-black">مشاريع السنة الحالية</h2>
         </Link>
         <Link
-          href="/projects?search=2025"
+          href={`/projects?semester=${YEAR_MAP[CURRENT_YEAR - 1]}`}
           className="group rounded-3xl border border-white/55 bg-white/58 p-6 shadow-[0_20px_70px_rgba(13,43,107,0.08)] backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/72 hover:shadow-xl md:p-8"
         >
-          <p className="mb-4 font-heading text-6xl leading-none font-black text-brand-blue md:text-8xl">2025</p>
+          <p className="mb-4 font-heading text-6xl leading-none font-black text-brand-blue md:text-8xl">
+            {toHijri(2025)}
+          </p>
           <h2 className="font-heading text-2xl font-black">مشاريع السنة السابقة</h2>
         </Link>
       </div>
@@ -155,7 +159,7 @@ function ExploreAllProjectsButton() {
   return (
     <div className="px-4 pb-12 text-center sm:px-6 md:px-12 md:pb-20">
       <Button asChild size="lg" className="h-14 rounded-full px-8 text-base font-black shadow-lg shadow-primary/15">
-        <Link href="/projects">
+        <Link href={`/projects?semester=${YEAR_MAP[CURRENT_YEAR]}`}>
           استكشف كل المشاريع
           <IconArrowLeft className="size-5" />
         </Link>

@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { IconChevronLeft, IconHome, IconSearch } from "@tabler/icons-react"
+import { YEAR_MAP, CURRENT_YEAR } from "@/lib/years"
 
 export function NavBar({
   projectTitle,
@@ -51,7 +52,7 @@ export function NavBar({
           </Link>
           {showSearch && (
             <Link
-              href="/projects"
+              href={`/projects?semester=${YEAR_MAP[CURRENT_YEAR]}`}
               aria-label="ط§ظ„ط¨ط­ط«"
               className="grid size-10 shrink-0 place-items-center rounded-full transition hover:bg-white/15 hover:text-white focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:outline-none"
             >
@@ -96,7 +97,7 @@ export function NavBar({
           </Link>
           {showSearch && (
             <Link
-              href="/projects"
+              href={`/projects?semester=${YEAR_MAP[CURRENT_YEAR]}`}
               aria-label="البحث"
               className="grid size-10 shrink-0 place-items-center rounded-full transition hover:bg-white/15 hover:text-white focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:outline-none"
             >

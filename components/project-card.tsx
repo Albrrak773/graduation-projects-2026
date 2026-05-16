@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { toHijri } from "@/lib/years"
 import { COLLEDGE_LABELS, COLLEDGE_COLORS } from "@/db/enums"
 import type { Project } from "@/db/types"
 
@@ -45,7 +46,7 @@ export function ProjectCard({ project }: { project: Project }) {
           )}
           {project.year && (
             <span className="absolute start-3 top-3 rounded-full bg-white/88 px-3 py-1 text-xs font-black text-brand-darkblue shadow-sm backdrop-blur">
-              {project.year}
+              {toHijri(project.year)}
             </span>
           )}
         </div>

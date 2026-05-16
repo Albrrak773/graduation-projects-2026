@@ -22,6 +22,8 @@ export const pool =
 
 if (process.env.NODE_ENV !== "production") globalForPg.pgPool = pool
 
+export { CURRENT_YEAR, YEAR_MAP, toHijri } from "@/lib/years"
+
 export const config = {
   db: drizzle(pool, { schema }),
   projectImagesKey: "project-images",

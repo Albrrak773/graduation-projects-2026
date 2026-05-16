@@ -14,6 +14,7 @@ import {
   IconMailFilled,
 } from "@tabler/icons-react"
 import { COLLEDGE_COLORS, COLLEDGE_LABELS, SECTION_LABELS } from "@/db/enums"
+import { toHijri } from "@/lib/years"
 import { getAllProjectIds, getProjectById, getProjects } from "@/db/queries"
 import { projectsTable } from "@/db/schema"
 import type { Project } from "@/db/types"
@@ -99,7 +100,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               )}
               {sectionLabel && <Pill>{sectionLabel}</Pill>}
               {baseLabel && <Pill>{baseLabel}</Pill>}
-              {project.year && <Pill>{project.year}</Pill>}
+              {project.year && <Pill>{toHijri(project.year)}</Pill>}
             </div>
 
             <h1

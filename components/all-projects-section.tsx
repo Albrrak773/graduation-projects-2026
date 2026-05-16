@@ -1,4 +1,5 @@
 import { COLLEDGE_VALUES } from "@/db/enums"
+import { CURRENT_YEAR } from "@/lib/years"
 import { BentoGrid } from "./bento-grid"
 import type { Project } from "@/db/types"
 
@@ -11,7 +12,7 @@ export function AllProjectsSection({ projects }: { projects: Project[] }) {
   }).filter((item) => item.count > 0)
 
   const totalCount = projects.length
-  const previousCount = projects.filter((p) => p.year && p.year < 2026).length
+  const previousCount = projects.filter((p) => p.year && p.year < CURRENT_YEAR).length
 
   return <BentoGrid totalCount={totalCount} counts={counts} previousCount={previousCount} />
 }

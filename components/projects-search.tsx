@@ -6,6 +6,7 @@ import Fuse from "fuse.js"
 import { useQueryState, parseAsArrayOf, parseAsStringEnum, parseAsString } from "nuqs"
 import { IconSearch, IconX } from "@tabler/icons-react"
 import { COLLEDGE_VALUES, COLLEDGE_LABELS, SECTION_VALUES, SECTION_LABELS } from "@/db/enums"
+import { YEAR_MAP } from "@/lib/years"
 import { ProjectCard } from "@/components/project-card"
 import {
   Combobox,
@@ -25,11 +26,10 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Button } from "@/components/ui/button"
 import type { Project } from "@/db/types"
 
-const SEMESTER_VALUES = ["١٤٤٦", "١٤٤٧"] as const
-const HIJRI_TO_GREGORIAN: Record<string, number> = {
-  "١٤٤٦": 2025,
-  "١٤٤٧": 2026,
-}
+const SEMESTER_VALUES = Object.values(YEAR_MAP) as readonly string[]
+const HIJRI_TO_GREGORIAN: Record<string, number> = Object.fromEntries(
+  Object.entries(YEAR_MAP).map(([gregorian, hijri]) => [hijri, Number(gregorian)])
+)
 
 const collegeParser = parseAsArrayOf(parseAsStringEnum([...COLLEDGE_VALUES])).withOptions({ throttleMs: 0 })
 const sectionParser = parseAsArrayOf(parseAsStringEnum([...SECTION_VALUES])).withOptions({ throttleMs: 0 })
@@ -137,7 +137,7 @@ export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[]
             <IconSearch className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="ابحث عن مشروع، مجال، أو سنة مثل 2025..."
+              placeholder="ابحث عن مشروع، مجال، أو سنة مثل ١٤٤٧..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className={
