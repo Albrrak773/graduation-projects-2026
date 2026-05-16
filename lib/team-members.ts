@@ -12,7 +12,22 @@ type DesignerMember = {
   x: string
 }
 
-export const TEAM_MEMBERS: (DeveloperMember | DesignerMember)[] = [
+type ManagerMember = {
+  role: "أدارة وأشراف"
+  name: string
+  github: string
+  linkedin: string
+  x: string
+}
+
+export const TEAM_MEMBERS: (DeveloperMember | DesignerMember | ManagerMember)[] = [
+  {
+    role: "أدارة وأشراف",
+    name: "عزام الخضيري",
+    github: "https://github.com/azampro",
+    linkedin: "https://www.linkedin.com/in/azam-alkhodiriy/",
+    x: "https://x.com/azampro_",
+  },
   {
     role: "مطور الموقع",
     name: "albrrak773",

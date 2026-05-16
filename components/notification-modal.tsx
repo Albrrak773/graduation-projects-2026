@@ -1,96 +1,47 @@
 "use client"
 
-import { IconBell, IconBellRinging, IconDeviceMobile, IconShare } from "@tabler/icons-react"
+import { IconBell, IconBellRinging } from "@tabler/icons-react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { useNotification } from "@/components/notification-provider"
 
-function InstallPrompt({ isIOS }: { isIOS: boolean }) {
-  return (
-    <div className="flex flex-col gap-3 rounded-xl border border-border/60 bg-muted/40 p-4 text-sm">
-      <div className="flex items-center gap-2 text-foreground">
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border/60 bg-background">
-          <IconDeviceMobile className="size-5" />
-        </span>
-        <span className="font-heading font-bold">التثبيت مطلوب</span>
-      </div>
-      <p className="text-muted-foreground">الإشعارات تتطلب تثبيت التطبيق على شاشتك الرئيسية.</p>
-      {isIOS ? (
-        <ol className="list-decimal space-y-2 ps-4 text-muted-foreground">
-          <li className="break-words">
-            اضغط على زر <strong>المشاركة</strong> <IconShare className="inline size-4 align-middle text-foreground" />{" "}
-            في أسفل سفاري
-          </li>
-          <li className="break-words">
-            اضغط <strong>إضافة إلى الشاشة الرئيسية</strong> &#x2795;
-          </li>
-          <li className="break-words">افتح التطبيق من الشاشة الرئيسية</li>
-        </ol>
-      ) : (
-        <p className="text-muted-foreground">
-          سترى رسالة تثبيت تلقائية عند فتح الموقع، أو يمكنك تثبيته من قائمة المتصفح.
-        </p>
-      )}
-    </div>
-  )
-}
-
 export function NotificationModal() {
-  const { isSupported, subscription, isIOS, loading, subscribe, unsubscribe, openModal, setOpenModal } =
-    useNotification()
-
-  const statusLabel = isSupported ? (subscription ? "الحالة الحالية: مشترك" : "الحالة الحالية: غير مشترك") : "غير متاح"
-
-  const statusMessage = isSupported
-    ? subscription
-      ? "أنت مشترك وتستلم الإشعارات."
-      : "اشترك عشان تاصلك إشعارات بأحدث الأخبار."
-    : "الإشعارات تتطلب تثبيت التطبيق أولًا."
+  const { isSupported, subscription, loading, subscribe, unsubscribe, openModal, setOpenModal } = useNotification()
 
   return (
     <Dialog open={openModal} onOpenChange={setOpenModal}>
-      <DialogContent>
+      <DialogContent className="max-w-sm rounded-3xl p-6 text-center">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-base">
+          <DialogTitle className="flex flex-col items-center gap-3 text-xl">
             {subscription ? (
-              <IconBellRinging className="size-5 text-emerald-500" />
+              <IconBellRinging className="size-9 text-emerald-500" />
             ) : (
-              <IconBell className="size-5 text-muted-foreground" />
+              <IconBell className="size-9 text-primary" />
             )}
-            إدارة الإشعارات
+            {subscription ? "الإشعارات مفعّلة" : "خلّينا نذكّرك بالجديد"}
           </DialogTitle>
-          <DialogDescription>تحكم في اشتراكك، اشترك في الإشعارات أو ألغِ الاشتراك إذا أزعجناك 😉</DialogDescription>
+          <DialogDescription className="text-sm leading-6">
+            {subscription
+              ? "بتوصلك أخبار الحفل ومعرض المشاريع أولاً بأول."
+              : isSupported
+                ? "فعّل الإشعارات عشان توصلك أخبار الحفل والمشاريع بدون ما ترجع تدور عليها."
+                : "الإشعارات غير متاحة في هذا المتصفح حالياً."}
+          </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-3 rounded-xl border border-border/60 bg-muted/40 px-4 py-3">
-          <span className="text-xs font-semibold text-foreground">{statusLabel}</span>
-          <span className="text-xs text-muted-foreground">{statusMessage}</span>
-        </div>
-
         {isSupported ? (
-          <div className="flex flex-col gap-3">
+          <div className="mt-2 flex flex-col gap-3">
             {subscription ? (
-              <>
-                <div className="flex items-center justify-center gap-2 text-sm text-emerald-600">
-                  <span className="relative flex size-2.5">
-                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500" />
-                  </span>
-                  مشترك
-                </div>
-                <Button variant="destructive" onClick={unsubscribe} disabled={loading} className="w-full">
-                  {loading ? "جارٍ إلغاء الاشتراك..." : "إلغاء الاشتراك"}
-                </Button>
-              </>
+              <Button variant="outline" onClick={unsubscribe} disabled={loading} className="w-full rounded-full">
+                {loading ? "جاري إلغاء الاشتراك..." : "إلغاء الاشتراك"}
+              </Button>
             ) : (
-              <Button onClick={subscribe} disabled={loading} className="w-full">
-                {loading ? "جارٍ الاشتراك..." : "اشتراك"}
+              <Button onClick={subscribe} disabled={loading} className="w-full rounded-full font-bold">
+                {loading ? "جاري التفعيل..." : "فعّل الإشعارات"}
               </Button>
             )}
           </div>
-        ) : (
-          <InstallPrompt isIOS={isIOS} />
-        )}
+        ) : null}
       </DialogContent>
     </Dialog>
   )
