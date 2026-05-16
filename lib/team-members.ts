@@ -1,5 +1,5 @@
 type DeveloperMember = {
-  role: "مطور الموقع"
+  role: "تطوير الموقع"
   name: string
   github: string
   x: string
@@ -13,7 +13,7 @@ type DesignerMember = {
 }
 
 type ManagerMember = {
-  role: "أدارة وأشراف"
+  role: "إدارة وإشراف"
   name: string
   github: string
   linkedin: string
@@ -22,14 +22,14 @@ type ManagerMember = {
 
 export const TEAM_MEMBERS: (DeveloperMember | DesignerMember | ManagerMember)[] = [
   {
-    role: "أدارة وأشراف",
+    role: "إدارة وإشراف",
     name: "عزام الخضيري",
     github: "https://github.com/azampro",
     linkedin: "https://www.linkedin.com/in/azam-alkhodiriy/",
     x: "https://x.com/azampro_",
   },
   {
-    role: "مطور الموقع",
+    role: "تطوير الموقع",
     name: "albrrak773",
     github: "https://github.com/albrrak773",
     x: "https://x.com/albrrak773",
