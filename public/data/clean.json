@@ -1,0 +1,3438 @@
+[
+  {
+    "id": 3,
+    "title": "Deep Learning Approaches for Efficient and Accurate DNA Sequence Alignment using Large Language Models",
+    "description": "This project presents a hybrid framework for DNA sequence alignment combining traditional methods with deep learning using DNABERT. The system analyzes sequences through two paths: identity-based alignment and embedding-based similarity. Results are compared to detect hidden relationships and generate a phylogenetic tree. The model was tested on two datasets (20 and 70 sequences) and achieved high performance (AUROC up to 0.95), showing improved accuracy over traditional methods.",
+    "supervisor": "د. محمد الطاهر بن عثمان",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Artificial Intelligence",
+      "Bioinformatics",
+      "Data Analysis"
+    ],
+    "poster_image": "Deep Learning Approaches for Efficient and Ac_شفاء الخويطر 2.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "شفاء سعد الخويطر",
+        "uni_id": "451213974"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Fan engagement and loyalty app for Saudi football clubs",
+    "description": "The project is a cross-platform digital ecosystem (mobile and web) specifically designed to tackle the issue of low stadium attendance in Saudi football. It unifies the entire fan journey into a single platform by integrating the following features:\n\nTicketing: Real-time seasonal ticket booking with an interactive stadium map and real-time seat locking.\n\nLoyalty System: A gamified \"Dynamic Points Algorithm\" that rewards fans for match attendance, early arrival, and team victories.\n\nVolunteer Opportunities: A dedicated module that allows fans to participate in club-organized volunteer events. Fans earn special loyalty points for their service, which can be accumulated and redeemed for exclusive rewards, such as official merchandise, free tickets, or partner discounts, providing a meaningful way to benefit from their contribution.\n\nGate Operations: A secure QR-based validation system for authenticated stadium entry.\n\nCommunity & Partners: Centralized club news and a \"Partner Portal\" for local business offers and discounts",
+    "supervisor": "د. فهد الطريس",
+    "section": "male",
+    "campus": "Ar-Rass",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Software engineering",
+      "mobile application Development"
+    ],
+    "poster_image": "بوستر_عبدالعزيز سليمي الحر.jpeg",
+    "students": [
+      {
+        "name_en": "Saleh Khaled Alwhibi",
+        "name_ar": "",
+        "uni_id": "431107908"
+      },
+      {
+        "name_en": "Basel Hejab Alharbi",
+        "name_ar": "",
+        "uni_id": "422113149"
+      },
+      {
+        "name_en": "Saleh Mohammed Alassaf",
+        "name_ar": "",
+        "uni_id": "431109321"
+      },
+      {
+        "name_en": "Abdulaziz Saud Alharbi",
+        "name_ar": "",
+        "uni_id": "421109773"
+      },
+      {
+        "name_en": "Nawaf Abdullah Alayed",
+        "name_ar": "",
+        "uni_id": "431109332"
+      },
+      {
+        "name_en": "Faisal Khaled Alnfjan",
+        "name_ar": "",
+        "uni_id": "431109417"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Jadwa AI: AI-Powered Business Feasibility Platform",
+    "description": "Jadwa AI is an intelligent web-based platform designed to help entrepreneurs evaluate business ideas before implementation. The system uses Machine Learning and AI technologies to analyze project feasibility based on budget, location, project type, duration, and market indicators.\n\nIt provides a feasibility score, smart recommendations, PDF reports, and a project re-analysis feature that allows users to compare previous and updated feasibility results. The system also supports Arabic/English and includes an interactive dashboard.\n\nThe platform was fully developed, tested, and deployed online using Django and Microsoft Azure.",
+    "supervisor": "Dr. Suliman Alateyah",
+    "section": "female",
+    "campus": "Unaizah",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence",
+      "Data Analysis",
+      "Web Development",
+      "Entrepreneurship Technology"
+    ],
+    "poster_image": "Jadwa AI Poster 1447_جوري الشوشان.pdf",
+    "students": [
+      {
+        "name_en": "Jori Alshoshan",
+        "name_ar": "",
+        "uni_id": "421202147"
+      },
+      {
+        "name_en": "Rahaf Alharbi",
+        "name_ar": "",
+        "uni_id": "431201735"
+      },
+      {
+        "name_en": "Sura Alkhuzaim",
+        "name_ar": "",
+        "uni_id": "422205717"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "AutoPent",
+    "description": "AutoPent is a web-based automated penetration testing tool designed to scan target URLs and identify potential security vulnerabilities efficiently. It minimizes manual effort and accelerates the security assessment process by providing clear, structured results.\n\nThe system supports multiple scanning modes (Safe, Fast, and Full) and includes key features such as link verification, secure HTTP handling, automated risk scoring, scan history tracking, and result comparison. It is developed باستخدام Python and Flask with an interactive web interface and database integration.\n\nExperimental evaluation demonstrated that AutoPent effectively detects common vulnerabilities, maintains stable performance, and delivers a reliable, scalable solution for web security assessment.",
+    "supervisor": "د.سليمان السحيباني",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Cybersecurity"
+    ],
+    "poster_image": "AutoPent_شذى الرشودي.pdf",
+    "students": [
+      {
+        "name_en": "Shatha Alrshoudi",
+        "name_ar": "شذى الرشودي",
+        "uni_id": "431201319"
+      },
+      {
+        "name_en": "Alanoud Aljalali",
+        "name_ar": "العنود الجلالي",
+        "uni_id": "431201707"
+      },
+      {
+        "name_en": "Joud Alharbi",
+        "name_ar": "جود فهد الحربي",
+        "uni_id": "431201479"
+      },
+      {
+        "name_en": "Renad Albehadal",
+        "name_ar": "رناد البهدل",
+        "uni_id": "421202252"
+      },
+      {
+        "name_en": "Aryam Alanazi",
+        "name_ar": "اريام العنزي",
+        "uni_id": "411201477"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Misbar - مسبار",
+    "description": "مسبار منصة تساعد المؤسسات على اكتشاف الثغرات الأمنية في أنظمتها التقنية، حيث تجمع بين الذكاء الاصطناعي وأدوات الأمن السيبراني لفحص الأنظمة واكتشاف الثغرات، وتتضمن لوحة تحكم تعرض أحدث الثغرات المكتشفة عالمياً ويتم تحديثها بشكل لحظي، مدعومةً بمساعد ذكي يقوم بشرح وتوضيح هذه الثغرات للمستخدم، كما توفر قناة أخبار سيبرانية على منصتي واتساب و تويتر تنشر آخر أخبار الأمن السيبراني باللغة العربية ويتم إدارتها بالكامل عبر الذكاء الاصطناعي.",
+    "supervisor": "Dr. Abdulatif Alabdulatif",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الأمن السيبراني"
+    ],
+    "poster_image": "Misbar_Project_Poster_80x120cm_تركي السحيباني.pdf",
+    "students": [
+      {
+        "name_en": "Turki Alsuhaibani",
+        "name_ar": "",
+        "uni_id": "431107694"
+      },
+      {
+        "name_en": "Faisal Alaowad",
+        "name_ar": "",
+        "uni_id": "431107864"
+      },
+      {
+        "name_en": "Sulaiman Alduraibi",
+        "name_ar": "",
+        "uni_id": "431108067"
+      },
+      {
+        "name_en": "Fahad Alharbi",
+        "name_ar": "",
+        "uni_id": "421107694"
+      },
+      {
+        "name_en": "Abdulaziz Alsuhaibani",
+        "name_ar": "",
+        "uni_id": "431107776"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "SmartWatt",
+    "description": "SmartWatt is an intelligent energy management system designed to analyze and predict household electricity consumption to improve efficiency and reduce energy waste. The system uses historical electricity data and applies the ARIMA time-series model to forecast future energy usage.\n\nIt includes data preprocessing and feature engineering to ensure accurate predictions, and the model is evaluated using standard metrics such as MAE and RMSE. In addition, the system provides personalized recommendations to help users optimize their energy consumption and reduce costs.\n\nSmartWatt also features an interactive dashboard that visualizes consumption patterns and predictions, supporting better decision-making. The project aims to enhance user awareness, improve energy efficiency, and promote sustainable energy usage in alignment with Saudi Vision 2030.",
+    "supervisor": "Dr.Sulaiman Alamro",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence and Data Analytics in Energy Systems"
+    ],
+    "poster_image": "SmartWatt Poster_وصايف العنزي.pdf",
+    "students": [
+      {
+        "name_en": "Aseel Alruthea",
+        "name_ar": "",
+        "uni_id": "431201848"
+      },
+      {
+        "name_en": "Raydaa Alluhydan",
+        "name_ar": "",
+        "uni_id": "431201378"
+      },
+      {
+        "name_en": "Budur Alanazi",
+        "name_ar": "",
+        "uni_id": "421214618"
+      },
+      {
+        "name_en": "Rawan Aloufi",
+        "name_ar": "",
+        "uni_id": "431201747"
+      },
+      {
+        "name_en": "Wasayf Alanazi",
+        "name_ar": "",
+        "uni_id": "422205666"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "A Blockchain-IoT Integrated Digital Vehicle Passport (DVP) System",
+    "description": "Rasid advances Saudi Vision 2030 \"Digital Transformation\" goals by establishing a tamper-proof, blockchain-integrated infrastructure for vehicular lifecycle management. By eliminating odometer fraud and information asymmetry through automated IoT validation, the system restores market trust and supports \"Smart Mobility\". Rasid is a Digital Vehicle Passport (DVP) system designed to combat fraud like odometer tampering and hidden accident records. By integrating IoT and Blockchain, it creates a secure, decentralized ledger that ensures absolute integrity throughout a vehicle's lifecycle. This transformation provides a transparent, trusted environment, ensuring every  stage of a vehicle's history is documented and verifiable.",
+    "supervisor": "Dr Eman Abouelkheir",
+    "section": "female",
+    "campus": "Ar-Rass",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Blockchain and IoT"
+    ],
+    "poster_image": "Rasid (DVP) Poster_ايمان ابو الخير.pdf",
+    "students": [
+      {
+        "name_en": "Aryam Aldayhani",
+        "name_ar": "",
+        "uni_id": "431215431"
+      },
+      {
+        "name_en": "Alanoud Almazrua",
+        "name_ar": "",
+        "uni_id": "431201829"
+      },
+      {
+        "name_en": "Razan Alomari",
+        "name_ar": "",
+        "uni_id": "432205459"
+      },
+      {
+        "name_en": "Jory Alghofaily",
+        "name_ar": "",
+        "uni_id": "431201878"
+      },
+      {
+        "name_en": "Mayar Aldubayyan",
+        "name_ar": "",
+        "uni_id": "431201869"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "HULLAH Outfit Recommendation System",
+    "description": "Hullah is an outfit recommendation system for women that provides elegant, complete looks. It uses AI to generate personalized suggestions based on factors like height, weight, body type, occasion, style, and color preferences, helping users easily find outfits that suit them.",
+    "supervisor": "فتحي نورالدين الدهامي الفقي",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي AI"
+    ],
+    "poster_image": "Hullah project poster_ليان الهذلول.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "نورة العليان",
+        "uni_id": "431201620"
+      },
+      {
+        "name_en": "",
+        "name_ar": "نبراس الحسون",
+        "uni_id": "431201515"
+      },
+      {
+        "name_en": "",
+        "name_ar": "وجد الفهيد",
+        "uni_id": "431201628"
+      },
+      {
+        "name_en": "",
+        "name_ar": "يارا العمري",
+        "uni_id": "431201455"
+      },
+      {
+        "name_en": "",
+        "name_ar": "ليان الهذلول",
+        "uni_id": "431201527"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Qout App",
+    "description": "Qout is a mobile recipe-sharing application that helps users discover, create, and share recipes in an interactive food community. It offers an easy way to explore dishes, review recipes, and connect with people who share the same passion for cooking.\nWith an AI that helps users to create their own recipes and edit existing ones.",
+    "supervisor": "دكتور وليد كرامتي",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Mobile applications",
+      "social community apps",
+      "AI ."
+    ],
+    "poster_image": "‎⁨نسخة من Qout App أكاديمي تفاعلي للوصفات⁩_حمد الدبيان.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "حمد ابراهيم الدبيان",
+        "uni_id": "431109215"
+      },
+      {
+        "name_en": "",
+        "name_ar": "جواد علي الطعيمي",
+        "uni_id": "431109259"
+      },
+      {
+        "name_en": "",
+        "name_ar": "جهاد ابراهيم الفيروز",
+        "uni_id": "431107828"
+      },
+      {
+        "name_en": "",
+        "name_ar": "سعود عبدالعزيز القنيبط",
+        "uni_id": "431109151"
+      },
+      {
+        "name_en": "",
+        "name_ar": "ياسر عبدالعزيز الفنيخ",
+        "uni_id": "432112297"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Deep Learning-Based 3D Reconstruction for Personalized Orthotic Models",
+    "description": "Deep learning techniques have been widely developed to process 3D data directly from point clouds. It presents a comparative analysis of PointNet++, a Transformer-based reconstruction model, and a proposed hybrid framework that integrates both approaches for 3D reconstruction from imperfect point cloud data. The evaluation is conducted based on geometric accuracy, structural detail preservation, and surface quality. These findings highlight the complementary nature of local and global representations and support the selection of hybrid strategies for accurate and scalable medical 3D reconstruction.",
+    "supervisor": "Dr,Aicha Ben Makhlouf",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Artificial Intelligence"
+    ],
+    "poster_image": "PosterThesis_سميه الوهاشي.pdf",
+    "students": [
+      {
+        "name_en": "Sumaia Abdulwahab Alwahashi",
+        "name_ar": "",
+        "uni_id": "461217096"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "SMART MIRROR: An Interactive Reflective Interface for Daily Information Management",
+    "description": "This project involves designing and developing a Smart Mirror system that combines a two-way reflective surface with a digital display to show users real-time information such as time, weather, calendar events, and to-do lists. The motivation for this project comes from the growing reliance on multiple digital devices for daily information, which can be inconvenient during busy routines. The Smart Mirror aims to centralize key information into a single, easily accessible interface that boosts user productivity and convenience. The system uses a Raspberry Pi 5, a 15.6-inch HD display, a PIR motion sensor, and the MagicMirror framework to create a modular, customizable, and interactive experience. The smart mirror automatically turns on when it detects user presence and fetches live data via APIs to keep the information up to date. The project’s goals include creating an affordable, functional smart home device, improving user interaction, and assessing the feasibility of adding advanced features within the given time and budget limits. The proposed solution offers a practical, energy-efficient, and user-friendly smart device with potential for future upgrades.",
+    "supervisor": "Dr. Muhammad Ali Martuza",
+    "section": "male",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "bachelor",
+    "tags": [
+      "Samart device for digital lifestyle"
+    ],
+    "poster_image": "SMART MIRROR POSTER_محمد مارتوزا.pdf",
+    "students": [
+      {
+        "name_en": "Abdulhakim Faisal Alfouzan",
+        "name_ar": "",
+        "uni_id": "421108021"
+      },
+      {
+        "name_en": "Majed Mohammed Alhoshani",
+        "name_ar": "",
+        "uni_id": "421109822"
+      },
+      {
+        "name_en": "Yazeed Mosa Alharbi",
+        "name_ar": "",
+        "uni_id": "421109824"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "AI-Based Phishing URL Detection",
+    "description": "AI-Based Phishing URL Detection is a cybersecurity project that aims to identify malicious URLs using machine learning techniques. The system analyzes lexical features extracted directly from URLs without relying on external services, enabling fast and real-time detection. Two models, Random Forest and Gradient Boosting, were implemented and evaluated to achieve a balance between detection accuracy and computational efficiency. The proposed solution is lightweight and suitable for real-world applications such as browser extensions",
+    "supervisor": "د. فتحي الفقي",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Artificial Intelligence",
+      "Cybersecurity",
+      "Machine Learning",
+      "Data Analysis"
+    ],
+    "poster_image": "Paster (80 x 120 سم)_يارا الوطبان.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "يارا محمد الوطبان",
+        "uni_id": "461215878"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "title": "QU ChatBot - Automated DB & AI Agent",
+    "description": "The \"QU Students Chat Bot - Automated Knowledge Base & AI Assistant\" is a bilingual (Arabic/English) AI-powered platform designed to resolve the fragmentation of academic information and the limitations of traditional, time-restricted student support channels at Qassim University.\n\nOperating 24/7, the system employs a sophisticated Retrieval-Augmented Generation (RAG) architecture to ensure that all responses are highly accurate and strictly grounded in official university documents.\n\nThe technical stack integrates a Next.js front-end with a Docker-containerized Node.js back-end, utilizing OpenAI GPT models for natural language processing and a Pinecone vector database for rapid semantic search.\n\nCrucially, the architecture incorporates n8n workflow automation to autonomously ingest and synchronize data updates directly from university Google Drive repositories, completely eliminating the need for manual data entry.\n\nEngineered to maintain over 99% availability and deliver sub-3-second latency for structured queries, the project significantly reduces administrative workloads and directly supports the digital transformation and human capability development objectives of Saudi Vision 2030.",
+    "supervisor": "Dr. Abdulgader Al-Maymuni",
+    "section": "male",
+    "campus": "Ar-Rass",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Data Science",
+      "AI",
+      "Automation",
+      "NLP",
+      "Web Development"
+    ],
+    "poster_image": "phonto_سليمان الغفيلي.jpeg",
+    "students": [
+      {
+        "name_en": "Suliman Saleh Al-Ghofaili",
+        "name_ar": "",
+        "uni_id": "421109766"
+      },
+      {
+        "name_en": "Rayan Nayyaf Al-Harbi",
+        "name_ar": "",
+        "uni_id": "421109529"
+      },
+      {
+        "name_en": "Khalifah Suliman Al-Khalifah",
+        "name_ar": "",
+        "uni_id": "431109692"
+      },
+      {
+        "name_en": "Faris Ibrahim Al-Awaji",
+        "name_ar": "",
+        "uni_id": "431109338"
+      },
+      {
+        "name_en": "Sultan Mohammed Al-Mutairi",
+        "name_ar": "",
+        "uni_id": "421109632"
+      },
+      {
+        "name_en": "Abdulrahman Hesham Al-Resheed",
+        "name_ar": "",
+        "uni_id": "421107788"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "title": "AI Medical Pre-Consultation System",
+    "description": "This project presents a bilingual web-based platform designed to streamline the pre-consultation process in healthcare facilities. The system bridges the gap between patients and physicians by automating data collection and providing AI-powered preliminary medical analysis before actual consultations.\nSystem Overview:\nThe platform serves three distinct user roles: patients who submit their medical information, doctors who review AI-generated reports, and administrators who manage the system. Patients can complete consultation forms either through traditional text input or by using an innovative voice-based AI assistant that conducts natural conversations in both English and Arabic.\nCore Functionality:\nWhen a patient submits their symptoms and medical history, the system utilizes OpenAI's GPT-5.5 model to generate a comprehensive medical analysis including differential diagnosis, identification of potential red flags, and recommendations for initial medical workup. This preliminary analysis is then made available to the assigned physician through a dedicated dashboard, allowing them to review patient information before the actual consultation begins.\nTechnical Implementation:\nThe system is built using Next.js 15 framework with TypeScript for robust type safety and modern development practices. The frontend utilizes Tailwind CSS and Shadcn/ui components for a responsive, accessible user interface. Patient and doctor data is stored securely in a PostgreSQL database managed through Neon cloud services, with Drizzle ORM handling database operations. The AI integration leverages two OpenAI APIs: GPT-5.5 for medical analysis generation and the Realtime API for voice-based conversations. Additionally, the Web Speech API is integrated for voice input in the symptoms field.\nInnovation and Impact:\nThe project's primary innovation lies in its voice assistant feature, which allows patients to fill out medical forms through natural conversation rather than typing. This significantly improves accessibility, especially for elderly patients or those with limited typing abilities. The bilingual support (English and Arabic) ensures the system can serve diverse populations in the region. The AI-generated preliminary diagnosis helps physicians prepare for consultations more effectively, potentially reducing consultation time and improving the quality of medical care.\nUser Experience:\nPatients access a clean, intuitive form where they can either manually enter their information or activate the AI voice assistant. The assistant guides them through each required field conversationally, creating a more natural and less intimidating experience than traditional medical forms. Doctors receive well-organized reports with AI analysis that highlights key diagnostic considerations and recommended tests, allowing them to focus their consultation time on patient interaction rather than basic data gathering.\nSystem Security and Privacy:\nAll patient data is stored securely with role-based access control ensuring that doctors can only view reports assigned to them. The system implements authentication mechanisms for both doctors and administrators, protecting sensitive medical information while maintaining ease of use.\nFuture Scalability:\nThe modular architecture allows for future enhancements such as integration with electronic health record systems, expansion to additional languages, and incorporation of more specialized medical AI models for specific conditions or medical specialties.",
+    "supervisor": "Dr. Fahad Ali Al-Oufi",
+    "section": "male",
+    "campus": "Ar-Rass",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "POSTER_محمد الفوزان.pdf",
+    "students": [
+      {
+        "name_en": "Mohammed Abdulrahman Al-Fawzan",
+        "name_ar": "",
+        "uni_id": "421109727"
+      },
+      {
+        "name_en": "Faisal Abdullah Al-Nasyan",
+        "name_ar": "",
+        "uni_id": "431107944"
+      },
+      {
+        "name_en": "Azzam Mohammed Al-Wahbi",
+        "name_ar": "",
+        "uni_id": "431107748"
+      },
+      {
+        "name_en": "Saleh Zohir Al-Omair",
+        "name_ar": "",
+        "uni_id": "431109449"
+      },
+      {
+        "name_en": "Mohammed Abdullah Al-Dkhily",
+        "name_ar": "",
+        "uni_id": "422113125"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Nawah: An Intelligent Family Organization and Communication Platform",
+    "description": "يهدف المشروع إلى تطوير تطبيق جوال ذكي مخصص لتنظيم حياة الأسرة وتسهيل التواصل بين أفرادها من خلال منصة موحدة تجمع أهم الاحتياجات اليومية في مكان واحد.\n\nيعالج التطبيق مشكلة اعتماد العائلات على عدة تطبيقات منفصلة مثل تطبيقات المحادثة، التقويم، الملاحظات، وقوائم المهام، مما يسبب تشتت المعلومات وصعوبة متابعة المسؤوليات والمواعيد.\n\nيوفر التطبيق مجموعة من الخصائص الأساسية مثل الدردشة العائلية، الإعلانات العائلية، إدارة المهام والقوائم، التقويم المشترك، مشاركة الموقع، التصويت، حفظ الصور والملفات في خزنة عائلية، إضافة إلى قسم مخصص للمحتوى الآمن للأطفال.\n\nكما يتضمن المشروع مساعدًا ذكيًا بالاعتماد على الذكاء الاصطناعي، يمكن للمستخدم التفاعل معه عبر النص أو الصوت لطرح الأسئلة وتنفيذ بعض الأوامر داخل التطبيق، مثل إنشاء المهام أو المساعدة في تنظيم بعض الأنشطة اليومية.\n\nتم تصميم التطبيق ليلائم احتياجات الأسر العربية، مع واجهة سهلة الاستخدام وتجربة مناسبة لمختلف أفراد الأسرة. ويهدف المشروع في النهاية إلى تحسين التواصل، تقليل التشتت، وتسهيل إدارة الحياة اليومية للأسرة من خلال حل رقمي واحد ومتكامل.\n\n• A unified mobile application designed to centralize family coordination and communication in one platform.\n\n• Eliminates the need for fragmented tools (chat apps, notes, calendars) by providing one cohesive, Arabic-first environment tailored for family use.\n\n• Integrates essential features including family chat, announcements, task and chore management, shared calendar, polls, location sharing, and a secure memory vault.\n\n• Provides an AI-powered assistant that enables users to interact through text or voice to create tasks, manage schedules, and assist in daily organization.\n\n• Enhances collaboration and engagement among family members by simplifying communication and improving visibility of shared responsibilities.\n\n• Designed with a user-friendly interface suitable for all family members, supporting real-time updates and seamless synchronization.\n\n• Fully functional and deployed on mobile app stores as a real-world, production-ready application.",
+    "supervisor": "د. محمد السحيباني",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي وتطبيقات الهواتف الذكية"
+    ],
+    "poster_image": "Nawah_poster_مهند الفوزان.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "مهند ماجد الفوزان",
+        "uni_id": "431108107"
+      },
+      {
+        "name_en": "",
+        "name_ar": "محمد منصور البليهي",
+        "uni_id": "431107867"
+      },
+      {
+        "name_en": "",
+        "name_ar": "عامر محمد السناني",
+        "uni_id": "431109292"
+      },
+      {
+        "name_en": "",
+        "name_ar": "اياد فهد العرفج",
+        "uni_id": "431107974"
+      },
+      {
+        "name_en": "",
+        "name_ar": "محمد صالح السيف",
+        "uni_id": "431108031"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "title": "QueryBot",
+    "description": "QueryBot هو تطبيق ويب مدعوم بالذكاء الاصطناعي، يتيح للمستخدمين التفاعل مع قواعد البيانات باستخدام لغة إنجليزية بسيطة، مما يلغي الحاجة إلى معرفة لغة SQL. يدمج التطبيق بين تقنية Gemini AI وقواعد بيانات PostgreSQL حية لتقديم نتائج استعلام فورية ودقيقة وتقارير قابلة للتصدير.\n\nQueryBot is an AI-powered web application that enables\nusers to interact with databases using plain English,\neliminating the need for SQL knowledge. It integrates\nGemini AI with a live PostgreSQL backend to deliver\ninstant, accurate query results and exportable reports.",
+    "supervisor": "Dr.Fahad Ali Aloufi , د.فهد العوفي",
+    "section": "female",
+    "campus": "Ar-Rass",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "QueryBot_project_رغد الحربي.pdf",
+    "students": [
+      {
+        "name_en": "Amirah Khaled Alharbi",
+        "name_ar": "",
+        "uni_id": "421202265"
+      },
+      {
+        "name_en": "Raghad Husain Alharbi",
+        "name_ar": "",
+        "uni_id": "422205803"
+      },
+      {
+        "name_en": "Ahood Awaad Aljabri",
+        "name_ar": "",
+        "uni_id": "412205506"
+      },
+      {
+        "name_en": "Nouf Ayesh Aljabri",
+        "name_ar": "",
+        "uni_id": "431215251"
+      },
+      {
+        "name_en": "Fatima Abdulrahman Almutairi",
+        "name_ar": "",
+        "uni_id": "391202849"
+      },
+      {
+        "name_en": "Khuzama Fahhad Alharbi",
+        "name_ar": "",
+        "uni_id": "431201846"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "title": "AI-Predictive Maintenance for Smart City Water Distribution Networks",
+    "description": "The project presents an AI-driven predictive maintenance system designed for smart city water distribution networks. Its main goal is to detect leaks and identify faults early, reducing water loss and improving system efficiency. The approach integrates machine learning models for two key tasks: leak detection and fault localization, supported by data collected from network sensors.\n\nThe system uses advanced techniques such as machine learning and ensemble models, combined with a structured methodology that includes data preprocessing, feature extraction, model training, and evaluation. It also incorporates a dashboard interface that visualizes system outputs, provides alerts, and supports real-time monitoring for decision-makers.\n\nOverall, the project demonstrates how AI can enhance infrastructure reliability, optimize maintenance operations, and contribute to sustainable urban water management.\n\n\nيقدّم هذا المشروع نظام صيانة تنبؤية قائم على الذكاء الاصطناعي مخصصًا لشبكات توزيع المياه في المدن الذكية. يهدف النظام إلى الكشف المبكر عن التسربات وتحديد الأعطال بدقة، مما يساهم في تقليل هدر المياه وتحسين كفاءة الشبكة.\n\nيعتمد المشروع على استخدام نماذج تعلم الآلة لتنفيذ مهمتين رئيسيتين: كشف التسربات وتحديد مواقع الأعطال، وذلك بالاستفادة من البيانات المجمّعة عبر أجهزة الاستشعار المنتشرة في الشبكة. كما يوظّف تقنيات متقدمة مثل التعلم الآلي  والنماذج التجميعية، ضمن منهجية منظمة تشمل معالجة البيانات، واستخراج الخصائص، وتدريب النماذج، وتقييم أدائها.\n\nبالإضافة إلى ذلك، يتضمن النظام لوحة تحكم تفاعلية تتيح عرض النتائج، وإصدار التنبيهات، ودعم المراقبة اللحظية لمساعدة متخذي القرار.\n\nبشكل عام، يبرز المشروع دور الذكاء الاصطناعي في تعزيز موثوقية البنية التحتية، وتحسين عمليات الصيانة، والمساهمة في تحقيق استدامة إدارة الموارد المائية في المدن الذكية.",
+    "supervisor": "Dr. Murad Abdo Rassam Qasem",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الصناعي+ انترنت الأشياء"
+    ],
+    "poster_image": "poster_80x120cm_مراد قاسم.pdf",
+    "students": [
+      {
+        "name_en": "Hailah Ayed Alshammari",
+        "name_ar": "",
+        "uni_id": "431201535"
+      },
+      {
+        "name_en": "Alanoud Abdullah Alsaqabi",
+        "name_ar": "",
+        "uni_id": "431201832"
+      },
+      {
+        "name_en": "Reema Ali Alsaud",
+        "name_ar": "",
+        "uni_id": "431217986"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "title": "Prediction of Emergency Cases Application Usage : A Security-Trust perspective",
+    "description": "Project Title:\nAI-Based Emergency Case Prediction and Simulation System\n\nProject Field:\nDecision Support Systems (DSS) / Artificial Intelligence (Rule-Based)\n\nOverview:\nThe Emergency AI System is an interactive web-based platform that helps users predict, simulate, and respond to emergency scenarios. The system integrates risk assessment, scenario simulation, incident reporting, and security awareness into a unified interface.\n\nCore Features\nRisk Prediction: Six-step wizard calculating risk score (0–100) and level (Low/Medium/High) with AI recommendations.\n\nSimulation: Four emergency scenarios (Network, Database, Cyber, Insider) with severity-based response plans.\n\nData Storage: IndexedDB database for saving predictions with CSV export and delete functions.\n\nIncident Reporting: Submit reports with priority levels; Admin Dashboard shows all reports, User Dashboard shows user's reports.\n\nSecurity Awareness: Educational content + interactive quiz on data protection and AI ethics.\n\nAI Insights: Pattern detection and recommendations based on stored prediction data.\n\nMobile Prototype: Quick risk check, emergency contacts, and SOS button simulation.\n\n\nTechnologies:\nHTML5, CSS3, JavaScript (ES6), IndexedDB, LocalStorage\n\nTesting Results:\nSix user study cases passed successfully (Fire, Cyber, Intrusion, Gas Leak, Flood, Report submission).\n\nConclusion:\nThe platform achieves 95% of research objectives, providing a privacy-focused, deployable solution for emergency preparedness and risk assessment.",
+    "supervisor": "Ali Alkhalifah",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Decision Support Systems + Artificial Intelligence"
+    ],
+    "poster_image": "poster Copy_أسماء المرجان.pdf",
+    "students": [
+      {
+        "name_en": "Asma Almurjan",
+        "name_ar": "",
+        "uni_id": "421202052"
+      },
+      {
+        "name_en": "Baida Alfawzan",
+        "name_ar": "",
+        "uni_id": "431201582"
+      },
+      {
+        "name_en": "Jori Alkhuwailed",
+        "name_ar": "",
+        "uni_id": "421202108"
+      },
+      {
+        "name_en": "Reema Aljodaye",
+        "name_ar": "",
+        "uni_id": "422205698"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "title": "Forsati",
+    "description": "SMART BUSINESS LOCATION & SUCCESS PREDICTOR FOR RIYADH — COMBINING PREDICTIVE ML AND GENERATIVE AI TO GUIDE YOUR INVESTMENT.",
+    "supervisor": "د. محمد الخلف",
+    "section": "female",
+    "campus": "Ar-Rass",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "تحليل البيانات والذكاء الاصطناعي"
+    ],
+    "poster_image": "Forsati_poster-1_محمد الخلف.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "جمانه احمد راشد الغفيلي",
+        "uni_id": ""
+      },
+      {
+        "name_en": "",
+        "name_ar": "دانه محمد فهد الحصان",
+        "uni_id": ""
+      },
+      {
+        "name_en": "",
+        "name_ar": "رانيا سليمان متعب الحربي",
+        "uni_id": ""
+      },
+      {
+        "name_en": "",
+        "name_ar": "سجى شبيب عبدالرحمن الحربش",
+        "uni_id": ""
+      },
+      {
+        "name_en": "",
+        "name_ar": "لانا العرزون",
+        "uni_id": ""
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "title": "Cardiovascular Disease Detection Using Deep Learning Techniques",
+    "description": "This project focuses on detecting atrial fibrillation from ECG signals using a lightweight deep learning framework. The system applies signal preprocessing, overlapping window segmentation, and a one-dimensional convolutional neural network (1D-CNN) to classify ECG recordings into Normal and Atrial Fibrillation classes. The project aims to achieve reliable detection performance with low computational complexity, making it suitable for practical medical applications.",
+    "supervisor": "DR. MONA ALSLIEM",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence",
+      "Deep Learning",
+      "Biomedical Signal Analysis"
+    ],
+    "poster_image": "Graduation project poster_رزان العلوي الحربي.pdf",
+    "students": [
+      {
+        "name_en": "EMAN MANSOUR ALHABIB",
+        "name_ar": "",
+        "uni_id": "431201387"
+      },
+      {
+        "name_en": "RAZAN FALAH ALHARBI",
+        "name_ar": "",
+        "uni_id": "422205630"
+      },
+      {
+        "name_en": "ALHANOOF ABDULRAHMAN ALRASHEED",
+        "name_ar": "",
+        "uni_id": "431201703"
+      },
+      {
+        "name_en": "RAZAN MOHAMED ALHARBI",
+        "name_ar": "",
+        "uni_id": "421201814"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "title": "TERHAL: AN AI-BASED TOURISM PLATFORM FOR INTERNATIONAL TOURISTS",
+    "description": "International tourists often face challenges related to language barriers, difficulty \nfinding personalized destinations, limited and untrusted access to instant cultural \ninformation, and unfamiliarity with local emergency services. Terhal is a mobile \napplication that integrates advanced AI technologies to enhance the overall tourism \nexperience. It recommends tourist and cultural destinations via an AI-based \nrecommendation system, supports multilingual interaction through Natural \nLanguage Processing, and provides cultural and historical facts via an AI-powered \nimage-recognition feature. Terhal also includes safety features, such as an SOS \nbutton and an interactive map showing nearby hospitals, clinics, and police \nstations. In addition, the app offers a trip planner equipped with a calendar to help \ntourists organize their travel schedules. The main aim of this project is to provide \ninternational tourists with a safe, intelligent, and personalized platform that \nenhances cultural exploration and simplifies travel within the Kingdom of Saudi \nArabia.",
+    "supervisor": "Dr. Nawaf Alharbi",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "Terhal_Poster_80x120cm (1)_رفا الحمود.pdf",
+    "students": [
+      {
+        "name_en": "Rafa Mousa Alhumud",
+        "name_ar": "",
+        "uni_id": "421202190"
+      },
+      {
+        "name_en": "Reema Sulaiman Almuzaini",
+        "name_ar": "",
+        "uni_id": "431215223"
+      },
+      {
+        "name_en": "Furat Fahad Alrumayyan",
+        "name_ar": "",
+        "uni_id": "431201422"
+      },
+      {
+        "name_en": "Yara Fahad Alburaidi",
+        "name_ar": "",
+        "uni_id": "431201712"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "title": "AUGMENTED REALITY-BASED 3D VIRTUAL PLATFORM TO SUPPORT CULTURAL AND HISTORICAL TOURISM IN SAUDI ARABIA",
+    "description": "“حكايات الأماكن” هو موقع تفاعلي يهدف إلى استعراض المواقع الأثرية بطريقة حديثة تجمع بين العرض المعلوماتي والتجربة التفاعلية. يوفر الموقع خريطة تعرض مواقع المعالم الأثرية، بالإضافة إلى صفحة مخصصة تحتوي على قائمة بهذه المواقع مع معلومات تعريفية وصور لكل موقع.\n\nيدعم المشروع تقنية الواقع المعزز عبر الويب، حيث يمكن للمستخدم توجيه كاميرا الجهاز نحو صورة الموقع لعرض محتوى تفاعلي يتضمن سردًا صوتيًا للأحداث المرتبطة بالمكان، إلى جانب ظهور نموذج ثلاثي الأبعاد يعزز فهم المستخدم ويثري تجربته. يركز المشروع على تقديم المحتوى الثقافي بأسلوب مبسط وتفاعلي يسهم في رفع الوعي بالمواقع التراثية",
+    "supervisor": "د.احمد جون ريفز",
+    "section": "female",
+    "campus": "Ar-Rass",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الواقع المعززAR"
+    ],
+    "poster_image": "poster story of places_اثين العلوش.png",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "اثين العلوش",
+        "uni_id": "411201825"
+      },
+      {
+        "name_en": "",
+        "name_ar": "حنين المطيري",
+        "uni_id": "411203032"
+      },
+      {
+        "name_en": "",
+        "name_ar": "وعد الحربي",
+        "uni_id": "391203318"
+      },
+      {
+        "name_en": "",
+        "name_ar": "ريما المحيسني",
+        "uni_id": "422205781"
+      },
+      {
+        "name_en": "",
+        "name_ar": "سديم الرثيع",
+        "uni_id": "421202989"
+      },
+      {
+        "name_en": "",
+        "name_ar": "خلود الحربي",
+        "uni_id": "391202607"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "title": "Logos: Intelligent Academic Assistant Based on Reasoning and Knowledge",
+    "description": "This project introduces Logos, an intelligent academic assistant developed for students at the College of Computer, Qassim University. The system provides fast and reliable access to official academic information such as regulations, course details, and graduation requirements. It is based on a multi-agent AI architecture combining semantic retrieval (FAISS) and large language models (LLaMA 3.3-70B).\n\nThe system integrates four main agents, query analysis, retrieval, evaluation, and generation, to process user queries efficiently. A curated knowledge base built from official university documents ensures accurate and trustworthy responses in both Arabic and English .\n\nExperimental results on real student queries show strong performance, achieving 92% accuracy, 95% user satisfaction, and an average response time of 2.3 seconds. These results demonstrate the effectiveness of the proposed approach in improving student experience and reducing information search time. Future work will extend the system’s capabilities to provide more comprehensive academic support.",
+    "supervisor": "Dr. Ali Ben Mrad",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "LOGOS_علي مراد.pdf",
+    "students": [
+      {
+        "name_en": "Ahad Alharbi",
+        "name_ar": "",
+        "uni_id": "431201538"
+      },
+      {
+        "name_en": "Bashayer Alharbi",
+        "name_ar": "",
+        "uni_id": "431201504"
+      },
+      {
+        "name_en": "Amjad Almutairi",
+        "name_ar": "",
+        "uni_id": "412205516"
+      },
+      {
+        "name_en": "Lama Alshayea",
+        "name_ar": "",
+        "uni_id": "422205756"
+      },
+      {
+        "name_en": "Joury Alkhuzaim",
+        "name_ar": "",
+        "uni_id": "431201315"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "title": "Gateflow: Intelligent Parent-School Platform    منصة ذكية للتواصل بين أولياء الأمور والمدارس",
+    "description": "Morning and afternoon school area are experienced by high vehicle density, manual student call‑outs, and long queues. Existing approaches often rely on spreadsheets and manual procedures, which cause lack of safety or efficiency specially for kids. The proposed system changes the arrival process, provides dynamic, data‑driven queueing, and validates guardians through multi‑factor verification (ex: QR, optional License Plate Recognition, etc).\n\nThis project intends to develop a smart, AI-enhanced platform that provide safe, fast, and organized school drop‑off and pick‑up for parents who drive their own vehicles. The system combines a Parent platform, a School Admin Dashboard, and a secure Backend with extra AI modules for queue optimization, prediction, and anomaly detection. Automatically linking parents, school, kid to attendance, it reduces congestion, improves safety and compliance, and provides transparent, real‑time communication between families and schools.\n\n \nProblem Statement\n•\tCongestion and long waiting times at school gates.\n•\tLimited visibility for parents and staff during peak times.\n•\tManual, error attendance and release workflows.\n•\tSafety risks from unauthorized pickups or traffic accidents especially for kids.\n•\tLack of operational analytics for continuous improvement.\n\nObjectives\n•\tReduce pick-up wait time\n•\tEnsure privacy, safety, and compliance via secure identity and access controls.\n•\tProvide secure, auditable logs of all events\n\nScope\n•\tMobile App, check‑in, and notifications.\n•\tSchool Admin Dashboard for queue management, release control, and reporting.\n•\tBackend APIs, database, and real‑time messaging.\n•\tIntegrating AI for queue prediction, and anomaly detection.",
+    "supervisor": "د. سليمان العضاض",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "تحليل البيانات - الذكاء الاصطناعي - إنترنت الأشياء"
+    ],
+    "poster_image": "GP Poster - GateFlow_سليمان العضاض.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "ساره التويجري",
+        "uni_id": "422205648"
+      },
+      {
+        "name_en": "",
+        "name_ar": "لمى السماعيل",
+        "uni_id": "422205689"
+      },
+      {
+        "name_en": "",
+        "name_ar": "ماريه البركه",
+        "uni_id": "422215280"
+      },
+      {
+        "name_en": "",
+        "name_ar": "نورة الوزان",
+        "uni_id": "422205654"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "title": "Handwritten Arabic Calligraphy-based CAPTCHA",
+    "description": "This study proposes generating handwritten Arabic CAPTCHAs using diverse calligraphic styles and adversarial techniques. It evaluates the trade-off between security and usability to assess their effectiveness against automated attacks.",
+    "supervisor": "Prof. Suliman Alsuhibany",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Cybersecurity"
+    ],
+    "poster_image": "Academic Research Poster_ثريا الوهيد 1.pdf",
+    "students": [
+      {
+        "name_en": "Thuraya Abdullah Alwehaid",
+        "name_ar": "",
+        "uni_id": "451213968"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "title": "Arabic Offline Handwritten Recognition Character Based",
+    "description": "This project investigates offline Arabic handwritten text recognition (HTR) using a character-based approach. It addresses the limitations of existing word- and line-based models, which rely heavily on contextual information and struggle to generalize across different writing styles.\n\nUsing the INF-ENIT dataset, the study compares multiple HTR approaches, including sequence-based (encoder–decoder) and detection-based models (Faster R-CNN), under a unified experimental framework. The dataset is carefully preprocessed and balanced based on character distribution to ensure fair evaluation.\n\nThe models are assessed using standard HTR metrics (CER, WAR) and character perturbation experiments to evaluate their ability to capture true character-level information. Results show that detection-based approaches better align with human reading behavior and provide improved robustness and generalization.",
+    "supervisor": "Sofiane Medjram",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Handwritten Recognition HTR"
+    ],
+    "poster_image": "Arabic Offline Handwritten Recognition Charac_سفيان مجرام.pdf",
+    "students": [
+      {
+        "name_en": "Ruwaidah Saud Al-Nejaidi",
+        "name_ar": "",
+        "uni_id": "461215489"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "title": "Traffic Violation Detection System Using Drone",
+    "description": "This project presents a Smart Drone Traffic Violation Detection System designed to address the limitations of traditional fixed surveillance, particularly restricted coverage and limited ability to detect dynamic traffic violations. The system leverages Unmanned Aerial Vehicles (UAVs) integrated with advanced Artificial Intelligence and Computer Vision techniques, including YOLO for real-time vehicle detection, ByteTrack for multi-object tracking, OCR for automated license plate recognition, and lane segmentation for accurate lane boundary detection. It enables autonomous monitoring and detection of critical violations such as wrong-way driving, lane discipline violations, and vehicles with missing or obscured license plates, enhancing the effectiveness and flexibility of traffic enforcement operations.",
+    "supervisor": "Dr. Jamal Al-Otaibi",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence",
+      "Internet of Things",
+      "Computer Vision"
+    ],
+    "poster_image": "Violation detection using drone poster_ديم الوليعي.pdf",
+    "students": [
+      {
+        "name_en": "Aryam Alrsheedy",
+        "name_ar": "",
+        "uni_id": "422205632"
+      },
+      {
+        "name_en": "Shada Alshayie",
+        "name_ar": "",
+        "uni_id": "431201710"
+      },
+      {
+        "name_en": "Deem Alwelaie",
+        "name_ar": "",
+        "uni_id": "431201350"
+      },
+      {
+        "name_en": "Rola Alharbi",
+        "name_ar": "",
+        "uni_id": "422205738"
+      },
+      {
+        "name_en": "Refal Alhamed",
+        "name_ar": "",
+        "uni_id": "431214444"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "title": "Intelligent Log Files Analyzer",
+    "description": "This project presents a web-based Intelligent Log File Analyzer that uses a BERT-based model to analyze system logs, detect anomalies, predict failures, and identify security threats — delivering actionable insights through interactive dashboards using PowerBI to strengthen system reliability and cybersecurity posture.",
+    "supervisor": "Dr. Samar Alduayji",
+    "section": "male",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "تحليل البيانات - الذكاء الاصطناعي"
+    ],
+    "poster_image": "Intelligent Log Files Analyzer_نواف الحبيب.pdf",
+    "students": [
+      {
+        "name_en": "Abdullah Alsubaihi",
+        "name_ar": "",
+        "uni_id": "421109623"
+      },
+      {
+        "name_en": "Solaiman Alsulaim",
+        "name_ar": "",
+        "uni_id": "421109571"
+      },
+      {
+        "name_en": "Nawaf Alhabib",
+        "name_ar": "",
+        "uni_id": "42211311"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "title": "LeveUp",
+    "description": "مشروعنا عبارة عن موقع يقوم بتدريب الباحثين عن عمل على المقابلات الشخصية صوتًا وصورة تقييم سيرتهم الذاتية بشكل احترافي, مع اعطاء تغذية راجعة واقتراحات لتحسين مستوى المستخدم",
+    "supervisor": "Dr. Ahmad J Reeves‏",
+    "section": "female",
+    "campus": "Ar-Rass",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "LevelUp Poster_شموخ العضيب.pdf",
+    "students": [
+      {
+        "name_en": "Danah Khalid Alakrash",
+        "name_ar": "",
+        "uni_id": "431201338"
+      },
+      {
+        "name_en": "Elaf Fahad Alharbi",
+        "name_ar": "",
+        "uni_id": "431201837"
+      },
+      {
+        "name_en": "Layan Salman Alharbi",
+        "name_ar": "",
+        "uni_id": "431201344"
+      },
+      {
+        "name_en": "Shamokh Khalaf Alodaib",
+        "name_ar": "",
+        "uni_id": "431201867"
+      },
+      {
+        "name_en": "Eithar Thamer Alatalah",
+        "name_ar": "",
+        "uni_id": "421202276"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "title": "Smart Flashcard App for Personalized Learning and Retention",
+    "description": "This project is a smart flashcards learning application designed to help users study more efficiently. Traditional studying methods often require a lot of time and lead to fast forgetting, so the system uses artificial intelligence and spaced repetition to improve memory retention and learning speed.\n\nThe main idea is to convert study material into question and answer flashcards automatically, then help users review them at the right time while focusing more on weak areas.\n\nThe application is built using Flutter for the frontend, where users can enter text, upload files such as PDFs and slides, view flashcards, and take quizzes. The app uses Provider for state management to handle data and user interactions smoothly.\n\nThe backend is built using FastAPI. It receives text or uploaded files from the user, extracts content from PDFs and PowerPoint slides, and prepares the text to be processed by the AI model.\n\nThe system integrates with an AI model through the Gemini API, which generates flashcards by converting the input text into structured question and answer pairs while maintaining the same language as the original content.\n\nAll generated flashcards are stored locally on the device using Hive. Each card contains the question, answer, review timing, and difficulty level, allowing the app to work efficiently even offline.\n\nThe system works by taking user input, sending it to the backend, extracting and cleaning the text, generating flashcards using AI, and returning them to the app. The app then stores the flashcards and allows the user to study them. As the user interacts with the cards, the system tracks performance and updates difficulty levels.\n\nThe application includes features such as automatic flashcard generation, support for text and file inputs, spaced repetition, quiz mode, weak area tracking based on difficulty, deck organization, and the ability to edit or delete flashcards.\n\nThe spaced repetition system adjusts how often flashcards appear based on user performance. Cards answered correctly appear less frequently, while cards answered incorrectly appear more often, helping the user focus on weaker areas.\n\nThis project solves the problem of time-consuming manual flashcard creation and inefficient study methods. It improves memory retention, saves time, and provides a more personalized learning experience.\n\nOverall, the project demonstrates how artificial intelligence can be combined with learning techniques to create a simple, effective, and intelligent study tool that helps users learn faster and retain information better.",
+    "supervisor": "Dr. Khalil Hamdi Al-Shuqairat",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "education"
+    ],
+    "poster_image": "students1_سعد النومسي.png",
+    "students": [
+      {
+        "name_en": "Saad Khulaif Al Nawmasi",
+        "name_ar": "",
+        "uni_id": "431108105"
+      },
+      {
+        "name_en": "Abdullah Mohammed Al Saadi",
+        "name_ar": "",
+        "uni_id": "431114835"
+      },
+      {
+        "name_en": "Wael Emad Al Fakeer",
+        "name_ar": "",
+        "uni_id": "431114842"
+      },
+      {
+        "name_en": "Mohammed Ali Hussien Al Mehdar",
+        "name_ar": "",
+        "uni_id": "422117080"
+      },
+      {
+        "name_en": "Hamad Mohammed Al Suhaibani",
+        "name_ar": "",
+        "uni_id": "431109462"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "title": "CHORD: A Hybrid Cryptographic Framework for Cloud Object Storage Using AES-RSA Encryption with Verify-Before-Decrypt Integrity Enforcement",
+    "description": "It is a study that proposes a novel model that focuses on data encryption for cloud storage systems.",
+    "supervisor": "Mohamed Tahar Ben Othman",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Data Encryption for Cloud Storage Systems"
+    ],
+    "poster_image": "Master_Poster_Abdulsalam Almirdasi_441112110_عبدالسلام المرداسي.pptx",
+    "students": [
+      {
+        "name_en": "Abdulslam Ibrahim Almirdas",
+        "name_ar": "",
+        "uni_id": "441114110"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "title": "DAWAA: Intelligent Drug Alternative Recommendation System",
+    "description": "Despite digital healthcare advancements, patients in\nSaudi Arabia often face medication shortages, high\ncosts, and limited awareness of safe alternatives.\nHealthcare providers also lack intelligent tools to\nsupport rapid and reliable drug substitution.\nDawaa addresses this gap by providing an AI-powered platform that recommends safe, verified,\nand accessible drug alternatives",
+    "supervisor": "Tamim alkhailfah",
+    "section": "female",
+    "campus": "Ar-Rass",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": null,
+    "students": [
+      {
+        "name_en": "Badriah Alharbi",
+        "name_ar": "",
+        "uni_id": ""
+      },
+      {
+        "name_en": "Rawan Alrashidi",
+        "name_ar": "",
+        "uni_id": ""
+      },
+      {
+        "name_en": "Sadeen Alharbi",
+        "name_ar": "",
+        "uni_id": ""
+      },
+      {
+        "name_en": "Fajr Aljumah",
+        "name_ar": "",
+        "uni_id": ""
+      },
+      {
+        "name_en": "Maria Alrashidi",
+        "name_ar": "",
+        "uni_id": ""
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "title": "AI-Powered Intrusion Detection System (IDS) Using Deep Learning (Project-Based)",
+    "description": "Cyber threats are growing increasingly complex, rendering traditional signature-based Intrusion Detection Systems (IDS) ineffective against modern and zero-day attacks. This research aims to develop an intelligent, hybrid deep-learning system to detect suspicious patterns with high accuracy and provide real-time responses to both known and emerging threats.\nThe system utilizes an advanced preprocessing pipeline employing RobustScaler for data normalization. It also applies feature selection based on variance and correlation to effectively reduce dimensionality. The model's architecture combines CNN layers with residual connections for spatial feature extraction. This is followed by a Multi-Head Attention mechanism to focus on the most critical traffic features, and Bi-LSTM networks to analyze the temporal sequences in both directions.\nThe model was trained and evaluated using the realistic CICIDS2017 dataset. A sliding window technique was applied to convert network flows into time-series sequences. To address the severe class imbalance, the model was trained using a Focal Loss function and optimized using the Adam algorithm. The system demonstrated exceptional performance, achieving an overall accuracy exceeding 99% while significantly minimizing false positive rates.\nThe integration of attention mechanisms with hybrid neural architectures significantly enhances the reliability of threat detection. Moving beyond theoretical research, the project features a live Security Operations Center (SOC) dashboard powered by FastAPI and WebSockets. This enables the continuous monitoring of network traffic in real time, providing a practical and robust defense mechanism for enterprise environments.",
+    "supervisor": "Dr. Fathi Nour ElDin ElFki",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Artificial intelligence"
+    ],
+    "poster_image": "New Poster_المرضي معلا.jpg",
+    "students": [
+      {
+        "name_en": "Elamrdi Ahmed Malla",
+        "name_ar": "",
+        "uni_id": "461117219"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "title": "Deep Learning for Sustainable Solar Energy Prediction",
+    "description": "The project develops a deep learning-based forecasting system for Global Horizontal Irradiance (GHI), which is an important indicator of solar energy availability. The system focuses on short-term solar irradiance forecasting for the Qassim region by integrating NASA POWER satellite data with ground-based meteorological measurements from K.A.CARE. The dataset covers the period from August 2021 to August 2022.\n\nThe project applies data preprocessing, timestamp alignment, normalization, feature engineering, and 24-hour sliding-window sequence construction. Three deep learning models were developed and evaluated: LSTM, GRU, and CNN-LSTM. The models forecast GHI across three horizons: 1-hour, 3-hours, and 24-hours ahead. Model performance was evaluated using MAE, RMSE, and R².\n\nAn interactive Streamlit dashboard was also developed to visualize live forecasts, compare model performance, and present dataset insights. The project supports sustainable solar energy planning and decision-making by providing accurate multi-horizon GHI forecasts.",
+    "supervisor": "Dr. Batool ALWatban",
+    "section": "male",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Solar Renewable Energy",
+      "AI",
+      "DL"
+    ],
+    "poster_image": "POSTER-LAST_عبدالله الشعبي.png",
+    "students": [
+      {
+        "name_en": "Abdullah Waleed Alshabi",
+        "name_ar": "",
+        "uni_id": "431109334"
+      },
+      {
+        "name_en": "Abdulmajeed Hamad Aldawish",
+        "name_ar": "",
+        "uni_id": "431109432"
+      },
+      {
+        "name_en": "Ali Mansour Aldhlaan",
+        "name_ar": "",
+        "uni_id": "431107785"
+      },
+      {
+        "name_en": "Waleed Abdulqader Alharbi",
+        "name_ar": "",
+        "uni_id": "431108129"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "title": "UniClubs",
+    "description": "UniClubs\": AI-Powered University Clubs & Events Management Platform\"\n\nA mobile platform that centralizes club discovery and event management for universities, using AI to personalize the student experience.\n\nMain AI Components:\n\t•\tHybrid Recommendations — content-based + collaborative filtering\n\t•\tSentiment Analysis — student feedback processing for events\n\t•\tAttendance Prediction — Regression model to predict events attendance \n\n:User Roles\nStudents · Club Leaders · Administrators\nEach with tailored dashboards for browsing, event management, approvals, and analytics.\n\nGoal:\nReplace fragmented extracurricular tools with a unified, intelligent, mobile-first solution.​​​​​​​​​​​​​​​​\n\nTech Stack\nFlutter · Dart • Firebase · FastAPI • Python • TSFR",
+    "supervisor": "dr.Lamia amor benabderrahman",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي",
+      "تطوير التطبيقات"
+    ],
+    "poster_image": "uniclubs_poster_اسماء المخلفي الحربي.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "اسماء الحربي",
+        "uni_id": "431201841"
+      },
+      {
+        "name_en": "",
+        "name_ar": "رودي العيدان",
+        "uni_id": "431201518"
+      },
+      {
+        "name_en": "",
+        "name_ar": "بارقة الجارالله",
+        "uni_id": "431201789"
+      },
+      {
+        "name_en": "",
+        "name_ar": "جوري الوابل",
+        "uni_id": "431201633"
+      },
+      {
+        "name_en": "",
+        "name_ar": "شهد الرشيدي",
+        "uni_id": "422216979"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "title": "iClass",
+    "description": "iClass is a secure digital academic file management platform designed for university environments. The platform enables students to upload their study materials, such as lectures, exams, and summaries, where each file passes through a comprehensive automated processing pipeline that ensures its safety and quality before becoming accessible to other users.\n\nWhen a file is uploaded, the system immediately computes a unique SHA-256 digital fingerprint to detect duplicate or blacklisted files, then compresses it using the GZIP algorithm to reduce its size, and finally encrypts it using Infisical KMS before storing it in Backblaze B2. Once these stages are complete, the file is automatically added to a smart job queue built on Bull and Redis, where the AI engine processes it asynchronously to produce short and full summaries, interactive flashcards, and automatic classifications. The file content is also converted into mathematical vector representations stored in Pinecone to enable intelligent semantic search across the platform.\n\nThe project is built on a modern architecture combining NestJS on the backend and Next.js on the frontend, backed by a PostgreSQL database managed through Prisma as the ORM layer. User identity is handled via Auth0, which issues JWT tokens that the backend verifies and uses to enforce a multi-tiered role-based access control system. This system defines four access levels: Guest, Student, Instructor, and Admin, each with specific permissions that govern what they can view or perform within the platform.\n\nThe system provides users with a rich experience that includes downloading files through secure time-limited pre-signed URLs, fifteen minutes for guests and sixty minutes for authenticated users, full-text search powered by PostgreSQL, academic content translation via DeepL, real-time notifications through WebSocket, and a comprehensive review system allowing students to rate both files and instructors.\n\nThe entire project runs inside a Docker Compose environment consisting of four integrated services: the database, Redis, the backend, and the frontend. These services communicate through a private internal network, ensuring security isolation and ease of deployment across different environments.",
+    "supervisor": "Waleed Albattah وليد البطاح",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "AI-powered secure academic file sharing",
+      "and management web platform"
+    ],
+    "poster_image": "iClass-poster_دينا الودية.pdf",
+    "students": [
+      {
+        "name_en": "Manar Altorbag",
+        "name_ar": "منار الطرباق",
+        "uni_id": "391202365"
+      },
+      {
+        "name_en": "Hanadi Almutairi",
+        "name_ar": "هنادي المطيري",
+        "uni_id": "421202191"
+      },
+      {
+        "name_en": "Dina Alwadia",
+        "name_ar": "دينا الودية",
+        "uni_id": "422217070"
+      },
+      {
+        "name_en": "Ghada Alharbi",
+        "name_ar": "غادة الحربي",
+        "uni_id": "431201305"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "title": "Wearable device for predicting Epileptic Seizures using AI",
+    "description": "يُعدّ الصرع اضطرابًا عصبيًا يتميز بنوبات مفاجئة وغير متوقعة، مما يشكل مخاطر كبيرة على سلامة المرضى ويجعل الحياة اليومية أكثر صعوبة بسبب عدم توفر أنظمة موثوقة للتنبؤ بالنوبات بشكل فوري. يقترح هذا المشروع حلاً قابلاً للارتداء يقوم بتحليل إشارات تخطيط الدماغ (EEG) والإشارات الفسيولوجية باستخدام تقنيات معالجة الإشارات والتعلم العميق (CNN) وتقنيات تعلم الآلة، بهدف التنبؤ بحدوث النوبات مسبقًا. يوفر النظام تنبيهات في الوقت المناسب ويقوم بإخطار مقدمي الرعاية، مما يتيح التدخل المبكر ويساهم في تحسين سلامة المرضى وزيادة استقلاليتهم.",
+    "supervisor": "جمال العتيبي",
+    "section": "male",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي",
+      "الأجهزة القابلة للارتداء",
+      "الأنظمة المدمجة",
+      "إنترنت الأشياء",
+      "معالجة الإشارات الحيوي"
+    ],
+    "poster_image": "Wearable device for predicting Epileptic Seiz_مهند الخضير.pptx",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "مهند صالح الخضير",
+        "uni_id": "431107914"
+      },
+      {
+        "name_en": "",
+        "name_ar": "هارون خالد العقيل",
+        "uni_id": "431107905"
+      },
+      {
+        "name_en": "",
+        "name_ar": "عبدالله غانم الغانم",
+        "uni_id": "431107765"
+      },
+      {
+        "name_en": "",
+        "name_ar": "محمد صالح القرناس",
+        "uni_id": "421108241"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "title": "A HEALTH ASSISTANT SYSTEM FOR SYMPTOMS ANALYSIS AND RECOMMENDATIONS",
+    "description": "Healthcare systems face challenges such as long waiting times, overcrowding, and difficulty in Implementation welcome and sign-up screen obtaining quick medical consultations. This project aims to provide a digital system the helps patients analyze their symptoms and receive preliminary medical recommendations in a fast and efficient way. We used Python, GitHub, and Django to build this project.",
+    "supervisor": "محمد الهاجري",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Medical"
+    ],
+    "poster_image": "Graduation Project Poster Itmian_نوف الجاسر.pdf",
+    "students": [
+      {
+        "name_en": "Hadeel altanani",
+        "name_ar": "",
+        "uni_id": "412217672"
+      },
+      {
+        "name_en": "Nouf aljasser",
+        "name_ar": "",
+        "uni_id": "412205397"
+      },
+      {
+        "name_en": "Norah alsubaie",
+        "name_ar": "",
+        "uni_id": "422205633"
+      },
+      {
+        "name_en": "Dalaa alaboodi",
+        "name_ar": "",
+        "uni_id": "422215281"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "title": "AI- Based Pool monitoring systems",
+    "description": "نظام نبيه هو نظام ذكي لمراقبة أحواض السباحة يعتمد على الذكاء الاصطناعي لتحليل حركات السباحين واكتشاف حالات الخطر مبكرًا. يستخدم نموذج YOLOv11 لإرسال تنبيهات فورية عبر تطبيق جوال مع إشعارات صوتية. يتميز بأنه منخفض التكلفة وقابل للتوسّع، مما يعزز السلامة ويقلل الاعتماد على المراقبة البشرية",
+    "supervisor": "غيداء الحميدي",
+    "section": "female",
+    "campus": "Unaizah",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "poster of GP_علي مصطفى خان.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "لين الزامل",
+        "uni_id": "421202228"
+      },
+      {
+        "name_en": "",
+        "name_ar": "منار المطيري",
+        "uni_id": "422205706"
+      },
+      {
+        "name_en": "",
+        "name_ar": "دانية المذن",
+        "uni_id": "421215943"
+      },
+      {
+        "name_en": "",
+        "name_ar": "وجدان المطيري",
+        "uni_id": "421202161"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "title": "Shaheen",
+    "description": "An AI-powered, real-time traffic violation detection system that transforms patrol vehicles into intelligent monitoring units. Using computer vision and deep learning, Shaheen automatically detects key violations, such as seatbelt non-compliance, faulty vehicle lights, and misuse of disability parking, with high accuracy and speed. By reducing human intervention and enabling dynamic, mobile surveillance, Shaheen enhances enforcement efficiency and supports a safer, smarter future for our roads.",
+    "supervisor": "Prof. Suliman Alsuhaibany, Co-Supervisor: Dr.Muna Almushayti",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence",
+      "Computer Vision",
+      "Camera Surveillance",
+      "Data Engineering"
+    ],
+    "poster_image": "Shaheen Poster_علي مصطفى خان.pdf",
+    "students": [
+      {
+        "name_en": "Asma Abdalqader Abuhassanien",
+        "name_ar": "",
+        "uni_id": "422217071"
+      },
+      {
+        "name_en": "Melaf Abdullah Alobidan",
+        "name_ar": "",
+        "uni_id": "422205737"
+      },
+      {
+        "name_en": "Najla Mohammed Alfayez",
+        "name_ar": "",
+        "uni_id": "421202010"
+      },
+      {
+        "name_en": "Norah Ibrahim Alnafisah",
+        "name_ar": "",
+        "uni_id": "421201975"
+      },
+      {
+        "name_en": "Hadeel Mezal Alrashidi",
+        "name_ar": "",
+        "uni_id": "422205662"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "title": "Aleef - An AI-based platform for pet adoption",
+    "description": "‏Aleef is an AI-powered platform designed to transform the pet adoption experience and support animal welfare. It brings together pet adoption, lost-and-found reporting, veterinary services, and intelligent recommendations into one seamless application. By leveraging advanced machine learning algorithms, It introduces a digital Pet ID system for easy tracking and identification, along with real-time communication features that connect pet owners, adopters, and veterinarians instantly. With its smart chatbot and personalized recommendations.",
+    "supervisor": "د.منى المشيطي",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Data analysis",
+      "Machine Learning",
+      "recommendations",
+      "large language models",
+      "digitization"
+    ],
+    "poster_image": "Aleef po_علي مصطفى خان.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "وتين السيف",
+        "uni_id": "421202072"
+      },
+      {
+        "name_en": "",
+        "name_ar": "اغادي الربدي",
+        "uni_id": "422205807"
+      },
+      {
+        "name_en": "",
+        "name_ar": "بثينه الشريف",
+        "uni_id": "422205680"
+      },
+      {
+        "name_en": "",
+        "name_ar": "رسيل النويصر",
+        "uni_id": "412205570"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "title": "Pothole Detection Project",
+    "description": "مشروع استكشاف حفر الشوارع باستخدام الذكاء الاصطناعي وحفظها ورفعها لموقع للتبليغ عنها ولأستخدامها لاحقا لتدريب الذكاء الصناعي اكثر لتحسين قدرته بالاكتشاف",
+    "supervisor": "Dr. Ali Mustafa Qamar Khan",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "HADHIR._ايمن العصيلي.png",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "أيمن العصيلي",
+        "uni_id": "421108171"
+      },
+      {
+        "name_en": "",
+        "name_ar": "خالد الرشيدي",
+        "uni_id": "421116207"
+      },
+      {
+        "name_en": "",
+        "name_ar": "سلمان النافع",
+        "uni_id": "411107637"
+      },
+      {
+        "name_en": "",
+        "name_ar": "مروان السلامة",
+        "uni_id": "431108178"
+      },
+      {
+        "name_en": "",
+        "name_ar": "عبدالله الحبيب",
+        "uni_id": "431109255"
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "title": "Investigating the Implementation of Artificial Intelligence Technologies in Governance: A Risk Framework",
+    "description": "This thesis aimed to explore the main gaps in current artificial intelligence (AI) governance research, to determine the core components of AI security governance, to develop a risk governance framework, and to empirically test the proposed model, while assessing the explanatory and predictive importance of the studied dimensions in shaping Security and Resilience. The research targeted professionals working in information technology (IT)-related roles in Saudi Arabia, with the final analytical sample comprising 149 usable responses. A bilingual online questionnaire was used to collect data, with data analyzed using partial least squares-based structural equation modeling (PLS-SEM) and artificial neural network (ANN) analysis. The findings showed that Governance Integration did not significantly influence Accountability, whereas Accountability, Governance Integration, and Bias Mitigation and Fairness significantly influenced Security and Resilience. The ANN results further showed that Accountability had the highest predictive importance. The thesis concludes that AI governance requires a more operational and cybersecurity-oriented approach within organizational environments for it to be effectively implemented.",
+    "supervisor": "Ali Alkhalifah",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "master",
+    "tags": [
+      "Science in Cybersecurity"
+    ],
+    "poster_image": "Investigating the Implementation of Artificia_ارجوان البليهي.pdf",
+    "students": [
+      {
+        "name_en": "Orjuwan Albulayhi",
+        "name_ar": "",
+        "uni_id": "451212608"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "title": "Robotic Goalkeeper",
+    "description": "يهدف المشروع إلى تطوير نظام دفاعي روبوتي يعمل بشكل مستقل لرصد واعتراض الأهداف عالية السرعة في الوقت الفعلي. يعتمد النظام على وحدة معالجة Raspberry Pi 5 لضمان سرعة معالجة الفيديو بمعدل 30 إطاراً في الثانية، مع دمج نموذج تعلم عميق من نوع MobileNetV2 تم تحسينه وتدريبه على قاعدة بيانات تتجاوز 20,000  صورة لضمان دقة التصنيف في ظروف الإضاءة المختلفة والبيئات المعقدة.\nيتميز النظام باستخدام خوارزمية Kalman Filter للتنبؤ بالمسار المستقبلي للكرة وتجاوز فجوة الاستجابة الميكانيكية، مما يتيح لمحركات المؤازرة (Servos) من نوع DS3225MG التحرك الاستباقي لتغطية المنطقة المستهدفة بدقة عالية وزمن تأخير (Latency) ضئيل جداً. يمثل المشروع نموذجاً متكاملاً لتطبيقات الذكاء الاصطناعي في الأنظمة المدمجة (Embedded Systems).\n\nThis project presents an autonomous robotic system designed for real-time detection and interception of high-speed targets. The system leverages a Raspberry Pi 5 for edge computing, processing live video at 30 FPS. A specialized MobileNetV2 deep-learning model, trained on a comprehensive dataset of 20,000+ images, provides robust object classification across varying lighting and cluttered environments.\n\nTo optimize mechanical response, a Kalman Filter is integrated for trajectory prediction, enabling high-torque DS3225MG servos to proactively secure landing zones. This integration minimizes system latency and demonstrates the effectiveness of deploying complex neural networks on portable, low-power hardware for high-speed robotic applications.",
+    "supervisor": "Dr. Saleh Abdelhafeez",
+    "section": "male",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "bachelor",
+    "tags": [
+      "ذكاء اصطناعي"
+    ],
+    "poster_image": "Robotic Goalkeeper Poster_خليفة حسن التوم.pdf",
+    "students": [
+      {
+        "name_en": "Khalifa Kamal Eltoum",
+        "name_ar": "",
+        "uni_id": "431114822"
+      },
+      {
+        "name_en": "Ali Abdullah Eloraini",
+        "name_ar": "",
+        "uni_id": "431109253"
+      },
+      {
+        "name_en": "Majed Hasan Alhsenan",
+        "name_ar": "",
+        "uni_id": "422115892"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "title": "Vision-Based Self-Mapping for Autonomous Indoor Drones",
+    "description": "The goal of this project is to develop an adaptive image enhancement framework that:\n\t•\tImproves SLAM robustness in poor lighting conditions.\n\t•\tEnhances degraded frames only when necessary.\n\t•\tMaintains real-time drone performance.\n\t•\tReduces unnecessary computational overhead.",
+    "supervisor": "د.جمال العتيبي ، د. العنود الحربي",
+    "section": "female",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "master",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "830F80AD-0560-4CF6-ACA7-5BBB53464EF6_ورود الرشيدي.png",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "ورود عبيد الرشيدي",
+        "uni_id": "461215971"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "title": "نظام كشف الاحتيال الصوتي باستخدام الذكاء الاصطناعي",
+    "description": "مشروع صون هو نظام ذكي للكشف عن الاحتيال الصوتي باستخدام تقنيات الذكاء الاصطناعي، يهدف إلى حماية المستخدمين من المكالمات الاحتيالية التي تعتمد على انتحال الهوية، أساليب الإقناع الاحتيالي، أو الأصوات المولدة بالذكاء الاصطناعي. يعمل النظام على تحليل المكالمة الصوتية في الوقت الفعلي من خلال ثلاث وحدات رئيسية: تحليل نمط الكلام لاكتشاف العبارات والأساليب الاحتيالية، التحقق من البصمة الصوتية لمعرفة هوية المتحدث ومقارنتها بالبيانات المسجلة، وكشف الأصوات المزيفة أو المعدلة باستخدام نماذج متخصصة في اكتشاف التزييف الصوتي.\n\nيركز المشروع على دعم البيئة العربية، خصوصًا المكالمات التي تحتوي على لهجات عربية أو ضوضاء أو مقاطع صوتية قصيرة، وهي من التحديات التي تواجه أنظمة الكشف التقليدية. بعد تحليل المكالمة، يقوم النظام بدمج نتائج الوحدات الثلاث وتصنيف مستوى الخطورة إلى أربع فئات: لا يوجد احتيال، منخفض، متوسط، أو عالي. وفي حال وجود اشتباه، يتم تنبيه المستخدم مباشرة أثناء المكالمة لمساعدته على اتخاذ القرار المناسب وحماية بياناته ومعلوماته الشخصية.\n\nيتميز المشروع بأنه من أوائل الأنظمة في المنطقة العربية التي تجمع بين تحليل الكلام، البصمة الصوتية، وكشف التزييف الصوتي في نظام واحد متعدد النماذج. كما يساهم في تقليل مخاطر الاحتيال المالي وحماية المستخدمين من أساليب الاحتيال الحديثة، مع إمكانية دمجه مستقبلًا مع تطبيقات الاتصالات أو البنية التحتية لشركات الاتصالات لتعزيز الأمان الرقمي.",
+    "supervisor": "د. فيصل الحويكم",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "Voice Fraud Detection System Using Artificia_حور محمد الشيحي.pdf",
+    "students": [
+      {
+        "name_en": "ِ",
+        "name_ar": "رِهاف الحودي",
+        "uni_id": "421202046"
+      },
+      {
+        "name_en": "",
+        "name_ar": "رهف الشهراني",
+        "uni_id": "421201791"
+      },
+      {
+        "name_en": "",
+        "name_ar": "حور الشيحي",
+        "uni_id": "422205733"
+      },
+      {
+        "name_en": "",
+        "name_ar": "أريام الجارالله",
+        "uni_id": "421202085"
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "title": "Autonomous Drone Navigation Using Computer Vision: Long-tail and Adverse Weather Scenarios.",
+    "description": "Autonomous drones are increasingly employed in urban GPS-limited environments. Computer vision-based navigation offers a promising alternative but faces critical challenges in long-tail scenarios such as rare obstacles (e.g., bird strikes, thin wires) and adverse weather conditions (rain, fog, dust) that degrade visual perception. This research investigates robust navigation strategies combining deep learning  with weather processing pipelines to maintain flight safety in these edge cases.",
+    "supervisor": "Dr. Jamal Al-Otaibi",
+    "section": "male",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "master",
+    "tags": [
+      "This research focuses on improving vision-based autonomous drone navigation under two difficult operating conditions: adverse weather and long-tail rare safety events. It studies how a drone can use camera images",
+      "IMU signals",
+      "and weather context to detect obstacles",
+      "estimate navigable areas",
+      "infer depth",
+      "and make safer navigation decisions when visibility is degraded or uncommon hazards appear."
+    ],
+    "poster_image": "poster 1_محمد سن.png",
+    "students": [
+      {
+        "name_en": "Muhammad Jamil Sani",
+        "name_ar": "",
+        "uni_id": "451117438"
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "title": "Qiyaf",
+    "description": "Qiyaf is an intelligent solar panel inspection system that utilizes Unmanned Aerial Vehicles (UAVs), computer vision, and artificial intelligence to automate inspection processes and enable early defect detection. The project addresses the limitations of traditional inspection methods, which are often time-consuming and labor-intensive, by capturing solar panel video footage and analyzing it using deep learning models capable of accurately detecting defects such as cracks, dust accumulation, bird droppings, and snow coverage. The system also provides an interactive dashboard for real-time result visualization, panel condition monitoring, and maintenance decision support, contributing to improved operational efficiency and the sustainability of solar energy production.",
+    "supervisor": "Mohammed Alsuhaibani",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "ذكاء اصطناعي"
+    ],
+    "poster_image": "qiyaf8After updated_في الصالحي.pdf",
+    "students": [
+      {
+        "name_en": "Fay Alsalhi",
+        "name_ar": "",
+        "uni_id": "422205635"
+      },
+      {
+        "name_en": "Deem Alnughmush",
+        "name_ar": "",
+        "uni_id": "421201996"
+      },
+      {
+        "name_en": "Lamis Alzara",
+        "name_ar": "",
+        "uni_id": "422205712"
+      },
+      {
+        "name_en": "Ghala Alshayb",
+        "name_ar": "",
+        "uni_id": "431201465"
+      },
+      {
+        "name_en": "Rana Alghaidani",
+        "name_ar": "",
+        "uni_id": "431201341"
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "title": "LEVERAGING AI FOR ENHANCED CRIME PREVENTION AND  LAW ENFORCEMENT",
+    "description": "The research focuses on developing a system for classifying crime-related Arabic text extracted from social media platforms (such as X/Twitter) using modern Natural Language Processing (NLP) techniques.\n\nIn simple terms, the study addresses the problem that large amounts of Arabic posts related to crimes are generated daily, and manually analyzing them is slow and inefficient for law enforcement agencies. Therefore, the research proposes using deep learning and transformer-based models to automatically detect and categorize these texts into predefined crime-related classes.\n\nAt the core of the methodology are Bidirectional Encoder Representations from Transformers (BERT) and Arabic-adapted variants such as AraBERT, which are fine-tuned for the classification task. These models are trained on labeled Arabic datasets after preprocessing steps such as cleaning, normalization, and tokenization.\n\nThe study includes:\n\n- Data collection from Arabic social media text related to crime\n- Preprocessing of noisy Arabic text (handling dialects)\n- Model training and fine-tuning using transformer-based architectures\n- Evaluation using standard metrics such as accuracy, precision, recall, and F1-score\n- Comparison with other models and studies\n\nThe main goal of the research is to improve the detection and classification of crime-related content in Arabic, helping support faster decision-making and situational awareness in law enforcement contexts.",
+    "supervisor": "Manal Alghieth",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "AI"
+    ],
+    "poster_image": "POSTER_نجود الحربي.pdf",
+    "students": [
+      {
+        "name_en": "Njood Khalid Alharbi",
+        "name_ar": "",
+        "uni_id": "441212541"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "title": "GRADUATION PROJECT MANAGEMENT SYSTEM",
+    "description": "The GPMS is a web-based system designed to\nautomate and streamline the graduation project\nlifecycle. It provides a centralized system for\nstudents, supervisors, and administrators to\nmanage projects efficiently.",
+    "supervisor": "Dr. Abdulatif Alabdulatif",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "تطوير ويب"
+    ],
+    "poster_image": "Poster for graduation project_محمد الحماطي.pdf",
+    "students": [
+      {
+        "name_en": "Albarq Hassan Alfetahi",
+        "name_ar": "",
+        "uni_id": "431114838"
+      },
+      {
+        "name_en": "Obaid Saleh Bin Abadat",
+        "name_ar": "",
+        "uni_id": "431114834"
+      },
+      {
+        "name_en": "Mohammed Mansour Alhamati",
+        "name_ar": "",
+        "uni_id": "431114833"
+      },
+      {
+        "name_en": "Faisal Qasem Thabit",
+        "name_ar": "",
+        "uni_id": "422117041"
+      },
+      {
+        "name_en": "Mohammed Suliman Alnehabi",
+        "name_ar": "",
+        "uni_id": "431109193"
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "title": "Accurate Time Series Forecasting of the Saudi Arabian Stock Market Using Hybrid Deep Learning Models",
+    "description": "Forecasting financial markets is one of the hardest problems in applied economics, and the difficulty only multiplies in volatile emerging markets. This paper takes on that challenge by forecasting the Saudi Arabian stock market index (TASI) using ten years of daily data (2014–2024), combining traditional econometric methods with state-of-the-art deep learning techniques.\nFive forecasting approaches were tested — from pattern-based and volatility models to LSTM, CNN, and a hybrid CNN-LSTM. The hybrid model outperformed all others, cutting errors by over 20% compared to ARIMA while staying resilient through crises like the 2014–15 oil crash and COVID-19. This confirms that combining convolutional and recurrent layers captures both short-term shifts and long-term trends more effectively than either approach alone.\nBeyond accuracy, this study makes three meaningful contributions: it applies hybrid deep learning to an underexplored market, provides a rare long-term TASI dataset, and delivers a practical forecasting tool aligned with Saudi Vision 2030's financial innovation goals — offering real value to investors and decision-makers navigating complex markets.\n\n-----\nMaster's Thesis — Based",
+    "supervisor": "DR. Ali Mustafa Qamar Khan",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "data mining - AI"
+    ],
+    "poster_image": "Accurate Time Series Forecasting of the Saudi_زمزم المشيطي.pdf",
+    "students": [
+      {
+        "name_en": "Zamzam Abdulaziz Almushayti",
+        "name_ar": "",
+        "uni_id": "451214907"
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "title": "Alumni Data Management System (ADMS) for College of Computer (COC)",
+    "description": "Alumni play a vital role in supporting universities by promoting professional development, strengthening institutional networks, and enhancing communication between graduates and their universities. Despite this importance, many colleges face challenges in managing alumni data efficiently and maintaining continuous engagement with graduates after they complete their studies. This project presents an Alumni Data Management System (ADMS) developed for the College of Computer at Qassim University with the aim of improving alumni information management and facilitating effective communication between the college and its graduates.\n\nThe proposed system was designed using standard system analysis and design methodologies, including use case diagrams and data flow diagrams, to ensure a structured and user-centered solution. The system provides several essential features for administrators, such as managing alumni records, searching and filtering data, generating organized alumni information, and publishing announcements and updates. In addition, alumni users are able to access news and announcements, browse graduate profiles, and update their personal and professional information through an easy-to-use interface.\n\nThe developed system offers a reliable, secure, and user-friendly platform that enhances the efficiency of alumni data management while strengthening long-term engagement between the college and its graduates. Furthermore, the system contributes to building a connected academic and professional community that supports collaboration, networking, and future institutional development.",
+    "supervisor": "د. دانيه بنت علي العقلاء",
+    "section": "male",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Information Systems"
+    ],
+    "poster_image": "Alumni Data Management System (ADMS) for Coll_دانيه العقلاء.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "عبدالله ناصر عبدالله الراشد",
+        "uni_id": "421108116"
+      },
+      {
+        "name_en": "",
+        "name_ar": "محمد عبدالله محمد الجمل",
+        "uni_id": "431109157"
+      },
+      {
+        "name_en": "",
+        "name_ar": "معاذ صالح حمد البريدي",
+        "uni_id": "421109543"
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "title": "StrokeWatcher",
+    "description": "StrokeWatcher is an AI-powered mobile application designed to support early stroke detection before hospital arrival. It analyzes facial\nexpressions, speech, and user responses to structured questions to assess potential stroke symptoms. The system generates a concise\ntriage card summarizing the user’s condition, including Triage Level, onset window, assessment results, recommended actions, and Medical\nID By providing real-time guidance, StrokeWatcher aims to enable faster decision-making and improve outcomes in emergency situations.",
+    "supervisor": "Dr. Abdulrahman Aloraini",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence (AI)",
+      "Health Technology",
+      "Machine Learning",
+      "Natural Language Processing"
+    ],
+    "poster_image": "StrokeWatcher, Department of Information Tech_نالة الشتيوي.pdf",
+    "students": [
+      {
+        "name_en": "Nalah Alshetaiwi",
+        "name_ar": "",
+        "uni_id": "431201603"
+      },
+      {
+        "name_en": "Hind Almutlaq",
+        "name_ar": "",
+        "uni_id": "431201498"
+      },
+      {
+        "name_en": "Sarah Alharbi",
+        "name_ar": "",
+        "uni_id": "422205652"
+      },
+      {
+        "name_en": "Remaz Alzain",
+        "name_ar": "",
+        "uni_id": "431201569"
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "title": "DRIVER DROWSINESS DETECTION SYSTEM",
+    "description": "Public safety is increasingly threatened by violent incidents in public areas such as schools and care centers, while traditional CCTV monitoring is slow, error-prone, and inefficient. This project proposes a real-time AI-based violence detection system that analyzes live video to detect aggressive behaviors and abnormal actions, sends instant alerts to authorities for rapid response,\nclassifies incidents by severity (low, medium, high), logs all events with details such as time, location, camera ID, and severity, and provides an interactive dashboard for real-time monitoring.",
+    "supervisor": "د. عائشة بنت عبد الرزاق بن مخلوف",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي",
+      "إنترنت الأشياء"
+    ],
+    "poster_image": "YAQIDH Poster_عائشة ..pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "ريم راشد محمد العمري الحربي",
+        "uni_id": "421201722"
+      },
+      {
+        "name_en": "",
+        "name_ar": "ريما ناصر بن مطر الحربي",
+        "uni_id": "422205811"
+      },
+      {
+        "name_en": "",
+        "name_ar": "سلطانه فهد بن سعد العامر",
+        "uni_id": "422214684"
+      },
+      {
+        "name_en": "",
+        "name_ar": "فجر علي حسين النجمي",
+        "uni_id": "411203540"
+      },
+      {
+        "name_en": "",
+        "name_ar": "مزنه عماش بن نافع الحربي",
+        "uni_id": "422205715"
+      },
+      {
+        "name_en": "",
+        "name_ar": "وجدان نويفع محمد الحربي",
+        "uni_id": "422205629"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "title": "Culturally Robust Driver Drowsiness Detection",
+    "description": "Drowsy driving is a major cause of road accidents because it reduces driver attention and slows reaction time. However, many existing driver-monitoring systems rely on full facial visibility or expensive hardware, making them less practical in Saudi Arabia and GCC countries, where drivers may wear niqab, hijab, shemagh, or masks. This project addresses the need for a practical and culturally adaptive drowsiness detection system. The project proposes an AI-based solution using a YOLO-based computer vision model and a mobile camera to detect visible cues such as eye closure and head movement. The system runs directly on the mobile device to preserve privacy and provides real-time audio alerts to improve driver safety.",
+    "supervisor": "Dr. Aicha BEN MAKHLOUF",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الأنظمة الذكية",
+      "التعلم العميق"
+    ],
+    "poster_image": "poster last version_عائشة ..pdf",
+    "students": [
+      {
+        "name_en": "Aleen Alqwaifel",
+        "name_ar": "",
+        "uni_id": "431201500"
+      },
+      {
+        "name_en": "Joud Alsaweed",
+        "name_ar": "",
+        "uni_id": "431201495"
+      },
+      {
+        "name_en": "Raihanah Alsalom",
+        "name_ar": "",
+        "uni_id": "421202111"
+      },
+      {
+        "name_en": "Lana Aldeaiji",
+        "name_ar": "",
+        "uni_id": "431201365"
+      },
+      {
+        "name_en": "Leen Aljasser",
+        "name_ar": "",
+        "uni_id": "431201485"
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "title": "Artificial Intelligence Attendance System [AIAS]",
+    "description": "AIAS is an AI-powered Windows desktop application connected to a ceiling-mounted camera that captures periodic images of students during the lecture. Using YOLO for face detection and ArcFace/FaceNet for recognition, the system identifies students and updates attendance automatically throughout the session.",
+    "supervisor": "Dr. Boulbaba Benammar",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي",
+      "تحليل البيانات"
+    ],
+    "poster_image": "AIAS Poster(LV)_نواف الميموني المطير.pdf",
+    "students": [
+      {
+        "name_en": "Mohammed Alharbi",
+        "name_ar": "",
+        "uni_id": "431108002"
+      },
+      {
+        "name_en": "Ziyad Alharbi",
+        "name_ar": "",
+        "uni_id": "431109377"
+      },
+      {
+        "name_en": "Nawaf Almutairi",
+        "name_ar": "",
+        "uni_id": "431109232"
+      },
+      {
+        "name_en": "Rakan Alharbi",
+        "name_ar": "",
+        "uni_id": "431107955"
+      },
+      {
+        "name_en": "Omar Alharbi",
+        "name_ar": "",
+        "uni_id": "431109224"
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "title": "Gamified Physiotherapy: An Interactive Rehabilitation System Using AI and Motion Tracking for Brachial Plexus Injury",
+    "description": "This project developed an intelligent and interactive rehabilitation system for patients with Brachial Plexus Injuries (BPI) using Artificial Intelligence (AI), motion tracking, and gamification technologies. Patients with upper-limb injuries often undergo long and repetitive physiotherapy sessions, which can reduce motivation and adherence to rehabilitation programs. Therefore, the proposed system transforms traditional rehabilitation exercises into engaging game-based activities that improve patient participation and therapy consistency.\nThe system utilizes real-time body motion tracking through MediaPipe technology to detect body landmarks, calculate joint angles, and measure the patient’s Range of Motion (ROM) during rehabilitation sessions. It also includes adaptive rehabilitation games that automatically adjust exercise difficulty based on the patient’s performance and progress.\nIn addition, the system provides a comprehensive medical dashboard that enables physiotherapists to monitor patient progress, analyze historical performance data, evaluate rehabilitation outcomes, and make data-driven clinical decisions. The project was developed using an iterative development methodology that involved continuous design, implementation, testing, and refinement with feedback from physiotherapists.\nAlthough the system was primarily designed for patients with Brachial Plexus Injuries, it also demonstrated the potential to support rehabilitation for other conditions such as Stroke, Cerebral Palsy, and post-surgical recovery cases.",
+    "supervisor": "Dr. Ahmad John Reeves",
+    "section": "female",
+    "campus": "Ar-Rass",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence & Gamification"
+    ],
+    "poster_image": "Gamified Physiotherapy An Interactive Rehabil_شوق الحبس.pdf",
+    "students": [
+      {
+        "name_en": "Shouq Mansour Alhabs",
+        "name_ar": "",
+        "uni_id": "431201849"
+      },
+      {
+        "name_en": "Nouf Meshal Alharbi",
+        "name_ar": "",
+        "uni_id": "422205760"
+      },
+      {
+        "name_en": "Alanoud Saud Alghofaili",
+        "name_ar": "",
+        "uni_id": "422205779"
+      },
+      {
+        "name_en": "Mulikah Saleh Aldubayyan",
+        "name_ar": "",
+        "uni_id": "431201823"
+      },
+      {
+        "name_en": "Nassebah Rashed Aldubayyan",
+        "name_ar": "",
+        "uni_id": "431201800"
+      },
+      {
+        "name_en": "Mona Mohammed Qiqab",
+        "name_ar": "",
+        "uni_id": "431216906"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "title": "INTERACTIVE INDOOR WAYFINDING AND NAVIGATION KIOSK SYSTEM",
+    "description": "The project is a flexible and highly customizable Smart Indoor Navigation System designed to guide visitors, and staff through complex buildings and facilities (such as hospitals, airports, shopping malls, and academic or governmental institutions) using the shortest and most accurate routes.\n\nThe system has been successfully developed and deployed as a \"Proof of Concept\" (PoC) within our college building, validating its high scalability and seamless adaptability to any other indoor environment simply by updating its database. Operating as an Interactive Kiosk powered by a Raspberry Pi, the system features dynamic, visually clear digital map generation. The core software relies on advanced pathfinding algorithms based on Graph Theory, alongside a robust SQLite database and a responsive UI. This makes the project an innovative, market-ready technical solution that actively contributes to transforming traditional facilities into smart buildings.\n\nالمشروع عبارة عن نظام ملاحة داخلي ذكي (Smart Indoor Navigation System) مرن وقابل للتخصيص، يهدف إلى إرشاد الزوار والمستخدمين داخل المباني والمنشآت المعقدة (مثل المستشفيات، المطارات، المراكز التجارية، والقطاعات الحكومية أو الأكاديمية) بأقصر الطرق وأكثرها دقة.\n\nتم بناء وتطبيق النظام بنجاح كـ \"إثبات مفهوم\" (Proof of Concept) داخل مبنى الكلية، مما يؤكد قابليته العالية للتوسع (Scalability) وإمكانية استنساخه وتطبيقه في أي بيئة داخلية أخرى بمجرد تحديث قاعدة البيانات. يعمل النظام كمنصة استعلام تفاعلية (Interactive Kiosk) مدعومة بمعالج (Raspberry Pi)، ويتميز بتوليد خرائط رقمية ديناميكية وواضحة بصرياً. يعتمد النظام برمجياً على خوارزميات تحديد المسار (Pathfinding Algorithms) المبنية على نظرية المخططات (Graph Theory)، مما يجعله حلاً تقنياً مبتكراً وقابلاً للتسويق يساهم في تحويل المباني التقليدية إلى بيئات ومبانٍ ذكية.",
+    "supervisor": "DR. MUHAMMAD ALI NAYEEM",
+    "section": "male",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "bachelor",
+    "tags": [
+      "Software Engineering & Algorithms",
+      "Smart & Embedded Systems",
+      "Smart Cities & Buildings."
+    ],
+    "poster_image": "Interactive Indoor Wayfinding and Navigation_ماجد العثمان 2.pdf",
+    "students": [
+      {
+        "name_en": "JEHAD ALI ALHARBI",
+        "name_ar": "",
+        "uni_id": "422112111"
+      },
+      {
+        "name_en": "MAJED MOHAMMED ALOTHMAN",
+        "name_ar": "",
+        "uni_id": "421107908"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "title": "Explainable AI-based Deep Learning Techniques for Breast Cancer Detection",
+    "description": "Breast cancer is a leading cause of death among women worldwide, \nmaking early detection critical. Traditional methods like mammography\nface limitations in accuracy and interpretation. This research proposes a deep learning framework using pretrained CNNs,\nCLAHE preprocessing, transfer learning, and Grad-CAM explainability to classify mammogram images as benign or\nmalignant and assign standardized BI-RADS labels. The system is evaluated using accuracy, sensitivity, specificity, \nprecision, recall, and AUC.",
+    "supervisor": "د. دينا محمود ابراهيم",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "Department of Information Technology. College_ندى العليان.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "ندى عبدالعزيز العليان",
+        "uni_id": "431201581"
+      },
+      {
+        "name_en": "",
+        "name_ar": "لجين احمد الصنات",
+        "uni_id": "421201784"
+      },
+      {
+        "name_en": "",
+        "name_ar": "رينال علي الدغماني",
+        "uni_id": "392206399"
+      },
+      {
+        "name_en": "",
+        "name_ar": "سديم علي البلهان",
+        "uni_id": "422205663"
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "title": "Device-Bound OTP Authentication (Waqaa)",
+    "description": "Waqaa is a smart security system that adds an extra layer of protection to applications such as banks or digital services.\nInstead of relying only on SMS verification codes, Waqaa confirms important actions using the user’s trusted personal device. When a sensitive action happens — like transferring money or approving access — the system quietly checks whether the request is really coming from the trusted device linked to the user.\nThe user continues using the main application normally, while Waqaa works in the background to help prevent fraud, stolen accounts, and fake verification attempts.",
+    "supervisor": "سليمان عمرو سليمان العمرو -",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "أمن البيانات"
+    ],
+    "poster_image": "Waqaa poster_ليان الله سويلم السو.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "ليان محمد عبدالله السويلم",
+        "uni_id": "412205629"
+      },
+      {
+        "name_en": "",
+        "name_ar": "روان عبدالرحمن ابراهيم الشمسان",
+        "uni_id": "431201752"
+      },
+      {
+        "name_en": "",
+        "name_ar": "لميس عبدالله نداء الحربي",
+        "uni_id": "431201519"
+      },
+      {
+        "name_en": "",
+        "name_ar": "حنان عبدالرحمن مليح الرشيدي",
+        "uni_id": "431201686"
+      },
+      {
+        "name_en": "",
+        "name_ar": "رامه عبدالله عبدالرحمن الميمان",
+        "uni_id": "431201740"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "title": "EmpathyBot: AI-Powered Mental Health Companion for Personalized Emotional Support",
+    "description": "EmpathyBot is an AI-powered mental health companion that uses real-time emotion detection and crisis management to make psychological support accessible to everyone.\nThe system is built on a RoBERTa-Large model (355M parameters) fine-tuned on the GoEmotions dataset across 28 emotion categories. Training utilized Weighted Focal Loss, AdamW optimizer with layer-wise learning rate decay, and Multi-Sample Dropout — achieving competitive Macro-F1 scores that surpass several existing studies in emotion classification.",
+    "supervisor": "Dr. Shuaa S. Alharbi",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "EmpathyBot_Poster_الدانة الجلالي.pdf",
+    "students": [
+      {
+        "name_en": "Aldanah Aljalali",
+        "name_ar": "",
+        "uni_id": "431201663"
+      },
+      {
+        "name_en": "Ethar Alashri",
+        "name_ar": "",
+        "uni_id": "431201576"
+      },
+      {
+        "name_en": "Rana Alturki",
+        "name_ar": "",
+        "uni_id": "431201441"
+      },
+      {
+        "name_en": "Ghadi Alharbi",
+        "name_ar": "",
+        "uni_id": "431201652"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "title": "Clauto - Classroom Automatic Attendance System",
+    "description": "Traditional classroom management relies heavily on manual procedures that are inefficient, error-prone, and energy-wasteful. Instructors manually activate equipment, attendance is recorded by hand, and scheduling conflicts arise from disconnected systems. CLAUTO addresses these challenges by integrating IoT automation, digital attendance tracking, and classroom reservation into a single unified platform  transforming standard university classrooms into smart, connected environments.",
+    "supervisor": "Njuod Alsudays",
+    "section": "female",
+    "campus": "Unaizah",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Internet Of Things - (IOT)"
+    ],
+    "poster_image": "Clauto -Classroom Automatic Attendance System_نورة اليهق.pdf",
+    "students": [
+      {
+        "name_en": "Areen Alkarraz",
+        "name_ar": "",
+        "uni_id": "421202172"
+      },
+      {
+        "name_en": "Jenan Alrumaih",
+        "name_ar": "",
+        "uni_id": "431201734"
+      },
+      {
+        "name_en": "Jood Alhumaimidi",
+        "name_ar": "",
+        "uni_id": "431201678"
+      },
+      {
+        "name_en": "Nora Alyahag",
+        "name_ar": "",
+        "uni_id": "431215227"
+      },
+      {
+        "name_en": "Wehad Alhrnda",
+        "name_ar": "",
+        "uni_id": "421202176"
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "title": "معيار",
+    "description": "The Miyar project is an interactive employee performance management platform that records every task completed by employees and allows managers to select evaluation criteria such as work quality, deadline adherence, teamwork, and organization. The platform leverages artificial intelligence to analyze task performance, deadline compliance, and overall efficiency, providing accurate and continuously updated ratings on a five-point scale.\nThe platform generates automatic, real-time reports that save time for both employees and managers. It also facilitates task assignment and enables easy tracking of task statuses, including completed, pending, and urgent tasks. Additionally, Miyar incorporates motivational elements such as experience points and badges to enhance employee engagement and motivation.\nThe primary goal of Miyar is to simplify employee performance tracking and deliver objective, fair evaluations that support professional growth, boost productivity, and foster mutual trust between employees and management.",
+    "supervisor": "د. هادية الزردي",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "Miyar_لجين العميل.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "مشاعل صالح الحربي",
+        "uni_id": "421201914"
+      },
+      {
+        "name_en": "",
+        "name_ar": "لجين عبدالله العميل",
+        "uni_id": "421202133"
+      },
+      {
+        "name_en": "",
+        "name_ar": "مرادي عبدالله ابالخيل",
+        "uni_id": "411202069"
+      },
+      {
+        "name_en": "",
+        "name_ar": "حنين يوسف الراجح",
+        "uni_id": "422205675"
+      },
+      {
+        "name_en": "",
+        "name_ar": "جوري أحمد المحيميد",
+        "uni_id": "421201890"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "title": "AI-Powered Personal Hajj E-Guide",
+    "description": "Millions of Muslims perform Hajj annually, yet existing digital solutions remain fragmented, connectivity dependent, and not pilgrim centric leaving individuals without personalized guidance or reliable offline support. Unlike current apps, this project uniquely combines Al-powered ritual guidance, offline geofencing, and hybrid positioning into a single intelligent companion that functions without internet connectivity.",
+    "supervisor": "Dr. Salim EL KHEDIRI",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "Personal_Hajj_E-Guide_شهد الخطاف.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "دانيا الحربي",
+        "uni_id": "431201854"
+      },
+      {
+        "name_en": "",
+        "name_ar": "ايمان الخضير",
+        "uni_id": "421202305"
+      },
+      {
+        "name_en": "",
+        "name_ar": "فرح المطلق",
+        "uni_id": "431201459"
+      },
+      {
+        "name_en": "",
+        "name_ar": "شهد الخطاف",
+        "uni_id": "431201570"
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "title": "EagleEye: AI-Powered Detection of Small Objects in UAV Footage",
+    "description": "EagleEye is an AI-powered system designed to detect small targets in UAV footage. It uses deep learning models to overcome challenges like low resolution, occlusions, and complex backgrounds. The project integrates multi-scale learning and attention mechanisms to improve feature extraction and accuracy. Models like YOLOv8, YOLOv9, and YOLOv11 are trained on specialized datasets such as VisDrone to enable effective object detection.",
+    "supervisor": "Dr. Dina M. Ibrahim",
+    "section": "male",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence"
+    ],
+    "poster_image": "EAGLE_EYE472 Poster_دينا حسين.png",
+    "students": [
+      {
+        "name_en": "Abdullah Aldahami",
+        "name_ar": "",
+        "uni_id": "421108028"
+      },
+      {
+        "name_en": "Meshal Alfehaid",
+        "name_ar": "",
+        "uni_id": "431108126"
+      },
+      {
+        "name_en": "Abdulaziz Almutiri",
+        "name_ar": "",
+        "uni_id": "421109830"
+      },
+      {
+        "name_en": "Turki Alharbi",
+        "name_ar": "",
+        "uni_id": "421109488"
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "title": "AI-Generated human Face Detection in social media",
+    "description": "Our project focuses on detecting AI-generated human face images on social media. It uses a deep learning model to classify images as real or fake based on facial patterns and image features. The goal is to help reduce the spread of fake profiles, deepfakes, and manipulated content online.",
+    "supervisor": "Supervisor Dr. Ibrahim Al-Khazi",
+    "section": "male",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "GP Poster_عبدالله الجروان.pdf",
+    "students": [
+      {
+        "name_en": "Saleh Alkhafaji",
+        "name_ar": "",
+        "uni_id": "412111626"
+      },
+      {
+        "name_en": "Abdullah Aljerwan",
+        "name_ar": "",
+        "uni_id": "431109378"
+      },
+      {
+        "name_en": "Abdulaziz Aloqla",
+        "name_ar": "",
+        "uni_id": "431108020"
+      },
+      {
+        "name_en": "Alwaleed Altuwaireb",
+        "name_ar": "",
+        "uni_id": "421109807"
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "title": "Decentralized Coordination Model For UAV Swarm Based On Federated Deep Learning",
+    "description": "يركز بحث الماجستير على أسراب الطائرات بدون طيار، ويهدف إلى تطوير نموذج ذكي يعتمد على Federated Deep Learning لتعزيز الأمان والخصوصية وتحسين عملية اتخاذ القرارات والتنسيق بين الطائرات دون الاعتماد الكامل على محطات التحكم الأرضية. كما يدمج النموذج تقنية Blockchain لضمان موثوقية تبادل النماذج بين الطائرات وتعزيز الحماية. ويسهم هذا النموذج في تمكين السرب من العمل واتخاذ القرارات بشكل مستقل، وتقليل احتمالية فشل العمليات، وتحسين تنفيذ المهام وإنجازها بكفاءة حتى في الظروف الصعبة، بما في ذلك حالات فقدان الاتصال بنظام GPS أو انقطاع الاتصال بمحطة التحكم الأرضية.",
+    "supervisor": "د. جمال العتيبي ، د. العنود الحربي",
+    "section": "female",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "master",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "Leen Alsalhi Poster_لين الصالحي.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "لين محمد الصالحي",
+        "uni_id": "461215379"
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "title": "Improving Software-Defined Networks Performance using Machine Learning",
+    "description": "Traditional Software-Defined Networking (SDN) faces significant stability challenges when managing\ndynamic traffic loads and encrypted applications, which often leads to degraded Quality of Service (QoS)\nBy utilizing a Mininet-emulated environment and the Ryu controller, the system automates real-time traffic\nclassification and dynamic policy enforcement to enhance critical performance metrics such as throughput,\nlatency, and jitter, While using Random Forest Model.",
+    "supervisor": "Dr. Lamia Amor Benabderrahman",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Software-Defined Networking and Networks"
+    ],
+    "poster_image": "AMAL MAJED ALOTAIBI  MASTER POSTER_امل العتيبي.pdf",
+    "students": [
+      {
+        "name_en": "Amal Majed AlOtaibi",
+        "name_ar": "",
+        "uni_id": "461215785"
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "title": "Smart City Aerial Scene Analysis for Urban Planning and Development",
+    "description": "Smart City Aerial Scene Analysis is an AI-powered system designed to revolutionize urban planning by automatically reading aerial images. It works as an intelligent eye that processes high-resolution photos from drones or satellites to detect and classify city features like buildings, roads, and vehicles. By merging two advanced deep learning models, YOLOv8 and Faster R-CNN, the system balances speed and precision to achieve an impressive 80.21% accuracy.",
+    "supervisor": "Dr. Shuaa S. Alharbi",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "‎⁨بوستر تحليل مشاهد المدن الذكية - جامعة القص_ايثار العشري.pdf",
+    "students": [
+      {
+        "name_en": "Raghad Alharbi",
+        "name_ar": "",
+        "uni_id": "421202051"
+      },
+      {
+        "name_en": "Noura Alsugih",
+        "name_ar": "",
+        "uni_id": "421202090"
+      },
+      {
+        "name_en": "Tethkar Alduhiman",
+        "name_ar": "",
+        "uni_id": "421201894"
+      },
+      {
+        "name_en": "Deem Alfayez",
+        "name_ar": "",
+        "uni_id": "421201821"
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "title": "Implementation of a CNN Model on Raspberry Pi and Drone System  for Palm Tree Disease Classification in the Qassim Region",
+    "description": "تعتبر زراعة النخيل حجر أساس في الاقتصاد الزراعي بمنطقة القصيم في المملكة العربية السعودية. ومع ذلك، يواجه هذا \nالقطاع تحديات كبيرة ناتجة عن أمراض النباتات، حيث أثبتت طرق الفحص اليدوية التقليدية أنها تتطلب جهداً مكثفاً،\nوتستغرق وقتا هذا المشروع أوجه القصور هذه من خلال تطوير ً طويلاً، وغالباً ما تكون عرضة للأخطاء البشرية. يعالج\nنظام آلي للكشف عن الأمراض في الوقت الفعلي، يدمج تقنية التعلم العميق (Learning Deep (مع أنظمة المراقبة الجوية \nالذاتية. \n \nيستخدم الحل المقترح طائرة بدون طيار (Drone (مجهزة بقطعة \"راسبيري باي\" (4B Pi Raspberry (وكاميرا عالية\nالدقة لالتقاط صور جوية لمزارع النخيل. تقوم الشبكة العصبية التلافيفية (CNN ،(والتي تم تحسينها لتعمل بكفاءة على\nالأجهزة المدمجة (Computing Edge ،(بمعالجة هذه الصور مباشرة على متن الطائرة لتصنيف النخيل إلى سليمة أو\nمصابة. يعالج هذا النهج بشكل خاص التحديات المحلية، مثل محدودية الاتصال بالإنترنت في المزارع النائية، وذلك من\nخلال إجراء عملية التحليل ومعالجة البيانات مباشرة على الجهاز دون الحاجة للاتصال بالشبكة. \n \nمن خلال تطبيق هذا النظام المتكامل، يهدف المشروع إلى تزويد المزارعين بأداة تشخيص سريعة وفعالة من حيث التكلفة \nبشكل\nتتيح التدخل المبكر لمعالجة الأشجار. لا يقتصر دور النظام على تعزيز دقة تحديد الأمراض فحسب، بل يقلل أيضاً\nكبير من وقت الاستجابة مقارنة بعمليات المسح اليدوي. وفي النهاية، يساهم هذا البحث في تعزيز مفهوم الزراعة الذكية في \nالمنطقة، ودعم الاستدامة الاقتصادية، وحماية الثروة الزراعية الحيوية من خطر تفشي الأمراض",
+    "supervisor": "Dr. Issam Zidi",
+    "section": "male",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي",
+      "الزراعة"
+    ],
+    "poster_image": "Implementation of a CNN Model on Raspberry Pi_عبدالله المذن.pdf",
+    "students": [
+      {
+        "name_en": "Abdullah Almithn",
+        "name_ar": "",
+        "uni_id": "421108077"
+      },
+      {
+        "name_en": "Abdulrahman Alharbi",
+        "name_ar": "",
+        "uni_id": "411109396"
+      },
+      {
+        "name_en": "Adel Bin Ateeq",
+        "name_ar": "",
+        "uni_id": "421108048"
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "title": "Adaptive Gamification in Education",
+    "description": "A detective mystery video game that teaches Python programming language with an adaptive AI logic that accommodate to the players program programming knowledge through l puzzles.",
+    "supervisor": "Dr. Samar Alduayji",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Education",
+      "AI"
+    ],
+    "poster_image": "Graduation Poster – Adaptive AI Gamification_علي مصطفى خان.pdf",
+    "students": [
+      {
+        "name_en": "Jinan Almushayqih",
+        "name_ar": "",
+        "uni_id": "421215266"
+      },
+      {
+        "name_en": "Joud Alghofaili",
+        "name_ar": "",
+        "uni_id": "421201813"
+      },
+      {
+        "name_en": "Fay Aldhubayb",
+        "name_ar": "",
+        "uni_id": "421201916"
+      },
+      {
+        "name_en": "Remaz Aljadaan",
+        "name_ar": "",
+        "uni_id": "421201952"
+      },
+      {
+        "name_en": "Nada Alharbi",
+        "name_ar": "",
+        "uni_id": "421214621"
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "title": "Dhallah App - تطبيق ضاله",
+    "description": "Dhallah App – The Smart Solution for Lost & Found\nAbout the Project:\nDhallah is an innovative Saudi platform that leverages Artificial Intelligence to streamline the process of finding lost items and returning them to their rightful owners across the Kingdom. The project aims to replace traditional methods (such as social media posts) with a smart, automated system that connects finders and owners instantly and accurately.\nHow It Works:\nThe app utilizes advanced Computer Vision and Natural Language Processing (NLP) algorithms to analyze images and descriptions provided in reports. Once a \"Lost\" report and a \"Found\" report are submitted, the system automatically matches them and sends an instant notification if a high similarity is detected, eliminating the need for manual searching.\nKey Features:\n• AI-Powered Matching: A sophisticated search engine that matches images and descriptions with high precision.\n• Match-Based Secure Chat: An instant messaging system that is only activated when a match is confirmed. This ensures secure, direct communication with the relevant person and prevents spam or unsolicited messages.\n• Interactive Mapping: Precise geolocation of where items were lost or found to narrow down the search area and facilitate recovery.\n• User-Friendly Interface: A seamless experience that allows users to submit reports in seconds through simple, intuitive steps.\n• Kingdom-Wide Coverage: A unified platform serving all cities and regions across Saudi Arabia.\nProject Goal:\nTo harness cutting-edge AI technology to save time and effort in recovering personal belongings while ensuring the highest levels of privacy, and promoting the values of honesty and initiative within the Saudi community.",
+    "supervisor": "Reem Aljulaidan",
+    "section": "female",
+    "campus": "Unaizah",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "dhallah_poster_ليلى البصير.pdf",
+    "students": [
+      {
+        "name_en": "Rasel Alzayed",
+        "name_ar": "",
+        "uni_id": "431201761"
+      },
+      {
+        "name_en": "Reem Almasoudiy",
+        "name_ar": "",
+        "uni_id": "431201784"
+      },
+      {
+        "name_en": "Rand Alotaify",
+        "name_ar": "",
+        "uni_id": "431201741"
+      },
+      {
+        "name_en": "Laila Albusayr",
+        "name_ar": "",
+        "uni_id": "431201647"
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "title": "MindConnect: Real-Time Emotion Recognition and Mental Health Assistance",
+    "description": "This project is an AI-powered system for real-time emotion recognition and mental health assistance. Using advanced deep learning techniques, the system analyzes facial expressions, speech signals, and video sequences simultaneously to detect emotional states and provide personalized therapeutic suggestions. The system was trained using the balanced RAVDESS Dataset     to ensure reliable emotion classification performance.\n\nAs part of this project, we developed an application called Anees, which is integrated with our AI system to deliver a seamless and accessible mental health support experience — offering a continuous and non-invasive alternative to traditional consultations.",
+    "supervisor": "هيفاء الحسون",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "AI - Computer Vision"
+    ],
+    "poster_image": "Anees_في عوض المطيري.png",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "وعد عطاالله العنزي",
+        "uni_id": "421201937"
+      },
+      {
+        "name_en": "ّ",
+        "name_ar": "فّي عبدالمحسن المطيري",
+        "uni_id": "421203525"
+      },
+      {
+        "name_en": "",
+        "name_ar": "اسرار عبيد المطيري",
+        "uni_id": "431201718"
+      },
+      {
+        "name_en": "",
+        "name_ar": "ريماس فوزان الفوزان",
+        "uni_id": "431201368"
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "title": "Smart Cloud-Based Medication Dispensing System  for Clinical Use (Or Pill dispenser as previously submitted)",
+    "description": "This project presents a Smart Centralized Medication Dispenser for clinical environments where doctors manage multiple patients. The system combines. an ESP-based dispenser with servo-driven rotating mechanism for pill release. A cloud platform built using Firebase enables secure role-based access (Doctor, Caregiver, Patient). Clinicians can remotely schedule and medication, reducing human error and improving efficiency.",
+    "supervisor": "Yaser Hsanen",
+    "section": "male",
+    "campus": "Main",
+    "department": "COE",
+    "degree": "bachelor",
+    "tags": [
+      "IoT"
+    ],
+    "poster_image": "Smart_Cloud-Based_Medication_Dispensing Syste_صالح المحيميد.pdf",
+    "students": [
+      {
+        "name_en": "Ziyad Albishiry",
+        "name_ar": "",
+        "uni_id": "421107930"
+      },
+      {
+        "name_en": "Saleh Almohaimeed",
+        "name_ar": "",
+        "uni_id": "421108124"
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "title": "مبصر",
+    "description": "مشروع \"مبصر\" هو مساعد ذكي يعتمد على تقنيات الذكاء الاصطناعي لمساعدة ذوي الإعاقة البصرية في التعرف على العناصر المحيطة بهم وتقدير المسافات لتجنب العقبات. يدمج المشروع بين خوارزميات الرؤية الحاسوبية (Object Detection) والتعرف الضوئي على الحروف (OCR) لتقديم تجربة صوتية تفاعلية تعزز استقلالية المستخدم في حياته اليومية.",
+    "supervisor": "د.فيصل الحويكم",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "مبصر_محمد النغيمشي.pdf",
+    "students": [
+      {
+        "name_en": "Mohammad Alneghimshi",
+        "name_ar": "",
+        "uni_id": "431108210"
+      },
+      {
+        "name_en": "Fahad AlFawzan",
+        "name_ar": "",
+        "uni_id": "422112223"
+      },
+      {
+        "name_en": "Waleed AlSuwayyid",
+        "name_ar": "",
+        "uni_id": "421115107"
+      },
+      {
+        "name_en": "Waleed Altuwaijri",
+        "name_ar": "",
+        "uni_id": "431107884"
+      },
+      {
+        "name_en": "Fahad Almutairi",
+        "name_ar": "",
+        "uni_id": "422115051"
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "title": "AI vision(V.I.A.D)",
+    "description": "الفكرة الرئيسة: عتمد المشروع على دمج تقنيات الرؤية الحاسوبية ومستشعرات لقياس المسافات ضمن جهاز قابل للارتداء (نظارة ذكية). تقوم النظارة بتحليل البيئة المحيطة في الوقت الفعلي وتقديم تنبيهات صوتية للمستخدم لتنبيهه بالعوائق أو وصف الأشياء الموجودة أمامه \n\nالمكونات الأساسية\nوحدة المعالجة المركزية(راسبيري باي): \"عقل\" النظام الذي يعالج البيانات القادمة من الكاميرا والمستشعرات، ويدير نماذج الذكاء الاصطناعي في الوقت الفعلي.\n\nالكاميرا : تلتقط صوراً للبيئة المحيطة ليتم تحليلها بواسطة نموذج الذكاء الاصطناعي للتعرف على الأشياء (أبواب، كراسي، أشخاص، سلالم، إلخ).\n\nوحدة الاستشعار الموجات فوق الصوتية : تقيس المسافة الدقيقة للعوائق أمام المستخدم، وهو أمر ضروري للتعويض عن قصور الكاميرا في بعض الظروف (مثل الإضاءة الضعيفة أو الأجسام الشفافة كالزجاج).\n\nنظام الصوت والتفاعل: * مكبر صوت وميكروفون: للتواصل مع المستخدم. \nنظام هجين : * وضع غير متصل بالانترنت : يصدر تنبيهات أمان فورية (مثل: \"عائق على بُعد متر واحد\") باستخدام محرك تحويل النص إلى كلام محلي  لضمان العمل حتى بدون إنترنت.\n\nوضع متصل بالانترنت : يتيح تفاعلاً متقدماً حيث يمكن للمستخدم سؤال المساعد الصوتي عن محيطه (مثل:\"ماذا يوجد أمامي؟, اين يوجد كوب الماء؟\")، ويقوم النظام بالرد بشكل مفصل",
+    "supervisor": "علي مصطفى قمر خان",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "AI | computer vision | ML | Multithreading"
+    ],
+    "poster_image": "AI VISION VIAD (80 x 120 سم) (3)_ريان التويجرى.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "ريان سعد التويجرى",
+        "uni_id": "431107823"
+      },
+      {
+        "name_en": "",
+        "name_ar": "عبدالله محمد الفايز",
+        "uni_id": "431108148"
+      },
+      {
+        "name_en": "",
+        "name_ar": "محيا عوض المطيري",
+        "uni_id": "431107802"
+      },
+      {
+        "name_en": "",
+        "name_ar": "محمد خالد الشارخ",
+        "uni_id": "431108100"
+      },
+      {
+        "name_en": "",
+        "name_ar": "فارس فيصل السحيباني",
+        "uni_id": "431107834"
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "title": "An Integrated Platform for Digital Invoicing  and Receipt  Management in Retail Transaction  Systems :  WaslTech",
+    "description": "WaslTech is a smart digital invoicing platform designed to transform traditional paper-based receipt systems into a secure, scalable, and user-centric digital solution. The platform integrates directly with point-of-sale (POS) systems, enabling real-time transmission of invoice data to a cloud-based backend, where digital invoices are generated, validated, and stored. A unique QR code is then created and displayed at the point of sale, allowing customers to instantly access and save their receipts without requiring personal contact information.\n\nThe system provides users with a unified digital wallet to manage and organize receipts across multiple merchants, supporting key functionalities such as invoice retrieval, warranty tracking, return reminders, and loyalty point accumulation. In addition, WaslTech enhances the post-purchase experience by offering AI-powered spending analysis and personalized insights, enabling users to better understand their financial behavior and make informed decisions.\n\nBy reducing reliance on paper receipts, the platform minimizes operational costs for businesses, improves transaction efficiency, and contributes to environmental sustainability. WaslTech aligns with Saudi Arabia’s digital transformation goals and Vision 2030 by delivering a modern, compliant, and innovative approach to invoice management.",
+    "supervisor": "Prof. Dr. Mohammed Al-Hagery",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Financial Technology (FinTech)"
+    ],
+    "poster_image": "Graduation Poster FINAL VERSION-_جود الحربي.pdf",
+    "students": [
+      {
+        "name_en": "Joud Alharbi",
+        "name_ar": "",
+        "uni_id": "431201496"
+      },
+      {
+        "name_en": "Rahaf Alharbi",
+        "name_ar": "",
+        "uni_id": "431201345"
+      },
+      {
+        "name_en": "Layan Almoqaiteeb",
+        "name_ar": "",
+        "uni_id": "431201486"
+      },
+      {
+        "name_en": "Leen Alakeel",
+        "name_ar": "",
+        "uni_id": "431201817"
+      },
+      {
+        "name_en": "Deema Alfridy",
+        "name_ar": "",
+        "uni_id": "421202262"
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "title": "ZAWYAH: E-MARKETPLACE FOR INTERIOR DESIGN",
+    "description": "This problem is difficulty finding designers and an designers, and not transproring the details, lack of transparency not wering customafied minors.\nZAWYAH establishes a transparent marketplace to connect customers with trusted interior designers. facilitating seamless collaboration and clear project visualization.",
+    "supervisor": "Dr. Abdullah Alaraj",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "E-commerce"
+    ],
+    "poster_image": "ZAWYAH_وعد العنزي.pdf",
+    "students": [
+      {
+        "name_en": "Reem Alluhaymid",
+        "name_ar": "",
+        "uni_id": "421202000"
+      },
+      {
+        "name_en": "Lina Alfowzan",
+        "name_ar": "",
+        "uni_id": "421201963"
+      },
+      {
+        "name_en": "Sara Alwasel",
+        "name_ar": "",
+        "uni_id": "412214464"
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "title": "ASSAS-AI Driven Road Damage Detection, Prioritization, and Prediction System",
+    "description": "ASSAS is an AI-driven intelligent system designed to enhance road infrastructure management in the Kingdom of Saudi Arabia through automated damage detection, prioritization, and prediction of road conditions. The system is based on municipal vehicles equipped with cameras that continuously capture road conditions along with determining their geographic locations.\n\nThe system utilizes computer vision techniques based on YOLOv8m (Deep Learning) to detect multiple types of road damage, including potholes, cracks, water accumulation, and normal road conditions. One of the key strengths of the system is its ability to distinguish between damaged and non-damaged (normal) roads, which enhances detection reliability and reduces false positives. The system achieved 90.6% mAP detection performance using a dataset exceeding 23,000 road images. The system is also capable of analyzing multiple damages within a single image and identifying the most critical condition to support decision-making.\n\nAfter detecting the damage, the system determines maintenance priority based on the severity level and type of damage, then generates a prediction of the road condition to support proactive maintenance and efficient resource management.\n\nThe system is integrated with an interactive dashboard that enables ASSAS employees to upload reports, specify locations on the map, assign cases to engineers, and monitor case status in real time. Engineers can manage assigned cases, update repair progress, and upload post-repair images. All cases are visualized on a map using color-coded indicators reflecting severity levels, alongside a structured table of reports and detailed case views, providing a comprehensive and efficient monitoring environment.\n\nASSAS contributes to improving operational efficiency, reducing maintenance costs, enhancing road safety, and supporting data-driven decision-making, while aligning with Saudi Vision 2030 toward smarter cities and more advanced and sustainable infrastructure.",
+    "supervisor": "Prof. Salem Alkhalaf",
+    "section": "female",
+    "campus": "Ar-Rass",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence (AI)",
+      "Computer Vision",
+      "Data Analysis",
+      "and Decision Support  Systems."
+    ],
+    "poster_image": "ASSAS POSTER_غلا الخليفه.pdf",
+    "students": [
+      {
+        "name_en": "Aldana Alrasheed",
+        "name_ar": "",
+        "uni_id": "431201334"
+      },
+      {
+        "name_en": "Ghala Alkhalifah",
+        "name_ar": "",
+        "uni_id": "431201865"
+      },
+      {
+        "name_en": "Renad Alanazi",
+        "name_ar": "",
+        "uni_id": "412206851"
+      },
+      {
+        "name_en": "Shuruq Altowaibi",
+        "name_ar": "",
+        "uni_id": "431202453"
+      },
+      {
+        "name_en": "Re’am Almutrafi",
+        "name_ar": "’",
+        "uni_id": "421201864"
+      },
+      {
+        "name_en": "Hadeel Alqwaie",
+        "name_ar": "",
+        "uni_id": "421202003"
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "title": "AREV:Ai Real Estate Valuation",
+    "description": "AREV\npresents an AI-based Real Estate Valuation System aimed at improving the accuracy,\nconsistency, and transparency of property value estimation. The proposed system uti-\nlizes artificial intelligence to analyze property related data, incorporating image data\nthrough computer vision techniques to extract visual features for generate more reliable\nmarket value predictions. By adopting a data driven approach, the system reduces hu-\nman bias and enhances decision making efficiency for stakeholders such as investors and\nproperty owners. The system also emphasizes explainability to increase user trust and\nunderstanding of valuation outcomes.",
+    "supervisor": "Dr.Nawaf mohammed Alharbi",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence",
+      "Machine Learning"
+    ],
+    "poster_image": "AREV POSTER_طيف المطيرى.pdf",
+    "students": [
+      {
+        "name_en": "Bayan mishal Alfuridi",
+        "name_ar": "",
+        "uni_id": "431201568"
+      },
+      {
+        "name_en": "Jood mohammed Almania",
+        "name_ar": "",
+        "uni_id": "431201420"
+      },
+      {
+        "name_en": "Rahaf saud alharbi",
+        "name_ar": "",
+        "uni_id": "431201565"
+      },
+      {
+        "name_en": "Taif saad almutairi",
+        "name_ar": "",
+        "uni_id": "431201609"
+      },
+      {
+        "name_en": "Najwa fahad aldakhil",
+        "name_ar": "",
+        "uni_id": "431215248"
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "title": "WATHEEQ: An AI-Powered Platform for Automated Cybersecurity Compliance Assessment Using Retrieval-Augmented Generation (RAG)",
+    "description": "WATHEEQ is an intelligent cybersecurity compliance platform designed to automate the assessment of organizational policies and security documents against regulatory cybersecurity frameworks such as NCA NCS, ECC, and SAMA CSF.\n\nThe platform utilizes Artificial Intelligence and Retrieval-Augmented Generation (RAG) to semantically analyze documents, retrieve relevant regulatory controls, and generate automated compliance reports with identified gaps, recommendations, and compliance scores.\n\nWATHEEQ combines hybrid retrieval techniques, including semantic vector search and keyword-based retrieval, with advanced reranking models to improve accuracy and contextual understanding. The system significantly reduces manual auditing effort, accelerates compliance readiness, and provides scalable AI-driven cybersecurity compliance analysis.",
+    "supervisor": "Dr. Mohammed Alsuhaibani",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي",
+      "الأمن السيبراني",
+      "معالجة اللغات الطبيعية",
+      "وتحليل البيانات"
+    ],
+    "poster_image": "Langchain_يوسف العقيلي.pdf",
+    "students": [
+      {
+        "name_en": "Yousef Alogiely",
+        "name_ar": "",
+        "uni_id": "431107837"
+      },
+      {
+        "name_en": "Khaled Almutairi",
+        "name_ar": "",
+        "uni_id": "421115819"
+      },
+      {
+        "name_en": "Abdulmalik Alharkan",
+        "name_ar": "",
+        "uni_id": "431109277"
+      },
+      {
+        "name_en": "Abdulqadir Alfawzan",
+        "name_ar": "",
+        "uni_id": "422112051"
+      },
+      {
+        "name_en": "Basil Alhamili",
+        "name_ar": "",
+        "uni_id": "431107706"
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "title": "CoachAI realtime exercise correction",
+    "description": "مشروع Coach AI هو نظام ذكي لتصحيح وضعيات التمارين الرياضية باستخدام تقنيات الذكاء الاصطناعي والرؤية الحاسوبية (Computer Vision)، حيث يقوم بتحليل حركة الجسم أثناء أداء التمارين بشكل لحظي وتقديم ملاحظات فورية للمستخدم لتحسين الأداء وتقليل الأخطاء والإصابات.\nيعتمد النظام على كاميرا الهاتف أو الجهاز لالتقاط حركة المستخدم، ثم يستخدم نماذج تعلم الآلة لاكتشاف نقاط الجسم وحساب زوايا المفاصل وتحليل وضعية التمرين. بعد ذلك يحدد إذا كانت الحركة صحيحة أو خاطئة ويعرض تنبيهات وتعليمات تساعد المستخدم على تعديل وضعيته مباشرة أثناء التمرين.\nيهدف المشروع إلى توفير مدرب رياضي ذكي وسهل الاستخدام يمكن الاعتماد عليه في المنزل أو النادي دون الحاجة إلى أجهزة استشعار قابلة للارتداء، مما يجعله حلًا عمليًا ومنخفض التكلفة لتحسين جودة التمارين الرياضية ودعم اللياقة والتأهيل الحركي.\nيتضمن التطبيق عدة واجهات تفاعلية مثل شاشة البداية، الصفحة الرئيسية، واختيار التمارين، بالإضافة إلى عرض نتائج التقييم بشكل مباشر مع نسبة دقة الأداء والتنبيهات الخاصة بالأخطاء الشائعة في التمارين مثل السكوات والبوش أب وغيرها.\nتم تطوير المشروع باستخدام تقنيات الذكاء الاصطناعي والرؤية الحاسوبية مثل:\nYOLOv5 لاكتشاف الأشخاص.\nMediaPipe لتقدير وضعية الجسم.\nخوارزميات تعلم الآلة لتحليل الزوايا وتصنيف التمارين.\nStreamlit لبناء واجهة النظام وعرض النتائج.\nومن أبرز أهداف المشروع:\nتحسين دقة أداء التمارين الرياضية.\nتقليل احتمالية الإصابات الناتجة عن الوضعيات الخاطئة.\nتوفير تغذية راجعة فورية للمستخدم.\nدعم التمارين المنزلية وإعادة التأهيل.\nتقديم تجربة رياضية ذكية بدون الحاجة لأجهزة إضافية",
+    "supervisor": "Dr.Shabana Habib",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence",
+      "Computer Vision Deep Learning",
+      "HealthTech",
+      "Fitness Technology"
+    ],
+    "poster_image": "poster_هنادي الحربي.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "هنادي ضيف الله الحربي",
+        "uni_id": "431201695"
+      },
+      {
+        "name_en": "",
+        "name_ar": "أنفال فلاح الحربي",
+        "uni_id": "43121470"
+      },
+      {
+        "name_en": "",
+        "name_ar": "ايمان حسين الشمري",
+        "uni_id": "431201312"
+      },
+      {
+        "name_en": "",
+        "name_ar": "غدير يوسف المزيني",
+        "uni_id": "422205786"
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "title": "A Transformer-based Framework for Video Anomaly Detection",
+    "description": "The project aims to build an intelligent system for automatically detecting abnormal behaviors in surveillance videos, such as fighting, falling, throwing objects, and walking in the wrong direction. The team adopted a One-Class Learning approach, where the model is trained on normal behavior only, and any behavior that differs from what it has learned is automatically classified as anomalous. This approach was chosen because abnormal behavior is rare and it is difficult to collect all its types, so instead of teaching the model every possible anomaly, it is sufficient to teach it normal behavior only.\nTo implement this idea, the Avenue Dataset was used, consisting of 37 video clips divided into 16 for training and 21 for testing at 25 frames per second. It was selected for being balanced, realistic, and widely used in research, which facilitates comparison with previous works.\nThe project is distinguished by using two types of input data: RGB features representing the visual appearance of the scene, and Pose information representing human body movement through joint keypoints such as the head, hands, and legs. Combining both provides the model with a deeper and more accurate understanding of behavior. The model relies on Vision Transformer to understand the appearance within each frame, and Temporal Transformer to understand motion and change over time, both built on Self-Attention and FFN. The tools used are Python for data preparation and PyTorch for building and training the model. Finally, the model will be evaluated using Frame-level AUC and Equal Error Rate to verify its ability to distinguish between normal and abnormal events.",
+    "supervisor": "Dr.Muna Almushyti",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي",
+      "إنترنت الأشياء"
+    ],
+    "poster_image": "Project Poster Final1(80 x 120 cm)_يارا الفريح.pdf",
+    "students": [
+      {
+        "name_en": "Jana Ibrahim Alhumaid",
+        "name_ar": "",
+        "uni_id": "431201300"
+      },
+      {
+        "name_en": "Maysm Abdullah Alrasheed",
+        "name_ar": "",
+        "uni_id": "412205633"
+      },
+      {
+        "name_en": "Reem Ibrahim Alali",
+        "name_ar": "",
+        "uni_id": "422205631"
+      },
+      {
+        "name_en": "Reema Turki Aljasir",
+        "name_ar": "",
+        "uni_id": "421201824"
+      },
+      {
+        "name_en": "Yara Hamad Alferaih",
+        "name_ar": "",
+        "uni_id": "412205521"
+      }
+    ]
+  },
+  {
+    "id": 94,
+    "title": "HackHero",
+    "description": "HackHero is an online cybersecurity learning platform. This project aims to build an interactive system for hands-on cybersecurity education through gamified simulations. It allows users to practice in a simulated environment that is safe but very much similar to real-life cyber threats, at the same time using Artificial Intelligence for adapting game diﬀiculty and generating dynamic scenarios. The system includes performance tracking and analytics for enhanced learning eﬀiciency and improved user engagement.",
+    "supervisor": "Prof. Ibrahim Alsikaiti",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "الأمن السيبراني",
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "HackHero_Poster_لمياء السحيباني.pdf",
+    "students": [
+      {
+        "name_en": "Albatool Alkhateeb",
+        "name_ar": "",
+        "uni_id": "431201415"
+      },
+      {
+        "name_en": "Tala Alrasheed",
+        "name_ar": "",
+        "uni_id": "431201579"
+      },
+      {
+        "name_en": "Joudi Alharbi",
+        "name_ar": "",
+        "uni_id": "431201373"
+      },
+      {
+        "name_en": "Lamia Alsuhibani",
+        "name_ar": "",
+        "uni_id": "431201526"
+      },
+      {
+        "name_en": "Helah Alkuraydis",
+        "name_ar": "",
+        "uni_id": "431201343"
+      }
+    ]
+  },
+  {
+    "id": 95,
+    "title": "JAREED: Automated Inventory and Warehouse Tracking System",
+    "description": "JAREED is a smart inventory and warehouse tracking system that uses simulated IoT technologies and AI-based forecasting to provide real-time inventory monitoring, automated stock tracking, and proactive inventory management.",
+    "supervisor": "Dr. Hedia ZARDI",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence"
+    ],
+    "poster_image": "Green and Grey Modern Minimalist Technology A_علي مصطفى خان.pdf",
+    "students": [
+      {
+        "name_en": "Eilaf Saad Alharbi",
+        "name_ar": "",
+        "uni_id": "421202261"
+      },
+      {
+        "name_en": "Henaf Ahmad Aldughairi",
+        "name_ar": "",
+        "uni_id": "421201178"
+      },
+      {
+        "name_en": "Shatha Hassan Alzughaibi",
+        "name_ar": "",
+        "uni_id": "411203034"
+      },
+      {
+        "name_en": "Lama Fuad Almushayqih",
+        "name_ar": "",
+        "uni_id": "421201862"
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "title": "Early Prediction of Diabetes Risk Using Explainable Artificial Intelligence (XAI)",
+    "description": "يهدف المشروع إلى تطوير نظام ذكاء اصطناعي قابل للتفسير (XAI) للتنبؤ المبكر بمرض السكري من النوع الثاني في المملكة العربية السعودية. لتجاوز مشكلة \"الصندوق الأسود\" (Black-Box) المتمثلة في غموض قرارات النماذج التقليدية وصعوبة فهم الأطباء لآلية عملها، تم بناء خوارزمية (XGBoost) بضبط سريري موجه لتفادي التشخيصات السلبية الخاطئة، محققة معدل استدعاء (Recall) استثنائي بلغ 96.41%. لضمان الشفافية السريرية، تم دمج إطار (SHAP) لتقديم مستويين من التفسير: عام (Global) لتحليل عوامل الخطر المجتمعية، ومحلي (Local) لتوليد تقارير تشخيصية مخصصة لكل مريض توضح أسباب الخطر. يقدم المشروع أداة استباقية وشفافة تدعم ممارسي الرعاية الصحية في اتخاذ قرارات وقائية بثقة تامة.",
+    "supervisor": "د. منال الغيث",
+    "section": "male",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي"
+    ],
+    "poster_image": "GP_Poster1_عبدالمجيد ابالخيل.png",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "عبدالمجيد ابالخيل",
+        "uni_id": "431107763"
+      },
+      {
+        "name_en": "",
+        "name_ar": "فهد الحربي",
+        "uni_id": "431108125"
+      },
+      {
+        "name_en": "",
+        "name_ar": "عبدالله التويجري",
+        "uni_id": "431108023"
+      },
+      {
+        "name_en": "",
+        "name_ar": "عبدالمحسن العيد",
+        "uni_id": "431107742"
+      }
+    ]
+  },
+  {
+    "id": 97,
+    "title": "Dynamic Portfolio Optimization in the Saudi Stock Market: An RL Approach Leveraging LLM Sentiment and GRU Forecasting Signals",
+    "description": "The increasing complexity of financial markets, fueled by rapid data growth and\nglobal economic shifts, has intensified the need for advanced portfolio\noptimization that balances risk and return. While traditional trading relies on\nnumerical data, qualitative news sentiment is now recognized as a vital driver of\nmarket dynamics.\nDespite the Saudi Stock Exchange (Tadawul) being the largest in the Middle East,\nthere is a significant research gap in integrating modern AI-driven strategies within\nthis specific market. This study addresses this by developing a framework that\nleverages Large Language Models (LLMs) for sentiment extraction, Gated\nRecurrent Units (GRU) for return forecasting, and Reinforcement Learning (RL)\nfor adaptive decision-making.\nMain Objectives:\nDevelop an RL Framework: Build a framework for dynamic portfolio\noptimization and adaptive trading for the Saudi stock market.\nSignal Integration: Combine GRU-based forecasting and LLM-based\nsentiment analysis to enhance market awareness and portfolio allocation.\nPerformance Evaluation: Analyze the impact of these integrated signals on\ntrading performance against baseline portfolio strategies.\nBehavioral Analysis: Analyze the agent’s behavior across different market\nregimes to assess its adaptability and decision-making patterns under varying\nmarket conditions.\nAblation Analysis: Evaluate each signal’s contribution and test whether LLM\nsentiment and GRU predictions are more effective as observations or reward\ncomponents.",
+    "supervisor": "Dr. Mohammed Alsuhaibani",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "master",
+    "tags": [
+      "Artificial Intelligence"
+    ],
+    "poster_image": "Renad Alsweed Thesis Poster_ريناد السويد.pdf",
+    "students": [
+      {
+        "name_en": "Renad Alsweed",
+        "name_ar": "",
+        "uni_id": "451214497"
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "title": "TrapPot",
+    "description": "TrapPot is an intelligent honeypot system that combines deception technology with machine learning to detect and classify loT attacks in real-time, providing an early warning system and actionable intelligence for cybersecurity teams.",
+    "supervisor": "Dr. Tarek Moulahi",
+    "section": "male",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الامن السبراني"
+    ],
+    "poster_image": "d9e42809-37c1-4d6a-9b79-f74ad4847e57_ريان الصمعاني.jpeg",
+    "students": [
+      {
+        "name_en": "Sultan Almansour",
+        "name_ar": "",
+        "uni_id": "431108175"
+      },
+      {
+        "name_en": "Rayan Alsamani",
+        "name_ar": "",
+        "uni_id": "431108144"
+      },
+      {
+        "name_en": "Faris Aljamaan",
+        "name_ar": "",
+        "uni_id": "431107708"
+      },
+      {
+        "name_en": "Sulaiman Albati",
+        "name_ar": "",
+        "uni_id": "421107931"
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "title": "A hybrid deep learning framework for Leukemia Identification utilizing deep feature optimization",
+    "description": "This project presents a hybrid deep learning framework for automated leukemia identification using blood smear images. The system combines advanced image preprocessing techniques with deep learning models to classify blood cell types and detect leukemia with high accuracy and recall performance. By integrating AI-assisted analysis, the proposed approach aims to support faster, more reliable, and more objective medical diagnosis compared to traditional manual examination methods.",
+    "supervisor": "Muhammad Awais",
+    "section": "female",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence • Deep Learning • Computer Vision • Healthcare Technology"
+    ],
+    "poster_image": "Untitled (80 x 120 cm) (80 x 120 cm)_شهد المعيلي.pdf",
+    "students": [
+      {
+        "name_en": "Reema ALfehaid",
+        "name_ar": "",
+        "uni_id": "431201292"
+      },
+      {
+        "name_en": "Remaz ALrazqan",
+        "name_ar": "",
+        "uni_id": "431201423"
+      },
+      {
+        "name_en": "Kadi ALaowimer",
+        "name_ar": "",
+        "uni_id": "411214150"
+      },
+      {
+        "name_en": "Sadeem ALSarhid",
+        "name_ar": "",
+        "uni_id": "421201964"
+      },
+      {
+        "name_en": "Shahad ALmuaili",
+        "name_ar": "",
+        "uni_id": "431215233"
+      },
+      {
+        "name_en": "Bushra ALhusyani",
+        "name_ar": "",
+        "uni_id": "421201987"
+      }
+    ]
+  },
+  {
+    "id": 107,
+    "title": "TinyML  with Checkpoint on Intermittently Powered IoT Devices",
+    "description": "يهدف هذا المشروع إلى ضمان استمرارية عمل أجهزة إنترنت الأشياء التي تعتمد على مصادر الطاقة المتجددة، والتي تعاني من انقطاعات متكررة تُفقدها تقدمها الحسابي وتُعيدها للبداية. يقترح المشروع دمج تقنية TinyML مع آلية Checkpointing تنبؤية، بحيث يتوقع النموذج انقطاع الطاقة قبل حدوثه ويحفظ حالة النظام تلقائياً، مما يُمكّن الجهاز من الاستمرار من نقطة التوقف بدلاً من إعادة التشغيل من الصفر.",
+    "supervisor": "د. جواهر الحربي",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "انترنت الأشياء - تعلم الاله - حوسبه متقطعة"
+    ],
+    "poster_image": "TinyML  with Checkpoint on Intermittently Pow_رغد العقيلي.jpg",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "رغد العقيلي",
+        "uni_id": "431201758"
+      },
+      {
+        "name_en": "",
+        "name_ar": "حنين الشامي",
+        "uni_id": "431201583"
+      },
+      {
+        "name_en": "",
+        "name_ar": "رينا الجربوع",
+        "uni_id": "431201205"
+      },
+      {
+        "name_en": "",
+        "name_ar": "شدون السعدون",
+        "uni_id": "431201585"
+      }
+    ]
+  },
+  {
+    "id": 108,
+    "title": "نقطة وصل",
+    "description": "نقطة وصل هي منصة عقارية ذكية تهدف إلى تسهيل عمليات البحث عن العقارات وبيعها وتأجيرها بطريقة سهلة وآمنة وحديثة. تم تطوير المنصة لتوفير تجربة مستخدم مريحة تساعد المستخدمين على استعراض العقارات والتواصل المباشر مع المالكين دون الحاجة إلى وسطاء، مما يعزز الشفافية والثقة في السوق العقاري.\n\nتتيح المنصة لأصحاب العقارات إضافة وإدارة الإعلانات العقارية، بينما يمكن للمستخدمين البحث عن العقارات المناسبة باستخدام خيارات تصفية متعددة وعرض تفاصيل العقار بسهولة. كما توفر المنصة لوحة تحكم للمشرف لإدارة المستخدمين والتحقق من الإعلانات لضمان دقة المعلومات وموثوقيتها.",
+    "supervisor": "Dr. Abdullah Alaraj",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "website"
+    ],
+    "poster_image": "نقطة وصل_ندى الراشد الحميد.pdf",
+    "students": [
+      {
+        "name_en": "Nada AlHomaid",
+        "name_ar": "",
+        "uni_id": "431201330"
+      },
+      {
+        "name_en": "Hind Aloraini",
+        "name_ar": "",
+        "uni_id": "431201525"
+      },
+      {
+        "name_en": "Jana Alhufair",
+        "name_ar": "",
+        "uni_id": "421201897"
+      },
+      {
+        "name_en": "Raya Altuwaijri",
+        "name_ar": "",
+        "uni_id": "422215973"
+      }
+    ]
+  },
+  {
+    "id": 109,
+    "title": "Smart Oasis",
+    "description": "The palm tree sector faces significant challenges due to the slow and often inaccurate nature of traditional manual inspection. \"Smart Oasis\" addresses this by providing an advanced technical solution that automates the diagnosis of palm tree diseases using a sophisticated triple-model Deep Learning framework.\nThe Three Core Components:\n1.\tDetection & Verification: An initial AI model designed to accurately identify and verify palm trees from field images.\n2.\tDisease Analysis & Diagnosis: A specialized deep learning engine that analyzes leaf patterns to classify specific diseases with high precision (achieving up to 96% accuracy).\n3.\tExpert AI Consultant: An integrated RAG-based Chatbot that provides real-time agricultural consultations and treatment recommendations based on verified project research.",
+    "supervisor": "Dr. Ali Ben Mrad",
+    "section": "male",
+    "campus": "Main",
+    "department": "CS",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence or Computer Vision & Deep Learning"
+    ],
+    "poster_image": "Smart Oasis_علي مصطفى خان.pdf",
+    "students": [
+      {
+        "name_en": "Sami Mohammed Alharbi",
+        "name_ar": "",
+        "uni_id": "421109754"
+      },
+      {
+        "name_en": "Mohsen Fahad Alfawaz",
+        "name_ar": "",
+        "uni_id": "421109714"
+      },
+      {
+        "name_en": "Basil Mosaad Albahoth",
+        "name_ar": "",
+        "uni_id": "421107878"
+      },
+      {
+        "name_en": "Ryan Saleh Althenayan",
+        "name_ar": "",
+        "uni_id": "411108030"
+      }
+    ]
+  },
+  {
+    "id": 110,
+    "title": "Brain Tumour Classification using machine learning and deep learning",
+    "description": "A brain tumor is an abnormal growth of cells in the brain, and accurate\" classification is essential for clinical diagnosis. This project utilizes Artificial Intelligence (AI), Machine Learning (ML), and Deep Learning (DL) to enhance precision and accelerate the detection process using MRI images. The study luated multiple models, including ResNet50, EfficientNet-BO, and VGGB, where ResNet50 achieved the highest overall accuracy of 97.73%.",
+    "supervisor": "Dr. Suliman Aladhadh",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial  Intelligence (Machine Learning &Deep Learning) in Medical Image Analysis"
+    ],
+    "poster_image": "GP-poster_علي مصطفى خان.pdf",
+    "students": [
+      {
+        "name_en": "Asma Alharbi",
+        "name_ar": "",
+        "uni_id": "371201665"
+      },
+      {
+        "name_en": "Ghada Alrashidi",
+        "name_ar": "",
+        "uni_id": "411202084"
+      },
+      {
+        "name_en": "Alhtoun Abalkhail",
+        "name_ar": "",
+        "uni_id": "411201915"
+      },
+      {
+        "name_en": "Shahad Alunizi",
+        "name_ar": "",
+        "uni_id": "371200266"
+      }
+    ]
+  },
+  {
+    "id": 112,
+    "title": "AI-Powered Analysis of Tourists’ Opinions on Saudi Attractions",
+    "description": "This project proposes an AI-based approach to analyse tourist opinions on Saudi attractions using NLP and sentiment analysis. Bilingual data from different platforms will be processed using transform models to classify opinions into positive, negative, and neutral sentiments, supporting tourism improvement and data-driven decision-making.",
+    "supervisor": "Abeer Alhujaylan",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "Artificial Intelligence (AI)",
+      "Sentiment Analysis",
+      "Tourist Opinions",
+      "Social Media Analytics"
+    ],
+    "poster_image": "Poster_AI-Powered Analysis of Tourists’ Opini_همس العقيلي.pdf",
+    "students": [
+      {
+        "name_en": "Hams Alauqaili",
+        "name_ar": "",
+        "uni_id": "431203039"
+      },
+      {
+        "name_en": "Narges Alkhatib",
+        "name_ar": "",
+        "uni_id": "431215229"
+      },
+      {
+        "name_en": "Layan Aldowighri",
+        "name_ar": "",
+        "uni_id": "431201402"
+      },
+      {
+        "name_en": "Reema Alblaji",
+        "name_ar": "",
+        "uni_id": "421214628"
+      }
+    ]
+  },
+  {
+    "id": 113,
+    "title": "ReviewSense",
+    "description": "مشروع ReviewSense هو نظام ذكي لتحليل مشاعر مراجعات المنتجات باستخدام تقنيات الذكاء الاصطناعي ومعالجة اللغات الطبيعية (NLP). يقوم النظام بتحليل المراجعات المكتوبة باللغتين العربية والإنجليزية وتصنيفها إلى إيجابية أو سلبية أو محايدة باستخدام نماذج تعلم عميق متقدمة، مع دعم للهجة السعودية، بهدف تحسين فهم آراء العملاء ومساعدة الجهات المختلفة في تحليل البيانات واتخاذ القرارات بشكل أفضل",
+    "supervisor": "د. عبدالعزيز القبلان",
+    "section": "female",
+    "campus": "Main",
+    "department": "IT",
+    "degree": "bachelor",
+    "tags": [
+      "الذكاء الاصطناعي وتحليل البيانات"
+    ],
+    "poster_image": "ReviewSense’s Poster_ريماز الزين.pdf",
+    "students": [
+      {
+        "name_en": "",
+        "name_ar": "أسيل القضيبي",
+        "uni_id": "412205779"
+      },
+      {
+        "name_en": "",
+        "name_ar": "أصايل الرباح",
+        "uni_id": "421201876"
+      },
+      {
+        "name_en": "",
+        "name_ar": "لجين الصايغ",
+        "uni_id": "421202057"
+      }
+    ]
+  }
+]
