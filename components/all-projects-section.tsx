@@ -13,8 +13,7 @@ export function AllProjectsSection({ projects }: { projects: Project[] }) {
     return { college, count: collegeProjects.length }
   }).filter((item) => item.count > 0)
 
-  const totalCount = currentProjects.length
   const previousCount = projects.filter((p) => p.year && p.year < CURRENT_YEAR).length
 
-  return <BentoGrid totalCount={totalCount} counts={counts} previousCount={previousCount} />
+  return <BentoGrid totalCount={projects.length} counts={counts} previousCount={previousCount} />
 }

@@ -10,12 +10,12 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 export function BentoGrid({
   totalCount,
-  counts,
   previousCount,
+  counts,
 }: {
   totalCount: number
-  counts: { college: string; count: number }[]
   previousCount: number
+  counts: { college: string; count: number }[]
 }) {
   const currentCount = Math.max(totalCount - previousCount, 0)
 
