@@ -64,7 +64,7 @@ export function Footer() {
         <div className="flex flex-col items-center gap-3">
           <Button variant="ghost" size="sm" onClick={() => setOpenModal(true)} className="gap-2">
             <IconBell className="size-4" />
-            الإشعارات
+            فعل الإشعارات
           </Button>
           <a
             href="https://cooperative-armadillo-c63.notion.site/3568fdd5c8d780e39264e75dac911b55?source=copy_link"

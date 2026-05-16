@@ -71,10 +71,22 @@ function CollegeSection({ college, projects }: { college: (typeof COLLEDGE_VALUE
   )
 }
 
+function pickRandomProjects(projects: Project[], count: number) {
+  const shuffled = [...projects]
+
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const randomIndex = Math.floor(Math.random() * (index + 1))
+    ;[shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]]
+  }
+
+  return shuffled.slice(0, count)
+}
+
 function PreviousProjectsSection({ projects }: { projects: Project[] }) {
-  const previousProjects = projects
-    .filter((project) => project.year && project.year < CURRENT_YEAR && project.image_url)
-    .slice(0, 3)
+  const previousProjects = pickRandomProjects(
+    projects.filter((project) => project.year === CURRENT_YEAR - 1),
+    3
+  )
 
   if (previousProjects.length === 0) return null
 
@@ -95,13 +107,24 @@ function PreviousProjectsSection({ projects }: { projects: Project[] }) {
               className="relative aspect-[9/14] overflow-hidden rounded-2xl border border-white/20 bg-white/10 shadow-xl transition hover:-translate-y-1"
               style={{ marginTop: index === 1 ? "1.5rem" : index === 2 ? "3rem" : "0" }}
             >
-              <Image
-                src={project.image_url!}
-                alt={project.title}
-                fill
-                className="object-cover object-top"
-                sizes="220px"
-              />
+              {project.image_url ? (
+                <Image
+                  src={project.image_url}
+                  alt={project.title}
+                  fill
+                  className="object-cover object-top"
+                  sizes="220px"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-white/10 p-3">
+                  <span
+                    dir="auto"
+                    className="line-clamp-4 text-center font-heading text-sm font-black text-white/75 md:text-base"
+                  >
+                    {project.title}
+                  </span>
+                </div>
+              )}
             </Link>
           ))}
         </div>

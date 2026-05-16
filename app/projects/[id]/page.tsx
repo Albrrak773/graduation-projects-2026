@@ -2,8 +2,6 @@ import Link from "next/link"
 import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
 import { eq } from "drizzle-orm"
-import { getAllProjectIds, getProjectById, getProjects } from "@/db/queries"
-import { projectsTable } from "@/db/schema"
 import {
   IconBrandGithub,
   IconBrandGithubFilled,
@@ -14,17 +12,17 @@ import {
   IconExternalLink,
   IconMail,
   IconMailFilled,
-  IconUserStar,
 } from "@tabler/icons-react"
-import { COLLEDGE_LABELS, COLLEDGE_COLORS, SECTION_LABELS } from "@/db/enums"
-import { cn } from "@/lib/utils"
+import { COLLEDGE_COLORS, COLLEDGE_LABELS, SECTION_LABELS } from "@/db/enums"
+import { getAllProjectIds, getProjectById, getProjects } from "@/db/queries"
+import { projectsTable } from "@/db/schema"
+import type { Project } from "@/db/types"
 import { Footer } from "@/components/footer"
 import { NavBar } from "@/components/nav-bar"
+import { ProjectCard } from "@/components/project-card"
 import { ProjectHeroImage } from "@/components/project-hero-image"
 import { SocialIconLink } from "@/components/social-icon-link"
-import { ProjectCard } from "@/components/project-card"
-import { Button } from "@/components/ui/button"
-import type { Project } from "@/db/types"
+import { cn } from "@/lib/utils"
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>
@@ -38,21 +36,24 @@ const BASE_LABELS: Record<string, string> = {
 
 export async function generateStaticParams() {
   let ids: string[] = []
+
   try {
     ids = await getAllProjectIds()
   } catch {
     ids = ["__placeholder__"]
   }
+
   return ids.map((id) => ({ id }))
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params
-  let project = null
+  let project: Project | undefined
+
   try {
     project = await getProjectById(id)
   } catch {
-    project = null
+    project = undefined
   }
 
   if (!project || project.is_public === false) {
@@ -60,18 +61,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   let allProjects: Project[] = []
+
   try {
     allProjects = await getProjects(eq(projectsTable.is_public, true))
   } catch {
     allProjects = []
   }
+
   const relatedProjects = allProjects
     .filter(
       (item) => item.id !== project.id && (item.colledge === project.colledge || item.section === project.section)
     )
     .slice(0, 3)
 
-  const hasImage = project.image_url && project.image_url.length > 0
+  const hasImage = Boolean(project.image_url)
   const description = project.discription?.trim()
   const collegeLabel = COLLEDGE_LABELS[project.colledge]
   const sectionLabel = SECTION_LABELS[project.section]
@@ -81,175 +84,148 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <div className="relative min-h-screen">
       <div className="relative z-10">
         <NavBar projectTitle={project.title} />
-        <main className="mx-auto flex max-w-7xl flex-col gap-8 px-4 pt-6 pb-12 sm:px-6 md:px-12 md:pt-10">
-          <section className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
-            <div className="surface-glass relative z-10 rounded-3xl p-5 md:p-7 lg:sticky lg:top-6">
-              <div className="mb-4 flex flex-wrap items-center gap-2">
-                {collegeLabel && (
-                  <span
-                    className={cn(
-                      "inline-flex items-center rounded-full border border-current/10 px-3 py-1 text-xs font-semibold",
-                      COLLEDGE_COLORS[project.colledge]
-                    )}
-                  >
-                    {collegeLabel}
-                  </span>
-                )}
-                {sectionLabel && <Pill>{sectionLabel}</Pill>}
-                {baseLabel && <Pill>{baseLabel}</Pill>}
-                {project.year && <Pill>{project.year}</Pill>}
-              </div>
-
-              <h1
-                dir="auto"
-                className="font-heading text-3xl leading-tight font-black text-balance text-foreground md:text-5xl"
-              >
-                {project.title}
-              </h1>
-
-              {project.supervisor && (
-                <div className="mt-5 flex items-center gap-3 rounded-2xl border border-border/60 bg-white/70 p-4">
-                  <span className="grid size-10 place-items-center rounded-2xl bg-primary/10 text-primary">
-                    <IconUserStar className="size-5" />
-                  </span>
-                  <div>
-                    <p className="text-xs font-bold text-muted-foreground">بإشراف</p>
-                    <p className="font-heading text-lg font-black">{project.supervisor}</p>
-                  </div>
-                </div>
+        <main className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pt-6 pb-12 sm:px-6 md:px-12 md:pt-10">
+          <section className="surface-glass rounded-3xl p-5 md:p-7">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              {collegeLabel && (
+                <span
+                  className={cn(
+                    "inline-flex items-center rounded-full border border-current/10 px-3 py-1 text-xs font-semibold",
+                    COLLEDGE_COLORS[project.colledge]
+                  )}
+                >
+                  {collegeLabel}
+                </span>
               )}
-
-              {project.project_external_link && (
-                <Button asChild size="lg" className="mt-5 w-full rounded-full font-bold">
-                  <Link href={project.project_external_link} target="_blank" rel="noopener noreferrer">
-                    فتح رابط المشروع
-                    <IconExternalLink className="size-5" />
-                  </Link>
-                </Button>
-              )}
+              {sectionLabel && <Pill>{sectionLabel}</Pill>}
+              {baseLabel && <Pill>{baseLabel}</Pill>}
+              {project.year && <Pill>{project.year}</Pill>}
             </div>
 
-            <div className="overflow-hidden rounded-3xl border border-white/70 bg-white/82 shadow-[0_30px_90px_rgba(13,43,107,0.12)] backdrop-blur">
-              {hasImage ? (
-                <ProjectHeroImage src={project.image_url!} alt={project.title} priority className="w-full" />
-              ) : (
-                <div className="flex aspect-3/4 w-full items-center justify-center bg-primary/5">
-                  <span className="flex size-20 items-center justify-center rounded-3xl bg-primary/10 font-heading text-3xl font-bold text-primary/60">
-                    {project.title[0]}
-                  </span>
-                </div>
-              )}
-            </div>
+            <h1
+              dir="auto"
+              className="font-heading text-3xl leading-tight font-black text-balance text-foreground md:text-5xl"
+            >
+              {project.title}
+            </h1>
           </section>
 
-          <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
-            <div className="space-y-6">
-              {project.tags.length > 0 && (
-                <InfoCard title="مجالات المشروع">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag.id}
-                        className="rounded-full border border-border/60 bg-background/80 px-3 py-1 text-xs font-semibold text-muted-foreground"
-                      >
-                        {tag.name}
-                      </span>
-                    ))}
-                  </div>
-                </InfoCard>
-              )}
+          <section className="overflow-hidden rounded-3xl border border-white/70 bg-white/82 shadow-[0_30px_90px_rgba(13,43,107,0.12)] backdrop-blur">
+            {hasImage ? (
+              <ProjectHeroImage src={project.image_url!} alt={project.title} priority className="w-full" />
+            ) : (
+              <div className="flex aspect-3/4 w-full items-center justify-center bg-primary/5">
+                <span className="flex size-20 items-center justify-center rounded-3xl bg-primary/10 font-heading text-3xl font-bold text-primary/60">
+                  {project.title[0]}
+                </span>
+              </div>
+            )}
+          </section>
 
-              <InfoCard title="وصف المشروع">
-                {description ? (
-                  <p dir="auto" className="text-base leading-8 whitespace-pre-line text-muted-foreground">
-                    {description}
-                  </p>
-                ) : (
-                  <p className="text-sm text-muted-foreground">لا يوجد وصف متاح حالياً.</p>
-                )}
-              </InfoCard>
-
-              {project.project_external_link && (
-                <InfoCard title="المرفقات والروابط">
-                  <Link
-                    href={project.project_external_link}
-                    className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white/80 px-4 py-2 text-sm font-bold text-primary transition hover:bg-primary/10"
-                    target="_blank"
-                    rel="noopener noreferrer"
+          {project.tags.length > 0 && (
+            <InfoCard title="مجالات المشروع">
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag.id}
+                    className="rounded-full border border-border/60 bg-background/80 px-3 py-1 text-xs font-semibold text-muted-foreground"
                   >
-                    رابط المشروع
-                    <IconExternalLink className="size-4" />
-                  </Link>
-                </InfoCard>
-              )}
-            </div>
+                    {tag.name}
+                  </span>
+                ))}
+              </div>
+            </InfoCard>
+          )}
 
-            <InfoCard title="فريق المشروع">
-              {project.participants.length > 0 ? (
-                <div className="space-y-3">
-                  {project.participants.map((participant) => {
-                    const email = participant.email || `${participant.uni_id}@qu.edu.sa`
+          <InfoCard title="وصف المشروع">
+            {description ? (
+              <p dir="auto" className="text-base leading-8 whitespace-pre-line text-muted-foreground">
+                {description}
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground">لا يوجد وصف متاح حالياً.</p>
+            )}
+          </InfoCard>
 
-                    return (
-                      <div
-                        key={`${participant.project_id}-${participant.uni_id}`}
-                        className="rounded-2xl border border-border/60 bg-white/75 p-4"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0 space-y-1">
-                            <p className="truncate font-heading text-base font-black text-foreground">
-                              {participant.name}
-                            </p>
-                            <p dir="ltr" className="truncate text-xs text-muted-foreground">
-                              {email}
-                            </p>
-                          </div>
-                          <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
-                            {participant.github_url && (
-                              <SocialIconLink
-                                href={participant.github_url}
-                                label={`${participant.name} GitHub`}
-                                brand="github"
-                                icon={<IconBrandGithub className="size-4" />}
-                                filledIcon={<IconBrandGithubFilled className="size-4" />}
-                              />
-                            )}
-                            {participant.x_url && (
-                              <SocialIconLink
-                                href={participant.x_url}
-                                label={`${participant.name} X`}
-                                brand="x"
-                                icon={<IconBrandX className="size-4" />}
-                                filledIcon={<IconBrandXFilled className="size-4" />}
-                              />
-                            )}
-                            {participant.linked_url && (
-                              <SocialIconLink
-                                href={participant.linked_url}
-                                label={`${participant.name} LinkedIn`}
-                                brand="linkedin"
-                                icon={<IconBrandLinkedin className="size-4" />}
-                                filledIcon={<IconBrandLinkedinFilled className="size-4" />}
-                              />
-                            )}
+          {project.project_external_link && (
+            <InfoCard title="المرفقات والروابط">
+              <Link
+                href={project.project_external_link}
+                className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white/80 px-4 py-2 text-sm font-bold text-primary transition hover:bg-primary/10"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                رابط المشروع
+                <IconExternalLink className="size-4" />
+              </Link>
+            </InfoCard>
+          )}
+
+          <InfoCard title="فريق المشروع">
+            {project.participants.length > 0 ? (
+              <div className="space-y-3">
+                {project.participants.map((participant) => {
+                  const email = participant.email || `${participant.uni_id}@qu.edu.sa`
+
+                  return (
+                    <div
+                      key={`${participant.project_id}-${participant.uni_id}`}
+                      className="rounded-2xl border border-border/60 bg-white/75 p-4"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 space-y-1">
+                          <p className="truncate font-heading text-base font-black text-foreground">
+                            {participant.name}
+                          </p>
+                          <p dir="ltr" className="truncate text-xs text-muted-foreground">
+                            {email}
+                          </p>
+                        </div>
+                        <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+                          {participant.github_url && (
                             <SocialIconLink
-                              href={`mailto:${email}`}
-                              label={`${participant.name} Email`}
-                              brand="mail"
-                              icon={<IconMail className="size-4" />}
-                              filledIcon={<IconMailFilled className="size-4" />}
+                              href={participant.github_url}
+                              label={`${participant.name} GitHub`}
+                              brand="github"
+                              icon={<IconBrandGithub className="size-4" />}
+                              filledIcon={<IconBrandGithubFilled className="size-4" />}
                             />
-                          </div>
+                          )}
+                          {participant.x_url && (
+                            <SocialIconLink
+                              href={participant.x_url}
+                              label={`${participant.name} X`}
+                              brand="x"
+                              icon={<IconBrandX className="size-4" />}
+                              filledIcon={<IconBrandXFilled className="size-4" />}
+                            />
+                          )}
+                          {participant.linked_url && (
+                            <SocialIconLink
+                              href={participant.linked_url}
+                              label={`${participant.name} LinkedIn`}
+                              brand="linkedin"
+                              icon={<IconBrandLinkedin className="size-4" />}
+                              filledIcon={<IconBrandLinkedinFilled className="size-4" />}
+                            />
+                          )}
+                          <SocialIconLink
+                            href={`mailto:${email}`}
+                            label={`${participant.name} Email`}
+                            brand="mail"
+                            icon={<IconMail className="size-4" />}
+                            filledIcon={<IconMailFilled className="size-4" />}
+                          />
                         </div>
                       </div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground">لا توجد بيانات للفريق حالياً.</p>
-              )}
-            </InfoCard>
-          </section>
+                    </div>
+                  )
+                })}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">لا توجد بيانات للفريق حالياً.</p>
+            )}
+          </InfoCard>
 
           {relatedProjects.length > 0 && (
             <section className="pt-6">
