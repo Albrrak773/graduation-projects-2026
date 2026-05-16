@@ -71,6 +71,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const hasImage = Boolean(project.image_url)
+  const displayImageUrl = project.image_thumb_url || project.image_url
   const description = project.discription?.trim()
   const collegeLabel = COLLEDGE_LABELS[project.colledge]
   const sectionLabel = SECTION_LABELS[project.section]
@@ -108,7 +109,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
           <section className="overflow-hidden rounded-3xl border border-white/70 bg-white/82 shadow-[0_30px_90px_rgba(13,43,107,0.12)] backdrop-blur">
             {hasImage ? (
-              <ProjectHeroImage src={project.image_url!} alt={project.title} priority className="w-full" />
+              <div className="space-y-3 bg-white/70 p-3">
+                <ProjectHeroImage src={displayImageUrl!} alt={project.title} priority className="w-full" />
+                {project.image_thumb_url && (
+                  <div className="flex justify-center">
+                    <Link
+                      href={project.image_url!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-white/80 px-4 py-2 text-xs font-bold text-primary transition hover:bg-primary/10"
+                    >
+                      عرض الصورة بالحجم الكامل
+                      <IconExternalLink className="size-4" />
+                    </Link>
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="flex aspect-3/4 w-full items-center justify-center bg-primary/5">
                 <span className="flex size-20 items-center justify-center rounded-3xl bg-primary/10 font-heading text-3xl font-bold text-primary/60">
