@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  dynamicIO: true,
   cacheComponents: true,
   images: {
     remotePatterns: [

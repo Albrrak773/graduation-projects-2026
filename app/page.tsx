@@ -7,6 +7,7 @@ import { projectsTable } from "@/db/schema"
 import { getProjects } from "@/db/queries"
 import { ProjectCard } from "@/components/project-card"
 import { Footer } from "@/components/footer"
+import { PageIntro } from "@/components/page-intro"
 import { Hero } from "@/components/hero"
 import { AllProjectsSection } from "@/components/all-projects-section"
 import { Button } from "@/components/ui/button"
@@ -175,6 +176,7 @@ export default async function HomePage() {
   return (
     <div className="relative min-h-screen selection:bg-brand-teal/30">
       <div className="relative z-10">
+        <PageIntro />
         <Hero />
 
         <AllProjectsSection projects={projects} />

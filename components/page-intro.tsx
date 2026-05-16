@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-const HOLD_MS = 1400
+const HOLD_MS = 700
 const EXIT_DURATION = 0.75
 
 export function PageIntro() {

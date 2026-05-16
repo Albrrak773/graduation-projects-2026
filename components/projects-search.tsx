@@ -83,9 +83,6 @@ export function ProjectsSearch({ data }: { data: Project[] }) {
         <div className="rounded-3xl bg-[#0d2b6b] px-5 py-8 text-white shadow-2xl shadow-[#0d2b6b]/15 md:px-8 md:py-10">
           <p className="mb-3 text-sm font-bold text-[#8edce6]">معرض المشاريع</p>
           <h1 className="font-heading text-3xl font-black md:text-5xl">ابحث في مشاريع التخرج</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-white/72">
-            ابحث بالاسم، السنة، الوسوم، أو اختر التخصص والقسم للوصول السريع من الجوال.
-          </p>
         </div>
 
         <div
@@ -102,7 +99,7 @@ export function ProjectsSearch({ data }: { data: Project[] }) {
             <IconSearch className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="ابحث عن مشروع، وسم، أو سنة مثل 2025..."
+              placeholder="ابحث عن مشروع، مجال، أو سنة مثل 2025..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className={

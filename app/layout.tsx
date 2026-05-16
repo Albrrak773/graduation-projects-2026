@@ -12,7 +12,6 @@ import { DirectionProvider } from "@/components/ui/direction"
 import { NotificationProvider } from "@/components/notification-provider"
 import { NotificationBannerSlot } from "@/components/notification-banner-slot"
 import { NotificationModal } from "@/components/notification-modal"
-import { PageIntro } from "@/components/page-intro"
 
 const fontSans = localFont({
   src: [
@@ -76,7 +75,6 @@ export default function RootLayout({
       className={cn("font-sans antialiased", fontSans.variable, fontHeading.variable, fontSerif.variable)}
     >
       <body>
-        <PageIntro />
         <Suspense>
           <ClerkProvider appearance={{ theme: shadcn }} signInFallbackRedirectUrl="/" signUpFallbackRedirectUrl="/">
             <DirectionProvider direction="rtl">
