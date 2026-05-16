@@ -1,11 +1,9 @@
 import type { Metadata } from "next"
-import Script from "next/script"
 import localFont from "next/font/local"
 import { Suspense } from "react"
 import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { ClerkProvider } from "@clerk/nextjs"
 import { shadcn } from "@clerk/ui/themes"
-import { Analytics } from "@vercel/analytics/next"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -76,17 +74,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("font-sans antialiased", fontSans.variable, fontHeading.variable, fontSerif.variable)}
     >
-      <head>
-        <Script
-          defer
-          data-domain="graduation.gdg-q.com"
-          src="http://plausible-cwfu4rh9w2nzlptxu4f93ymf.145.241.106.155.sslip.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"
-          strategy="afterInteractive"
-        />
-        <Script id="plausible-init" strategy="afterInteractive">
-          {`window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }`}
-        </Script>
-      </head>
       <body>
         <Suspense>
           <ClerkProvider appearance={{ theme: shadcn }} signInFallbackRedirectUrl="/" signUpFallbackRedirectUrl="/">
@@ -114,7 +101,6 @@ export default function RootLayout({
             </DirectionProvider>
           </ClerkProvider>
         </Suspense>
-        <Analytics />
       </body>
     </html>
   )
