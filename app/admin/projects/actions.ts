@@ -4,6 +4,7 @@ import { randomUUID } from "crypto"
 import { eq, isNull } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 import { PutObjectCommand } from "@aws-sdk/client-s3"
+import { clerkClient } from "@clerk/nextjs/server"
 import { config } from "@/lib/config"
 import { projectsTable } from "@/db/schema"
 import { verifySession } from "@/lib/auth"
@@ -12,6 +13,76 @@ import { processOriginalAvif, processThumbnailAvif } from "@/lib/image-processin
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
 const ALLOWED_CONTENT_TYPES = ["image/jpeg", "image/png", "image/webp"]
+
+export type ClerkUserInfo = {
+  id: string
+  email: string | null
+  firstName: string | null
+  lastName: string | null
+  fullName: string | null
+  username: string | null
+  imageUrl: string | null
+  phone: string | null
+  twoFactorEnabled: boolean
+  banned: boolean
+  locked: boolean
+  passwordEnabled: boolean
+  createdAt: number | null
+  lastSignInAt: number | null
+  lastActiveAt: number | null
+  locale: string | null
+  externalAccounts: {
+    provider: string
+    email: string | null
+    firstName: string | null
+    lastName: string | null
+    username: string | null
+    imageUrl: string | null
+  }[]
+}
+
+export async function fetchClerkUsers(userIds: string[]): Promise<Record<string, ClerkUserInfo>> {
+  if (!(await verifySession())) throw new Error("غير مصرح")
+  if (userIds.length === 0) return {}
+
+  const uniqueIds = [...new Set(userIds)]
+  const client = await clerkClient()
+  const users = await client.users.getUserList({ userId: uniqueIds, limit: uniqueIds.length })
+
+  const map: Record<string, ClerkUserInfo> = {}
+  for (const user of users.data) {
+    const primaryEmail = user.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
+    const primaryPhone = user.phoneNumbers.find((p) => p.id === user.primaryPhoneNumberId)
+
+    map[user.id] = {
+      id: user.id,
+      email: primaryEmail?.emailAddress ?? null,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      fullName: user.fullName,
+      username: user.username,
+      imageUrl: user.hasImage ? user.imageUrl : null,
+      phone: primaryPhone?.phoneNumber ?? null,
+      twoFactorEnabled: user.twoFactorEnabled,
+      banned: user.banned,
+      locked: user.locked,
+      passwordEnabled: user.passwordEnabled,
+      createdAt: user.createdAt,
+      lastSignInAt: user.lastSignInAt,
+      lastActiveAt: user.lastActiveAt,
+      locale: user.locale,
+      externalAccounts: user.externalAccounts.map((ea) => ({
+        provider: ea.provider,
+        email: ea.emailAddress || null,
+        firstName: ea.firstName || null,
+        lastName: ea.lastName || null,
+        username: ea.username ?? null,
+        imageUrl: ea.imageUrl || null,
+      })),
+    }
+  }
+  return map
+}
 
 export async function seedEmptySignatures() {
   if (!(await verifySession())) return { error: "غير مصرح" }

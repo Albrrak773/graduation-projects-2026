@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { IconBell, IconFolder, IconSend, IconUsers } from "@tabler/icons-react"
+import { IconBell, IconFolder, IconHeart, IconSend, IconUsers } from "@tabler/icons-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { config } from "@/lib/config"
 import { sql } from "drizzle-orm"
@@ -10,7 +10,8 @@ async function getStats() {
       (SELECT COUNT(*) FROM projects) AS projects,
       (SELECT COUNT(*) FROM admins) AS admins,
       (SELECT COUNT(*) FROM subscriptions) AS subscribers,
-      (SELECT COUNT(*) FROM notifications) AS notifications
+      (SELECT COUNT(*) FROM notifications) AS notifications,
+      (SELECT COUNT(*) FROM votes) AS votes
   `)
   const row = result.rows[0] as Record<string, string>
   return {
@@ -18,11 +19,13 @@ async function getStats() {
     admins: Number(row.admins),
     subscribers: Number(row.subscribers),
     notifications: Number(row.notifications),
+    votes: Number(row.votes),
   }
 }
 
 const statCards = [
   { title: "إجمالي المشاريع", key: "projects" as const, icon: IconFolder },
+  { title: "إجمالي الأصوات", key: "votes" as const, icon: IconHeart },
   { title: "المشرفين", key: "admins" as const, icon: IconUsers },
   { title: "المشتركين", key: "subscribers" as const, icon: IconBell },
   { title: "الإشعارات المرسلة", key: "notifications" as const, icon: IconSend },
@@ -32,7 +35,7 @@ function StatsGrid() {
   return (
     <Suspense
       fallback={
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {statCards.map((stat) => (
             <Card key={stat.key}>
               <CardContent className="flex items-center gap-4">
@@ -58,7 +61,7 @@ async function StatsCards() {
   const stats = await getStats()
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
       {statCards.map((stat) => (
         <Card key={stat.key}>
           <CardContent className="flex items-center gap-4">

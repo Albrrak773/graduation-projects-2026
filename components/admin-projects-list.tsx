@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useTransition, useCallback } from "react"
+import { useState, useMemo, useTransition, useCallback, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import Fuse from "fuse.js"
@@ -35,7 +35,12 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { seedEmptySignatures, rotateAllSignatures } from "@/app/admin/projects/actions"
+import {
+  seedEmptySignatures,
+  rotateAllSignatures,
+  fetchClerkUsers,
+  type ClerkUserInfo,
+} from "@/app/admin/projects/actions"
 import { fetchProjectVotes } from "@/app/admin/projects/[id]/actions"
 import type { Project } from "@/db/types"
 
@@ -130,6 +135,9 @@ export function AdminProjectsList({
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null)
   const [projectVotes, setProjectVotes] = useState<ProjectVoteRow[]>([])
   const [loadingVotes, setLoadingVotes] = useState(false)
+  const [usersMap, setUsersMap] = useState<Record<string, ClerkUserInfo>>({})
+  const [loadingUsers, setLoadingUsers] = useState(false)
+  const [activeTab, setActiveTab] = useState("projects")
   const [, startTransition] = useTransition()
 
   const openProjectVotes = useCallback(
@@ -146,6 +154,21 @@ export function AdminProjectsList({
     },
     [startTransition]
   )
+
+  useEffect(() => {
+    if (activeTab !== "firehose" || firehose.length === 0 || Object.keys(usersMap).length > 0) return
+    const uniqueUserIds = [...new Set(firehose.map((r) => r.userId))]
+    startTransition(async () => {
+      setLoadingUsers(true)
+      try {
+        const map = await fetchClerkUsers(uniqueUserIds)
+        setUsersMap(map)
+      } catch {
+        setUsersMap({})
+      }
+      setLoadingUsers(false)
+    })
+  }, [activeTab, firehose, usersMap, startTransition])
 
   const fuseIndex = useMemo(
     () =>
@@ -403,7 +426,7 @@ export function AdminProjectsList({
         </div>
       )}
 
-      <Tabs defaultValue="projects" className="flex flex-col gap-4">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col gap-4">
         <TabsList variant="line">
           <TabsTrigger value="projects">المشاريع</TabsTrigger>
           <TabsTrigger value="votes" className="gap-1.5">
@@ -572,61 +595,142 @@ export function AdminProjectsList({
             <div className="rounded-2xl border border-dashed border-border/70 bg-muted/30 py-16 text-center text-muted-foreground">
               لا توجد أصوات مسجلة حالياً
             </div>
+          ) : loadingUsers ? (
+            <div className="flex items-center justify-center gap-2 py-12 text-muted-foreground">
+              <IconLoader className="animate-spin" />
+              جارٍ تحميل بيانات المستخدمين...
+            </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <div className="text-sm text-muted-foreground">{firehose.length.toLocaleString("ar-SA")} صوت مسجّل</div>
+              <div className="text-sm text-muted-foreground">
+                {firehose.length.toLocaleString("ar-SA")} صوت مسجّل ·{" "}
+                {Object.keys(usersMap).length.toLocaleString("ar-SA")} مستخدم
+              </div>
               <div className="rounded-2xl border bg-card">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>المشروع</TableHead>
-                      <TableHead>الكلية</TableHead>
-                      <TableHead>القسم</TableHead>
-                      <TableHead className="text-center">المشاركون</TableHead>
-                      <TableHead>معرّف المستخدم</TableHead>
-                      <TableHead>وقت التصويت</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {firehose.map((row) => (
-                      <TableRow key={row.voteId}>
-                        <TableCell className="max-w-[200px] truncate" dir="auto">
-                          <button
-                            type="button"
-                            className="text-start underline decoration-muted-foreground hover:text-primary"
-                            onClick={() => openProjectVotes(row.projectId, row.projectTitle)}
-                          >
-                            {row.projectTitle}
-                          </button>
-                          <Link
-                            href={`/projects/${row.projectId}`}
-                            className="ms-1.5 inline-flex text-muted-foreground hover:text-primary"
-                            target="_blank"
-                          >
-                            <IconExternalLink className="size-3.5" />
-                          </Link>
-                        </TableCell>
-                        <TableCell>{COLLEDGE_LABELS[row.projectColledge]}</TableCell>
-                        <TableCell>{SECTION_LABELS[row.projectSection]}</TableCell>
-                        <TableCell className="text-center tabular-nums">
-                          <span className="inline-flex items-center gap-1">
-                            <IconUsers className="text-muted-foreground" />
-                            {Number(row.projectParticipants).toLocaleString("ar-SA")}
-                          </span>
-                        </TableCell>
-                        <TableCell className="max-w-[160px] truncate font-mono text-xs" dir="ltr">
-                          {row.userId}
-                        </TableCell>
-                        <TableCell className="text-xs">
-                          <div className="flex flex-col gap-0.5">
-                            <span>{formatDateTime(row.createdAt)}</span>
-                            <span className="text-muted-foreground">{formatRelativeTime(row.createdAt)}</span>
-                          </div>
-                        </TableCell>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>المشروع</TableHead>
+                        <TableHead>الاسم</TableHead>
+                        <TableHead>البريد</TableHead>
+                        <TableHead>اسم المستخدم</TableHead>
+                        <TableHead>الهاتف</TableHead>
+                        <TableHead>الحسابات</TableHead>
+                        <TableHead>2FA</TableHead>
+                        <TableHead>حالة</TableHead>
+                        <TableHead>اللغة</TableHead>
+                        <TableHead>تسجيل</TableHead>
+                        <TableHead>آخر دخول</TableHead>
+                        <TableHead>وقت التصويت</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {firehose.map((row) => {
+                        const user = usersMap[row.userId]
+                        return (
+                          <TableRow key={row.voteId}>
+                            <TableCell className="max-w-[160px] truncate" dir="auto">
+                              <div className="flex items-center gap-1.5">
+                                <button
+                                  type="button"
+                                  className="truncate text-start underline decoration-muted-foreground hover:text-primary"
+                                  onClick={() => openProjectVotes(row.projectId, row.projectTitle)}
+                                >
+                                  {row.projectTitle}
+                                </button>
+                                <Link
+                                  href={`/projects/${row.projectId}`}
+                                  className="shrink-0 text-muted-foreground hover:text-primary"
+                                  target="_blank"
+                                >
+                                  <IconExternalLink className="size-3" />
+                                </Link>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              {user ? (
+                                <div className="flex items-center gap-2">
+                                  {user.imageUrl && (
+                                    <Image
+                                      src={user.imageUrl}
+                                      alt=""
+                                      width={24}
+                                      height={24}
+                                      className="size-6 shrink-0 rounded-full"
+                                    />
+                                  )}
+                                  <span className="truncate text-sm">{user.fullName || user.firstName || "—"}</span>
+                                </div>
+                              ) : (
+                                <span className="font-mono text-xs text-muted-foreground" dir="ltr">
+                                  {row.userId.slice(0, 12)}…
+                                </span>
+                              )}
+                            </TableCell>
+                            <TableCell className="max-w-[180px] truncate text-xs" dir="ltr">
+                              {user?.email ?? "—"}
+                            </TableCell>
+                            <TableCell className="text-xs" dir="ltr">
+                              {user?.username ?? "—"}
+                            </TableCell>
+                            <TableCell className="text-xs" dir="ltr">
+                              {user?.phone ?? "—"}
+                            </TableCell>
+                            <TableCell>
+                              {user && user.externalAccounts.length > 0
+                                ? user.externalAccounts.map((ea) => (
+                                    <Badge
+                                      key={ea.provider}
+                                      variant="outline"
+                                      className="me-1 px-1.5 py-0 text-[0.6rem]"
+                                    >
+                                      {ea.provider}
+                                    </Badge>
+                                  ))
+                                : "—"}
+                            </TableCell>
+                            <TableCell className="text-center text-xs">{user?.twoFactorEnabled ? "✓" : "✗"}</TableCell>
+                            <TableCell>
+                              {user && (user.banned || user.locked) ? (
+                                <span className="text-xs font-medium text-destructive">
+                                  {user.banned ? "محظور" : "مقفل"}
+                                </span>
+                              ) : (
+                                <span className="text-xs text-muted-foreground">نشط</span>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-xs">{user?.locale ?? "—"}</TableCell>
+                            <TableCell className="text-xs">
+                              {user?.createdAt
+                                ? new Date(user.createdAt).toLocaleDateString("ar-SA", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  })
+                                : "—"}
+                            </TableCell>
+                            <TableCell className="text-xs">
+                              {user?.lastSignInAt
+                                ? new Date(user.lastSignInAt).toLocaleDateString("ar-SA", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  })
+                                : "—"}
+                            </TableCell>
+                            <TableCell className="text-xs">
+                              <div className="flex flex-col gap-0.5">
+                                <span>{formatDateTime(row.createdAt)}</span>
+                                <span className="text-muted-foreground">{formatRelativeTime(row.createdAt)}</span>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
             </div>
           )}
