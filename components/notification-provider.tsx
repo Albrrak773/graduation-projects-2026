@@ -107,10 +107,10 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!isInitialized || subscription) return
-    if (sessionStorage.getItem("notification-friendly-reminder-shown") === "1") return
+    if (localStorage.getItem("notification-friendly-reminder-shown") === "1") return
 
     const timer = window.setTimeout(() => {
-      sessionStorage.setItem("notification-friendly-reminder-shown", "1")
+      localStorage.setItem("notification-friendly-reminder-shown", "1")
       setOpenModal(true)
     }, 11000)
 
