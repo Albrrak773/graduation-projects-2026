@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { IconTrash, IconLoader2, IconThumbUp } from "@tabler/icons-react"
+import { IconLoader2, IconThumbUp } from "@tabler/icons-react"
 import { removeMyVote } from "@/app/profile/actions"
 
 type VotedProject = {
@@ -66,26 +66,26 @@ export function VotedProjectsList({ votes }: { votes: VotedProject[] }) {
             )}
           </Link>
 
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 overflow-hidden">
             <Link
               href={`/projects/${vote.projectId}`}
-              className="truncate font-heading text-sm font-bold text-foreground hover:text-primary"
+              className="block truncate font-heading text-sm font-bold text-foreground hover:text-primary"
               dir="auto"
             >
               {vote.projectTitle}
             </Link>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="rounded-full bg-primary/10 px-2 py-0.5 font-medium text-primary">
+              <span className="truncate rounded-full bg-primary/10 px-2 py-0.5 font-medium text-primary">
                 {vote.campaignName}
               </span>
-              <span>{formatRelativeTime(vote.votedAt)}</span>
+              <span className="shrink-0">{formatRelativeTime(vote.votedAt)}</span>
             </div>
           </div>
 
           <button
             type="button"
             disabled={removingId === vote.voteId}
-            className="flex size-8 shrink-0 items-center justify-center rounded-full text-destructive/60 transition-colors hover:bg-destructive/10 hover:text-destructive disabled:opacity-50"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-destructive/60 transition-colors hover:bg-destructive/10 hover:text-destructive disabled:opacity-50"
             onClick={() => {
               setRemovingId(vote.voteId)
               startTransition(async () => {
@@ -95,9 +95,12 @@ export function VotedProjectsList({ votes }: { votes: VotedProject[] }) {
             }}
           >
             {removingId === vote.voteId ? (
-              <IconLoader2 className="size-4 animate-spin" />
+              <span className="inline-flex items-center gap-1">
+                <IconLoader2 className="size-3 animate-spin" />
+                جاري الحذف
+              </span>
             ) : (
-              <IconTrash className="size-4" />
+              "حذف"
             )}
           </button>
         </div>

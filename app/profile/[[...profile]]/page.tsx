@@ -1,10 +1,11 @@
 import { Suspense } from "react"
 import { auth } from "@clerk/nextjs/server"
-import { UserProfile } from "@clerk/nextjs"
-import { IconThumbUp, IconLogout } from "@tabler/icons-react"
+import Link from "next/link"
+import { IconThumbUp, IconArrowRight } from "@tabler/icons-react"
 import { getMyVotedProjects } from "@/app/profile/actions"
+import { ProfileUserProfile } from "@/components/profile-user-profile"
 import { VotedProjectsList } from "@/components/voted-projects-list"
-import { SignOutPage } from "@/components/sign-out-page"
+import { Button } from "@/components/ui/button"
 
 async function VotedProjectsContent() {
   const { userId } = await auth()
@@ -18,12 +19,16 @@ async function VotedProjectsContent() {
 export default function ProfileCatchAllPage() {
   return (
     <main className="flex min-h-screen flex-col items-center px-4 py-10">
+      <div className="mb-4 w-full max-w-[680px]">
+        <Button variant="ghost" size="sm" className="gap-1.5" asChild>
+          <Link href="/">
+            <IconArrowRight className="size-4" />
+            العودة للموقع
+          </Link>
+        </Button>
+      </div>
       <div className="w-full max-w-[680px]">
-        <UserProfile routing="path" path="/profile">
-          <UserProfile.Page label="تسجيل الخروج" url="signout" labelIcon={<IconLogout className="size-4" />}>
-            <SignOutPage />
-          </UserProfile.Page>
-        </UserProfile>
+        <ProfileUserProfile />
         <div className="mt-6 rounded-xl border bg-card p-4">
           <div className="flex items-center gap-2">
             <IconThumbUp className="size-5 text-primary" />
