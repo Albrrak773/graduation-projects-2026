@@ -1,15 +1,19 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import {
   IconBell,
   IconBrandGithub,
   IconBrandGithubFilled,
   IconBrandLinkedin,
   IconBrandLinkedinFilled,
+  IconUser,
+  IconX,
   IconBrandX,
   IconBrandXFilled,
 } from "@tabler/icons-react"
+import { useUser, useClerk } from "@clerk/nextjs"
 import { TEAM_MEMBERS } from "@/lib/team-members"
 import { SocialIconLink } from "@/components/social-icon-link"
 import { Button } from "@/components/ui/button"
@@ -17,6 +21,8 @@ import { useNotification } from "@/components/notification-provider"
 
 export function Footer() {
   const { setOpenModal } = useNotification()
+  const { isSignedIn } = useUser()
+  const { openSignIn } = useClerk()
 
   return (
     <footer className="relative mt-16 border-t border-border bg-card">
@@ -59,7 +65,7 @@ export function Footer() {
                     href={member.x}
                     label={`${member.name} X`}
                     brand="x"
-                    icon={<IconBrandX className="size-4" />}
+                    icon={<IconX className="size-4" />}
                     filledIcon={<IconBrandXFilled className="size-4" />}
                   />
                 </div>
@@ -73,6 +79,20 @@ export function Footer() {
             <IconBell className="size-4" />
             فعل الإشعارات
           </Button>
+          {isSignedIn ? (
+            <Link
+              href="/profile"
+              className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <IconUser className="size-4" />
+              حسابي
+            </Link>
+          ) : (
+            <Button variant="ghost" size="sm" onClick={() => openSignIn()} className="gap-2 text-muted-foreground">
+              <IconUser className="size-4" />
+              تسجيل الدخول
+            </Button>
+          )}
           <a
             href="https://cooperative-armadillo-c63.notion.site/3568fdd5c8d780e39264e75dac911b55?source=copy_link"
             target="_blank"

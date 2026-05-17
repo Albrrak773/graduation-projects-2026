@@ -96,6 +96,24 @@ export async function getUserVotedProjectIds(userId: string, campaignId: string)
   return rows.map((row) => row.projectId)
 }
 
+export async function getUserVotedProjects(userId: string) {
+  return config.db
+    .select({
+      voteId: votesTable.id,
+      projectId: votesTable.projectId,
+      campaignId: votesTable.campaignId,
+      campaignName: votingCampaignsTable.name,
+      projectTitle: projectsTable.title,
+      projectImageUrl: projectsTable.image_thumb_url,
+      votedAt: votesTable.createdAt,
+    })
+    .from(votesTable)
+    .innerJoin(projectsTable, eq(votesTable.projectId, projectsTable.id))
+    .innerJoin(votingCampaignsTable, eq(votesTable.campaignId, votingCampaignsTable.id))
+    .where(eq(votesTable.userId, userId))
+    .orderBy(desc(votesTable.createdAt))
+}
+
 export async function getUserVoteCount(userId: string, campaignId: string) {
   const [row] = await config.db
     .select({ value: sql<number>`count(*)`.as("value") })
