@@ -3,7 +3,7 @@ import "dotenv/config"
 import { and, eq, isNotNull, isNull } from "drizzle-orm"
 import { projectsTable } from "./schema.js"
 import { config } from "../lib/config.js"
-import { createR2Client, uploadProjectThumbnail } from "./image-thumbnails.js"
+import { uploadProjectThumbnail } from "./image-thumbnails.js"
 
 async function downloadImage(url: string): Promise<Buffer | null> {
   try {
@@ -22,7 +22,6 @@ async function downloadImage(url: string): Promise<Buffer | null> {
 
 async function main() {
   const db = config.db
-  const s3 = createR2Client()
 
   const projects = await db
     .select({ id: projectsTable.id, image_url: projectsTable.image_url })
@@ -44,7 +43,7 @@ async function main() {
     }
 
     try {
-      const thumbnailUrl = await uploadProjectThumbnail(s3, project.id, input)
+      const thumbnailUrl = await uploadProjectThumbnail(project.id, input)
       await db.update(projectsTable).set({ image_thumb_url: thumbnailUrl }).where(eq(projectsTable.id, project.id))
       updated++
       console.log(`Updated ${updated}/${projects.length}: ${project.id}`)
