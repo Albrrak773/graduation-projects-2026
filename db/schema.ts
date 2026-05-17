@@ -68,7 +68,17 @@ export const notificationsTable = pgTable("notifications", {
   body: text("body").notNull(),
   sent: integer("sent").notNull(),
   failed: integer("failed").notNull(),
+  clicked: integer("clicked").default(0).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+})
+
+export const notificationClicksTable = pgTable("notification_clicks", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  notificationId: uuid("notification_id")
+    .references(() => notificationsTable.id, { onDelete: "cascade" })
+    .notNull(),
+  endpoint: text("endpoint").notNull(),
+  clickedAt: timestamp("clicked_at").defaultNow().notNull(),
 })
 
 export const adminsTable = pgTable("admins", {
@@ -132,6 +142,17 @@ export const adminProjectsRelations = relations(adminProjectsTable, ({ one }) =>
   project: one(projectsTable, {
     fields: [adminProjectsTable.projectId],
     references: [projectsTable.id],
+  }),
+}))
+
+export const notificationsRelations = relations(notificationsTable, ({ many }) => ({
+  clicks: many(notificationClicksTable),
+}))
+
+export const notificationClicksRelations = relations(notificationClicksTable, ({ one }) => ({
+  notification: one(notificationsTable, {
+    fields: [notificationClicksTable.notificationId],
+    references: [notificationsTable.id],
   }),
 }))
 

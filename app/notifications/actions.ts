@@ -1,15 +1,17 @@
 "use server"
 
-import { desc, eq } from "drizzle-orm"
+import { desc, eq, sql } from "drizzle-orm"
 import webpush from "web-push"
 import { config } from "@/lib/config"
-import { notificationsTable, subscriptionsTable } from "@/db/schema"
+import { notificationClicksTable, notificationsTable, subscriptionsTable } from "@/db/schema"
 
 webpush.setVapidDetails(
   "mailto:albrrak773@gmail.com",
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
   process.env.VAPID_PRIVATE_KEY!
 )
+
+const SITE_URL = "https://graduation.gdg-q.com"
 
 export async function subscribeUser(sub: { endpoint: string; keys: { p256dh: string; auth: string } }) {
   try {
@@ -28,6 +30,7 @@ export async function subscribeUser(sub: { endpoint: string; keys: { p256dh: str
           title: "اهلاااا 🎉",
           body: "الإشعارات فعّالة الحين, راح ياصلك كل جديد أول باول💙",
           icon: "/android-chrome-192x192.png",
+          url: SITE_URL,
         })
       )
     } catch (err) {
@@ -58,10 +61,22 @@ export async function sendNotification(title: string, body: string) {
     return { success: false, error: "No subscribers" }
   }
 
+  const [notification] = await config.db
+    .insert(notificationsTable)
+    .values({
+      title,
+      body,
+      sent: 0,
+      failed: 0,
+    })
+    .returning({ id: notificationsTable.id })
+
   const payload = JSON.stringify({
     title,
     body,
     icon: "/android-chrome-192x192.png",
+    url: SITE_URL,
+    notificationId: notification.id,
   })
 
   let sent = 0
@@ -85,14 +100,28 @@ export async function sendNotification(title: string, body: string) {
     }
   }
 
-  await config.db.insert(notificationsTable).values({
-    title,
-    body,
-    sent,
-    failed,
-  })
+  await config.db.update(notificationsTable).set({ sent, failed }).where(eq(notificationsTable.id, notification.id))
 
-  return { success: true, sent, failed }
+  return { success: true, sent, failed, id: notification.id }
+}
+
+export async function recordClick(notificationId: string, endpoint: string) {
+  try {
+    await config.db.insert(notificationClicksTable).values({
+      notificationId,
+      endpoint,
+    })
+
+    await config.db
+      .update(notificationsTable)
+      .set({ clicked: sql`${notificationsTable.clicked} + 1` })
+      .where(eq(notificationsTable.id, notificationId))
+
+    return { success: true }
+  } catch (error) {
+    console.error("Error recording click:", error)
+    return { success: false }
+  }
 }
 
 export async function getSubscribers() {
@@ -103,4 +132,13 @@ export async function getSubscribers() {
 export async function getNotifications() {
   const allNotifs = await config.db.select().from(notificationsTable).orderBy(desc(notificationsTable.createdAt))
   return allNotifs
+}
+
+export async function getNotificationClicks(notificationId: string) {
+  const clicks = await config.db
+    .select()
+    .from(notificationClicksTable)
+    .where(eq(notificationClicksTable.notificationId, notificationId))
+    .orderBy(desc(notificationClicksTable.clickedAt))
+  return clicks
 }

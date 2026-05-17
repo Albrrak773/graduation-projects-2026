@@ -1,8 +1,9 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { IconBell, IconBellRinging, IconSend, IconUsers } from "@tabler/icons-react"
-import { sendNotification, getSubscribers, getNotifications } from "@/app/notifications/actions"
+import { IconBell, IconBellRinging, IconChevronDown, IconChevronUp, IconSend, IconUsers } from "@tabler/icons-react"
+import { sendNotification, getSubscribers, getNotifications, getNotificationClicks } from "@/app/notifications/actions"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -18,7 +19,15 @@ type NotificationRow = {
   body: string
   sent: number
   failed: number
+  clicked: number | null
   createdAt: Date
+}
+
+type NotificationClick = {
+  id: string
+  notificationId: string
+  endpoint: string
+  clickedAt: Date
 }
 
 function arabicCount(count: number, singular: string, dual: string, plural: string): string {
@@ -57,6 +66,50 @@ function getPlatformHint(endpoint: string) {
   return "متصفح آخر"
 }
 
+function ClickList({ notificationId }: { notificationId: string }) {
+  const [clicks, setClicks] = useState<NotificationClick[] | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    getNotificationClicks(notificationId).then((data) => {
+      if (!cancelled) setClicks(data as NotificationClick[])
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [notificationId])
+
+  if (clicks === null) {
+    return (
+      <div className="pt-2 pr-8 text-xs text-muted-foreground" dir="ltr">
+        جاري التحميل...
+      </div>
+    )
+  }
+
+  if (clicks.length === 0) {
+    return <div className="pt-2 pr-8 text-xs text-muted-foreground">لا توجد نقرات مسجلة بعد.</div>
+  }
+
+  return (
+    <div className="pt-2 pr-8" dir="ltr">
+      <div className="max-h-40 space-y-1 overflow-y-auto">
+        {clicks.map((click) => (
+          <div key={click.id} className="flex items-center justify-between rounded border px-2 py-1 text-xs">
+            <div className="flex flex-col gap-0.5">
+              <span className="font-medium">{getPlatformHint(click.endpoint)}</span>
+              <span className="max-w-48 truncate font-mono text-[10px] text-muted-foreground/70">
+                ...{click.endpoint.slice(-20)}
+              </span>
+            </div>
+            <span className="shrink-0 text-muted-foreground">{formatRelativeTime(click.clickedAt)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function AdminNotificationsPage() {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([])
   const [notifications, setNotifications] = useState<NotificationRow[]>([])
@@ -64,6 +117,7 @@ export default function AdminNotificationsPage() {
   const [body, setBody] = useState("")
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState<{ sent: number; failed: number } | null>(null)
+  const [expandedId, setExpandedId] = useState<string | null>(null)
   const loaded = useRef(false)
 
   const loadData = useCallback(async () => {
@@ -191,28 +245,50 @@ export default function AdminNotificationsPage() {
         {notifications.length === 0 ? (
           <p className="py-8 text-center text-sm text-muted-foreground">لم يتم إرسال إشعارات بعد.</p>
         ) : (
-          <div className="max-h-96 space-y-3 overflow-y-auto">
-            {notifications.map((notif) => (
-              <div key={notif.id} className="rounded-lg border p-4">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-heading font-bold">{notif.title}</h3>
-                    <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{notif.body}</p>
-                  </div>
-                  <span className="shrink-0 text-xs text-muted-foreground">{formatRelativeTime(notif.createdAt)}</span>
-                </div>
-                <div className="mt-2 flex gap-3 text-xs">
-                  <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-medium text-emerald-600">
-                    تم الإرسال لـ{notif.sent}
-                  </span>
-                  {notif.failed > 0 && (
-                    <span className="rounded-full bg-destructive/10 px-2 py-0.5 font-medium text-destructive">
-                      فشل: {notif.failed}
+          <div className="max-h-[32rem] space-y-3 overflow-y-auto">
+            {notifications.map((notif) => {
+              const clicked = notif.clicked ?? 0
+              const ctr = notif.sent > 0 ? ((clicked / notif.sent) * 100).toFixed(1) : "0.0"
+              const isExpanded = expandedId === notif.id
+
+              return (
+                <div key={notif.id} className="rounded-lg border p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-heading font-bold">{notif.title}</h3>
+                      <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{notif.body}</p>
+                    </div>
+                    <span className="shrink-0 text-xs text-muted-foreground">
+                      {formatRelativeTime(notif.createdAt)}
                     </span>
-                  )}
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                    <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-medium text-emerald-600">
+                      أُرسل لـ{notif.sent}
+                    </span>
+                    {notif.failed > 0 && (
+                      <span className="rounded-full bg-destructive/10 px-2 py-0.5 font-medium text-destructive">
+                        فشل: {notif.failed}
+                      </span>
+                    )}
+                    <Badge variant="secondary" className="text-xs">
+                      نقرة {clicked} ({ctr}%)
+                    </Badge>
+                    {clicked > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setExpandedId(isExpanded ? null : notif.id)}
+                        className="flex items-center gap-1 text-xs text-primary hover:underline"
+                      >
+                        {isExpanded ? "إخفاء النقرات" : "عرض النقرات"}
+                        {isExpanded ? <IconChevronUp className="size-3" /> : <IconChevronDown className="size-3" />}
+                      </button>
+                    )}
+                  </div>
+                  {isExpanded && <ClickList notificationId={notif.id} />}
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </section>

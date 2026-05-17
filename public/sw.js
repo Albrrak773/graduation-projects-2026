@@ -8,7 +8,8 @@ self.addEventListener("push", function (event) {
       vibrate: [100, 50, 100],
       data: {
         dateOfArrival: Date.now(),
-        url: data.url || "/",
+        url: data.url || "https://graduation.gdg-q.com",
+        notificationId: data.notificationId || null,
       },
     }
     event.waitUntil(self.registration.showNotification(data.title || "مشاريع التخرج", options))
@@ -17,6 +18,25 @@ self.addEventListener("push", function (event) {
 
 self.addEventListener("notificationclick", function (event) {
   event.notification.close()
-  const url = event.notification.data?.url || "/"
-  event.waitUntil(clients.openWindow(url))
+  const data = event.notification.data || {}
+  const url = data.url || "https://graduation.gdg-q.com"
+
+  if (data.notificationId) {
+    event.waitUntil(
+      self.registration.pushManager.getSubscription().then(function (subscription) {
+        var clickPayload = {
+          notificationId: data.notificationId,
+          endpoint: subscription ? subscription.endpoint : "",
+        }
+        fetch("/api/notification-clicked", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(clickPayload),
+        }).catch(function () {})
+        return clients.openWindow(url)
+      })
+    )
+  } else {
+    event.waitUntil(clients.openWindow(url))
+  }
 })

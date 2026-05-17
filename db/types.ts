@@ -1,6 +1,7 @@
 import { type InferSelectModel } from "drizzle-orm"
 import {
   adminsTable,
+  notificationClicksTable,
   notificationsTable,
   projectParticipantsTable,
   projectsTable,
@@ -17,5 +18,6 @@ export type Project = ProjectRow & { tags: TagRow[]; participants: ProjectPartic
 
 export type Subscription = InferSelectModel<typeof subscriptionsTable>
 export type NotificationRow = InferSelectModel<typeof notificationsTable>
+export type NotificationClick = InferSelectModel<typeof notificationClicksTable>
 export type Admin = InferSelectModel<typeof adminsTable>
 export type Vote = InferSelectModel<typeof votesTable>
