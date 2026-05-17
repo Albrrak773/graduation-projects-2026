@@ -1,11 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   cacheComponents: true,
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "10mb",
-    },
-  },
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [45, 60, 65, 75],

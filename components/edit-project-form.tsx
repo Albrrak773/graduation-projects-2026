@@ -34,7 +34,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { updateProject, uploadProjectImage } from "@/app/projects/edit/[signature]/actions"
+import { updateProject } from "@/app/projects/edit/[signature]/actions"
 import { projectEditSchema, type ProjectEditFormData } from "@/lib/project-edit-schema"
 import type { Project } from "@/db/types"
 
@@ -133,10 +133,16 @@ export function EditProjectForm({ project }: { project: Project }) {
       try {
         const formData = new FormData()
         formData.append("file", file)
+        formData.append("projectId", project.id)
 
-        const result = await uploadProjectImage(project.id, formData)
+        const res = await fetch("/api/upload-project-image", {
+          method: "POST",
+          body: formData,
+        })
 
-        if ("error" in result) {
+        const result = await res.json()
+
+        if (!res.ok || result.error) {
           setUploadState("error")
           setUploadError(result.error ?? "فشل في رفع الصورة")
           URL.revokeObjectURL(localPreview)
