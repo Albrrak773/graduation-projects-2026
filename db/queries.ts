@@ -1,6 +1,6 @@
 import { config } from "@/lib/config"
 import { and, desc, eq, isNotNull, ne, or, type SQL, sql } from "drizzle-orm"
-import { projectParticipantsTable, projectsTable, tagsTable, votesTable } from "@/db/schema"
+import { projectParticipantsTable, projectsTable, tagsTable, votingCampaignsTable, votesTable } from "@/db/schema"
 import type { Project } from "@/db/types"
 
 export async function getProjects(where?: SQL) {
@@ -69,17 +69,80 @@ export async function getUniqueTags() {
   return uniqueNames
 }
 
-export async function getUserVotedProjectIds(userId: string) {
+export async function getActiveCampaign() {
+  const now = new Date()
+  return config.db.query.votingCampaignsTable.findFirst({
+    where: and(sql`${votingCampaignsTable.startsAt} <= ${now}`, sql`${votingCampaignsTable.endsAt} >= ${now}`),
+  })
+}
+
+export async function getCampaigns() {
+  return config.db.query.votingCampaignsTable.findMany({
+    orderBy: [desc(votingCampaignsTable.startsAt)],
+  })
+}
+
+export async function getCampaignById(id: string) {
+  return config.db.query.votingCampaignsTable.findFirst({
+    where: eq(votingCampaignsTable.id, id),
+  })
+}
+
+export async function getUserVotedProjectIds(userId: string, campaignId: string) {
   const rows = await config.db
     .select({ projectId: votesTable.projectId })
     .from(votesTable)
-    .where(eq(votesTable.userId, userId))
+    .where(and(eq(votesTable.userId, userId), eq(votesTable.campaignId, campaignId)))
   return rows.map((row) => row.projectId)
 }
 
-export async function getVotesSummaryByProject(year?: number) {
-  const whereCondition = year ? eq(projectsTable.year, year) : undefined
+export async function getUserVoteCount(userId: string, campaignId: string) {
+  const [row] = await config.db
+    .select({ value: sql<number>`count(*)`.as("value") })
+    .from(votesTable)
+    .where(and(eq(votesTable.userId, userId), eq(votesTable.campaignId, campaignId)))
+  return row.value
+}
 
+export async function getCampaignStats(campaignId: string) {
+  const totalVotesResult = await config.db
+    .select({ value: sql<number>`count(*)`.as("value") })
+    .from(votesTable)
+    .where(eq(votesTable.campaignId, campaignId))
+
+  const totalVotes = totalVotesResult[0].value
+
+  const topProjects = await config.db
+    .select({
+      projectId: projectsTable.id,
+      title: projectsTable.title,
+      votes: sql<number>`count(*)`.as("votes"),
+    })
+    .from(votesTable)
+    .innerJoin(projectsTable, eq(votesTable.projectId, projectsTable.id))
+    .where(eq(votesTable.campaignId, campaignId))
+    .groupBy(projectsTable.id, projectsTable.title)
+    .orderBy(desc(sql`count(*)`))
+    .limit(5)
+
+  const recentVotes = await config.db
+    .select({
+      voteId: votesTable.id,
+      userId: votesTable.userId,
+      projectId: votesTable.projectId,
+      projectTitle: projectsTable.title,
+      createdAt: votesTable.createdAt,
+    })
+    .from(votesTable)
+    .innerJoin(projectsTable, eq(votesTable.projectId, projectsTable.id))
+    .where(eq(votesTable.campaignId, campaignId))
+    .orderBy(desc(votesTable.createdAt))
+    .limit(50)
+
+  return { totalVotes, topProjects, recentVotes }
+}
+
+export async function getVotesSummaryByProject(campaignId: string) {
   const rows = await config.db
     .select({
       projectId: projectsTable.id,
@@ -94,17 +157,14 @@ export async function getVotesSummaryByProject(year?: number) {
       )`.as("participants"),
     })
     .from(projectsTable)
-    .leftJoin(votesTable, eq(votesTable.projectId, projectsTable.id))
-    .where(whereCondition)
+    .leftJoin(votesTable, and(eq(votesTable.projectId, projectsTable.id), eq(votesTable.campaignId, campaignId)))
     .groupBy(projectsTable.id, projectsTable.title, projectsTable.year, projectsTable.colledge, projectsTable.section)
     .orderBy(desc(sql`COUNT(DISTINCT ${votesTable.id})`), desc(projectsTable.year), desc(projectsTable.id))
 
   return rows
 }
 
-export async function getVotesFirehose(year?: number) {
-  const whereCondition = year ? eq(projectsTable.year, year) : undefined
-
+export async function getVotesFirehose(campaignId: string) {
   return config.db
     .select({
       voteId: votesTable.id,
@@ -122,7 +182,7 @@ export async function getVotesFirehose(year?: number) {
     })
     .from(votesTable)
     .innerJoin(projectsTable, eq(votesTable.projectId, projectsTable.id))
-    .where(whereCondition)
+    .where(eq(votesTable.campaignId, campaignId))
     .orderBy(desc(votesTable.createdAt))
 }
 

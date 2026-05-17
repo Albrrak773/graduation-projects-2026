@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useTransition, useCallback, useEffect, useRef } from "react"
+import { useState, useMemo, useTransition, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import Fuse from "fuse.js"
@@ -11,12 +11,8 @@ import {
   IconCopy,
   IconCheck,
   IconAlertTriangle,
-  IconListDetails,
-  IconClock,
   IconLoader,
   IconLoader2,
-  IconExternalLink,
-  IconUsers,
   IconPlus,
   IconTrash,
   IconUpload,
@@ -55,13 +51,10 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
   seedEmptySignatures,
   rotateAllSignatures,
-  fetchClerkUsers,
   createProject,
   requestProjectImageUpload,
   processProjectImage,
-  type ClerkUserInfo,
 } from "@/app/admin/projects/actions"
-import { fetchProjectVotes } from "@/app/admin/projects/[id]/actions"
 import type { Project } from "@/db/types"
 
 const SEMESTER_VALUES = Object.values(YEAR_MAP) as readonly string[]
@@ -84,26 +77,6 @@ const collegeParser = parseAsArrayOf(parseAsStringEnum([...COLLEDGE_VALUES])).wi
 const sectionParser = parseAsArrayOf(parseAsStringEnum([...SECTION_VALUES])).withOptions({ throttleMs: 0 })
 
 type AdminProject = Project & { signature: string | null }
-type VotesSummaryRow = {
-  projectId: string
-  title: string
-  year: number | null
-  colledge: Project["colledge"]
-  section: Project["section"]
-  votes: number
-  participants: number
-}
-type FirehoseRow = {
-  voteId: string
-  userId: string
-  projectId: string
-  createdAt: Date | null
-  projectTitle: string
-  projectYear: number | null
-  projectColledge: Project["colledge"]
-  projectSection: Project["section"]
-  projectParticipants: number
-}
 type ProjectVoteRow = {
   voteId: string
   userId: string
@@ -137,16 +110,7 @@ function formatDateTime(date: Date | null): string {
   })
 }
 
-export function AdminProjectsList({
-  data,
-  votesSummary,
-  firehose,
-}: {
-  data: AdminProject[]
-  tags: string[]
-  votesSummary: VotesSummaryRow[]
-  firehose: FirehoseRow[]
-}) {
+export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string[] }) {
   const [search, setSearch] = useQueryState("search", { defaultValue: "", throttleMs: 300 })
   const [selectedColleges, setSelectedColleges] = useQueryState("college", collegeParser)
   const [selectedSections, setSelectedSections] = useQueryState("section", sectionParser)
@@ -166,40 +130,7 @@ export function AdminProjectsList({
   const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null)
   const [projectVotes, setProjectVotes] = useState<ProjectVoteRow[]>([])
   const [loadingVotes, setLoadingVotes] = useState(false)
-  const [usersMap, setUsersMap] = useState<Record<string, ClerkUserInfo>>({})
-  const [loadingUsers, setLoadingUsers] = useState(false)
   const [activeTab, setActiveTab] = useState("projects")
-  const [, startTransition] = useTransition()
-
-  const openProjectVotes = useCallback(
-    (projectId: string, projectTitle: string) => {
-      setSelectedProjectId(projectId)
-      setSelectedProjectTitle(projectTitle)
-      setLoadingVotes(true)
-      setProjectVotes([])
-      startTransition(async () => {
-        const votes = await fetchProjectVotes(projectId)
-        setProjectVotes(votes)
-        setLoadingVotes(false)
-      })
-    },
-    [startTransition]
-  )
-
-  useEffect(() => {
-    if (activeTab !== "firehose" || firehose.length === 0 || Object.keys(usersMap).length > 0) return
-    const uniqueUserIds = [...new Set(firehose.map((r) => r.userId))]
-    startTransition(async () => {
-      setLoadingUsers(true)
-      try {
-        const map = await fetchClerkUsers(uniqueUserIds)
-        setUsersMap(map)
-      } catch {
-        setUsersMap({})
-      }
-      setLoadingUsers(false)
-    })
-  }, [activeTab, firehose, usersMap, startTransition])
 
   const fuseIndex = useMemo(
     () =>
@@ -291,8 +222,6 @@ export function AdminProjectsList({
     setCopiedSig(sig)
     setTimeout(() => setCopiedSig(null), 2000)
   }
-
-  const totalVotes = useMemo(() => votesSummary.reduce((sum, r) => sum + Number(r.votes), 0), [votesSummary])
 
   return (
     <div className="flex flex-col gap-6">
@@ -460,14 +389,6 @@ export function AdminProjectsList({
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col gap-4">
         <TabsList variant="line">
           <TabsTrigger value="projects">المشاريع</TabsTrigger>
-          <TabsTrigger value="votes" className="gap-1.5">
-            <IconListDetails />
-            التصويت
-          </TabsTrigger>
-          <TabsTrigger value="firehose" className="gap-1.5">
-            <IconClock />
-            سجل الأصوات
-          </TabsTrigger>
           <TabsTrigger value="create" className="gap-1.5">
             <IconPlus />
             إنشاء مشروع
@@ -556,217 +477,6 @@ export function AdminProjectsList({
               {results.map((project) => (
                 <AdminProjectCard key={project.id} project={project} copiedSig={copiedSig} onCopy={copySignature} />
               ))}
-            </div>
-          )}
-        </TabsContent>
-
-        <TabsContent value="votes">
-          <div className="mb-2 text-sm text-muted-foreground">
-            إجمالي الأصوات: <strong>{totalVotes.toLocaleString("ar-SA")}</strong> صوت لـ{" "}
-            <strong>{votesSummary.filter((r) => Number(r.votes) > 0).length}</strong> مشروع
-          </div>
-          {votesSummary.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border/70 bg-muted/30 py-16 text-center text-muted-foreground">
-              لا توجد بيانات تصويت حالياً
-            </div>
-          ) : (
-            <div className="rounded-2xl border bg-card">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>المشروع</TableHead>
-                    <TableHead>الكلية</TableHead>
-                    <TableHead>القسم</TableHead>
-                    <TableHead className="text-center">المشاركون</TableHead>
-                    <TableHead className="text-center">الأصوات</TableHead>
-                    <TableHead className="text-center">تفاصيل</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {votesSummary.map((row) => (
-                    <TableRow key={row.projectId}>
-                      <TableCell className="max-w-[280px] truncate" dir="auto">
-                        <Link
-                          href={`/projects/${row.projectId}`}
-                          className="flex items-center gap-1.5 underline decoration-muted-foreground hover:text-primary"
-                          target="_blank"
-                        >
-                          {row.title}
-                          <IconExternalLink className="shrink-0" />
-                        </Link>
-                      </TableCell>
-                      <TableCell>{COLLEDGE_LABELS[row.colledge]}</TableCell>
-                      <TableCell>{SECTION_LABELS[row.section]}</TableCell>
-                      <TableCell className="text-center tabular-nums">
-                        <span className="inline-flex items-center gap-1">
-                          <IconUsers className="text-muted-foreground" />
-                          {Number(row.participants).toLocaleString("ar-SA")}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-center font-mono font-bold tabular-nums">
-                        {Number(row.votes).toLocaleString("ar-SA")}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="gap-1.5"
-                          onClick={() => openProjectVotes(row.projectId, row.title)}
-                        >
-                          <IconListDetails />
-                          عرض
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
-        </TabsContent>
-
-        <TabsContent value="firehose">
-          {firehose.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border/70 bg-muted/30 py-16 text-center text-muted-foreground">
-              لا توجد أصوات مسجلة حالياً
-            </div>
-          ) : loadingUsers ? (
-            <div className="flex items-center justify-center gap-2 py-12 text-muted-foreground">
-              <IconLoader className="animate-spin" />
-              جارٍ تحميل بيانات المستخدمين...
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2">
-              <div className="text-sm text-muted-foreground">
-                {firehose.length.toLocaleString("ar-SA")} صوت مسجّل ·{" "}
-                {Object.keys(usersMap).length.toLocaleString("ar-SA")} مستخدم
-              </div>
-              <div className="rounded-2xl border bg-card">
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>المشروع</TableHead>
-                        <TableHead>الاسم</TableHead>
-                        <TableHead>البريد</TableHead>
-                        <TableHead>اسم المستخدم</TableHead>
-                        <TableHead>الهاتف</TableHead>
-                        <TableHead>الحسابات</TableHead>
-                        <TableHead>2FA</TableHead>
-                        <TableHead>حالة</TableHead>
-                        <TableHead>اللغة</TableHead>
-                        <TableHead>تسجيل</TableHead>
-                        <TableHead>آخر دخول</TableHead>
-                        <TableHead>وقت التصويت</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {firehose.map((row) => {
-                        const user = usersMap[row.userId]
-                        return (
-                          <TableRow key={row.voteId}>
-                            <TableCell className="max-w-[160px] truncate" dir="auto">
-                              <div className="flex items-center gap-1.5">
-                                <button
-                                  type="button"
-                                  className="truncate text-start underline decoration-muted-foreground hover:text-primary"
-                                  onClick={() => openProjectVotes(row.projectId, row.projectTitle)}
-                                >
-                                  {row.projectTitle}
-                                </button>
-                                <Link
-                                  href={`/projects/${row.projectId}`}
-                                  className="shrink-0 text-muted-foreground hover:text-primary"
-                                  target="_blank"
-                                >
-                                  <IconExternalLink className="size-3" />
-                                </Link>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              {user ? (
-                                <div className="flex items-center gap-2">
-                                  {user.imageUrl && (
-                                    <Image
-                                      src={user.imageUrl}
-                                      alt=""
-                                      width={24}
-                                      height={24}
-                                      className="size-6 shrink-0 rounded-full"
-                                    />
-                                  )}
-                                  <span className="truncate text-sm">{user.fullName || user.firstName || "—"}</span>
-                                </div>
-                              ) : (
-                                <span className="font-mono text-xs text-muted-foreground" dir="ltr">
-                                  {row.userId.slice(0, 12)}…
-                                </span>
-                              )}
-                            </TableCell>
-                            <TableCell className="max-w-[180px] truncate text-xs" dir="ltr">
-                              {user?.email ?? "—"}
-                            </TableCell>
-                            <TableCell className="text-xs" dir="ltr">
-                              {user?.username ?? "—"}
-                            </TableCell>
-                            <TableCell className="text-xs" dir="ltr">
-                              {user?.phone ?? "—"}
-                            </TableCell>
-                            <TableCell>
-                              {user && user.externalAccounts.length > 0
-                                ? user.externalAccounts.map((ea) => (
-                                    <Badge
-                                      key={ea.provider}
-                                      variant="outline"
-                                      className="me-1 px-1.5 py-0 text-[0.6rem]"
-                                    >
-                                      {ea.provider}
-                                    </Badge>
-                                  ))
-                                : "—"}
-                            </TableCell>
-                            <TableCell className="text-center text-xs">{user?.twoFactorEnabled ? "✓" : "✗"}</TableCell>
-                            <TableCell>
-                              {user && (user.banned || user.locked) ? (
-                                <span className="text-xs font-medium text-destructive">
-                                  {user.banned ? "محظور" : "مقفل"}
-                                </span>
-                              ) : (
-                                <span className="text-xs text-muted-foreground">نشط</span>
-                              )}
-                            </TableCell>
-                            <TableCell className="text-xs">{user?.locale ?? "—"}</TableCell>
-                            <TableCell className="text-xs">
-                              {user?.createdAt
-                                ? new Date(user.createdAt).toLocaleDateString("ar-SA", {
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                  })
-                                : "—"}
-                            </TableCell>
-                            <TableCell className="text-xs">
-                              {user?.lastSignInAt
-                                ? new Date(user.lastSignInAt).toLocaleDateString("ar-SA", {
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                  })
-                                : "—"}
-                            </TableCell>
-                            <TableCell className="text-xs">
-                              <div className="flex flex-col gap-0.5">
-                                <span>{formatDateTime(row.createdAt)}</span>
-                                <span className="text-muted-foreground">{formatRelativeTime(row.createdAt)}</span>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        )
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
-              </div>
             </div>
           )}
         </TabsContent>

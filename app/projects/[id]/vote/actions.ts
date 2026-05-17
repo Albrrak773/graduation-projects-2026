@@ -1,55 +1,48 @@
 "use server"
 
 import { auth } from "@clerk/nextjs/server"
-import { and, eq, sql } from "drizzle-orm"
+import { and, eq } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 import { config } from "@/lib/config"
 import { projectsTable, votesTable } from "@/db/schema"
-import { isVotingYear } from "@/lib/votes"
+import { getActiveCampaign, getUserVoteCount } from "@/db/queries"
 
 type VoteResult = { success: true } | { success: false; error: string }
-
-async function getProjectYear(projectId: string) {
-  const project = await config.db.query.projectsTable.findFirst({
-    columns: { year: true },
-    where: eq(projectsTable.id, projectId),
-  })
-  return project?.year ?? null
-}
 
 export async function castVote(projectId: string): Promise<VoteResult> {
   const { userId } = await auth()
   if (!userId) return { success: false, error: "يجب تسجيل الدخول للتصويت" }
 
-  const year = await getProjectYear(projectId)
-  if (year === null) return { success: false, error: "المشروع غير موجود" }
-  if (!isVotingYear(year)) {
-    return { success: false, error: "التصويت متاح لمشاريع السنة الحالية فقط" }
-  }
+  const campaign = await getActiveCampaign()
+  if (!campaign) return { success: false, error: "لا توجد حملة تصويت نشطة حالياً" }
+  if (!campaign.showVoteButton) return { success: false, error: "التصويت غير متاح حالياً" }
+
+  const project = await config.db.query.projectsTable.findFirst({
+    columns: { id: true },
+    where: eq(projectsTable.id, projectId),
+  })
+  if (!project) return { success: false, error: "المشروع غير موجود" }
 
   const existing = await config.db
     .select({ id: votesTable.id })
     .from(votesTable)
-    .where(and(eq(votesTable.userId, userId), eq(votesTable.projectId, projectId)))
+    .where(
+      and(eq(votesTable.userId, userId), eq(votesTable.projectId, projectId), eq(votesTable.campaignId, campaign.id))
+    )
     .limit(1)
 
   if (existing.length > 0) {
     return { success: true }
   }
 
-  if (Number.isFinite(config.votes.maxPerUser) && config.votes.maxPerUser > 0) {
-    const [row] = await config.db
-      .select({ value: sql<number>`count(*)`.as("value") })
-      .from(votesTable)
-      .where(eq(votesTable.userId, userId))
-
-    if (row.value >= config.votes.maxPerUser) {
-      return { success: false, error: "وصلت إلى الحد الأقصى لعدد الأصوات" }
-    }
+  const currentVotes = await getUserVoteCount(userId, campaign.id)
+  if (currentVotes >= campaign.maxVotesPerUser) {
+    return { success: false, error: "وصلت إلى الحد الأقصى لعدد الأصوات" }
   }
 
-  await config.db.insert(votesTable).values({ userId, projectId }).onConflictDoNothing()
+  await config.db.insert(votesTable).values({ userId, projectId, campaignId: campaign.id }).onConflictDoNothing()
   revalidatePath(`/projects/${projectId}`)
+  revalidatePath("/projects")
   return { success: true }
 }
 
@@ -57,7 +50,15 @@ export async function removeVote(projectId: string): Promise<VoteResult> {
   const { userId } = await auth()
   if (!userId) return { success: false, error: "يجب تسجيل الدخول للتصويت" }
 
-  await config.db.delete(votesTable).where(and(eq(votesTable.userId, userId), eq(votesTable.projectId, projectId)))
+  const campaign = await getActiveCampaign()
+  if (!campaign) return { success: false, error: "لا توجد حملة تصويت نشطة حالياً" }
+
+  await config.db
+    .delete(votesTable)
+    .where(
+      and(eq(votesTable.userId, userId), eq(votesTable.projectId, projectId), eq(votesTable.campaignId, campaign.id))
+    )
   revalidatePath(`/projects/${projectId}`)
+  revalidatePath("/projects")
   return { success: true }
 }

@@ -97,6 +97,17 @@ export const adminProjectsTable = pgTable("admin_projects", {
     .notNull(),
 })
 
+export const votingCampaignsTable = pgTable("voting_campaigns", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+  endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+  showVoteButton: boolean("show_vote_button").default(true).notNull(),
+  maxVotesPerUser: integer("max_votes_per_user").default(1).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+})
+
 export const votesTable = pgTable(
   "votes",
   {
@@ -105,9 +116,12 @@ export const votesTable = pgTable(
     projectId: uuid("project_id")
       .references(() => projectsTable.id, { onDelete: "cascade" })
       .notNull(),
+    campaignId: uuid("campaign_id")
+      .references(() => votingCampaignsTable.id, { onDelete: "cascade" })
+      .notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
-  (table) => [uniqueIndex("votes_user_project_unique").on(table.userId, table.projectId)]
+  (table) => [uniqueIndex("votes_user_project_campaign_unique").on(table.userId, table.projectId, table.campaignId)]
 )
 
 export const projectsRelations = relations(projectsTable, ({ many }) => ({
@@ -156,9 +170,17 @@ export const notificationClicksRelations = relations(notificationClicksTable, ({
   }),
 }))
 
+export const votingCampaignsRelations = relations(votingCampaignsTable, ({ many }) => ({
+  votes: many(votesTable),
+}))
+
 export const votesRelations = relations(votesTable, ({ one }) => ({
   project: one(projectsTable, {
     fields: [votesTable.projectId],
     references: [projectsTable.id],
+  }),
+  campaign: one(votingCampaignsTable, {
+    fields: [votesTable.campaignId],
+    references: [votingCampaignsTable.id],
   }),
 }))

@@ -3,7 +3,15 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { IconArrowLeft, IconBell, IconFolder, IconLayoutDashboard, IconLogout, IconUsers } from "@tabler/icons-react"
+import {
+  IconArrowLeft,
+  IconBell,
+  IconFolder,
+  IconLayoutDashboard,
+  IconLogout,
+  IconTrophy,
+  IconUsers,
+} from "@tabler/icons-react"
 import type { SessionPayload } from "@/lib/auth"
 import { logout } from "./actions"
 import {
@@ -25,6 +33,7 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 const navItems = [
   { title: "الرئيسية", href: "/admin", icon: IconLayoutDashboard },
   { title: "المشاريع", href: "/admin/projects", icon: IconFolder },
+  { title: "التصويت", href: "/admin/voting", icon: IconTrophy },
   { title: "المشرفين", href: "/admin/admins", icon: IconUsers },
   { title: "الإشعارات", href: "/admin/notifications", icon: IconBell },
 ]

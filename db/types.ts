@@ -7,6 +7,7 @@ import {
   projectsTable,
   subscriptionsTable,
   tagsTable,
+  votingCampaignsTable,
   votesTable,
 } from "./schema"
 
@@ -21,3 +22,4 @@ export type NotificationRow = InferSelectModel<typeof notificationsTable>
 export type NotificationClick = InferSelectModel<typeof notificationClicksTable>
 export type Admin = InferSelectModel<typeof adminsTable>
 export type Vote = InferSelectModel<typeof votesTable>
+export type VotingCampaign = InferSelectModel<typeof votingCampaignsTable>
