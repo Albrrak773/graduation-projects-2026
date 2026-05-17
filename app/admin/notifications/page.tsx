@@ -272,7 +272,7 @@ export default function AdminNotificationsPage() {
                       </span>
                     )}
                     <Badge variant="secondary" className="text-xs">
-                      نقرة {clicked} ({ctr}%)
+                      CTR {clicked} ({ctr}%)
                     </Badge>
                     {clicked > 0 && (
                       <button

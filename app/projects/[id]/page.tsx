@@ -22,7 +22,6 @@ import { ProjectCard } from "@/components/project-card"
 import { ProjectHeroImage } from "@/components/project-hero-image"
 import { SocialIconLink } from "@/components/social-icon-link"
 import { cn } from "@/lib/utils"
-import { VoteButton } from "@/components/vote-button"
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>
@@ -106,9 +105,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             >
               {project.title}
             </h1>
-            <div className="mt-4 flex">
-              <VoteButton projectId={project.id} projectYear={project.year} />
-            </div>
           </section>
 
           <section className="overflow-hidden rounded-3xl border border-white/70 bg-white/82 shadow-[0_30px_90px_rgba(13,43,107,0.12)] backdrop-blur">
