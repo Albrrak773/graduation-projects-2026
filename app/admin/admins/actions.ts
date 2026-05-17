@@ -1,42 +1,33 @@
 "use server"
 
-import { checkRole } from "@/lib/roles"
-import { clerkClient } from "@clerk/nextjs/server"
+import { config } from "@/lib/config"
+import { adminsTable } from "@/db/schema"
+import { eq } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
-import type { Roles } from "@/types/globals"
+import { hashPassword } from "@/lib/auth"
+import { verifySession } from "@/lib/auth"
 
-export async function setRole(formData: FormData) {
-  if (!(await checkRole("admin"))) {
-    redirect("/not-authorized")
-  }
+export async function deleteAdmin(formData: FormData) {
+  if (!(await verifySession())) return
 
-  const userId = formData.get("id") as string
-  const role = formData.get("role") as Roles
+  const id = formData.get("id") as string
 
-  const client = await clerkClient()
-  const user = await client.users.getUser(userId)
-
-  await client.users.updateUserMetadata(userId, {
-    publicMetadata: { ...user.publicMetadata, role },
-  })
+  await config.db.delete(adminsTable).where(eq(adminsTable.id, id))
 
   revalidatePath("/admin/admins")
 }
 
-export async function removeRole(formData: FormData) {
-  if (!(await checkRole("admin"))) {
-    redirect("/not-authorized")
-  }
+export async function addAdmin(formData: FormData) {
+  if (!(await verifySession())) return
 
-  const userId = formData.get("id") as string
+  const email = formData.get("email") as string
+  const password = formData.get("password") as string
 
-  const client = await clerkClient()
-  const user = await client.users.getUser(userId)
+  if (!email || !password) return
 
-  await client.users.updateUserMetadata(userId, {
-    publicMetadata: { ...user.publicMetadata, role: null },
-  })
+  const passwordHash = await hashPassword(password)
+
+  await config.db.insert(adminsTable).values({ email: email.toLowerCase(), passwordHash }).onConflictDoNothing()
 
   revalidatePath("/admin/admins")
 }

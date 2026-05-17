@@ -6,7 +6,6 @@ export const sectionEnum = pgEnum("section", [...SECTION_VALUES])
 export const colledgeEnum = pgEnum("colledge", [...COLLEDGE_VALUES])
 export const degreeEnum = pgEnum("degree", [...DEGREE_VALUES])
 export const baseEnum = pgEnum("base", ["Main", "Unaizah", "Ar-Rass"])
-export const adminRoleEnum = pgEnum("admin_role", ["super_admin", "project_owner"])
 
 export const projectsTable = pgTable("projects", {
   id: uuid().defaultRandom().primaryKey(),
@@ -63,8 +62,8 @@ export const notificationsTable = pgTable("notifications", {
 
 export const adminsTable = pgTable("admins", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: text("user_id").notNull().unique(),
-  role: adminRoleEnum("role").notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 })
 

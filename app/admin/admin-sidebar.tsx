@@ -3,9 +3,9 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { IconArrowLeft, IconBell, IconFolder, IconLayoutDashboard, IconUsers } from "@tabler/icons-react"
-import { UserButton, useUser } from "@clerk/nextjs"
-import { Skeleton } from "@/components/ui/skeleton"
+import { IconArrowLeft, IconBell, IconFolder, IconLayoutDashboard, IconLogout, IconUsers } from "@tabler/icons-react"
+import type { SessionPayload } from "@/lib/auth"
+import { logout } from "./actions"
 import {
   Sidebar,
   SidebarContent,
@@ -22,11 +22,6 @@ import {
 } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
-const roleLabels: Record<string, string> = {
-  admin: "مشرف",
-  project_owner: "صاحب مشروع",
-}
-
 const navItems = [
   { title: "الرئيسية", href: "/admin", icon: IconLayoutDashboard },
   { title: "المشاريع", href: "/admin/projects", icon: IconFolder },
@@ -34,11 +29,8 @@ const navItems = [
   { title: "الإشعارات", href: "/admin/notifications", icon: IconBell },
 ]
 
-export function AdminSidebar({ children }: { children: React.ReactNode }) {
+export function AdminSidebar({ session, children }: { session: SessionPayload; children: React.ReactNode }) {
   const pathname = usePathname()
-  const { user } = useUser()
-  const email = user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)?.emailAddress
-  const role = user?.publicMetadata?.role as string | undefined
 
   return (
     <TooltipProvider>
@@ -99,25 +91,22 @@ export function AdminSidebar({ children }: { children: React.ReactNode }) {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <form action={logout}>
+                  <SidebarMenuButton type="submit" tooltip="تسجيل الخروج">
+                    <IconLogout />
+                    <span>تسجيل الخروج</span>
+                  </SidebarMenuButton>
+                </form>
+              </SidebarMenuItem>
             </SidebarMenu>
             <div className="mx-2 border-t border-sidebar-border" />
             <div className="flex items-center gap-2 px-2 py-1">
-              {user ? <UserButton /> : <Skeleton className="size-8 shrink-0 rounded-full" />}
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary uppercase">
+                {session.email.charAt(0)}
+              </div>
               <div className="flex min-w-0 flex-1 items-center group-data-[collapsible=icon]:hidden">
-                <div className="flex min-w-0 flex-col gap-0.5">
-                  {email ? (
-                    <span className="truncate text-sm font-medium">{email}</span>
-                  ) : (
-                    <Skeleton className="h-5 w-28" />
-                  )}
-                  {user ? (
-                    <span className="text-xs text-muted-foreground">
-                      {role ? (roleLabels[role] ?? role) : "بدون دور"}
-                    </span>
-                  ) : (
-                    <Skeleton className="h-4 w-16" />
-                  )}
-                </div>
+                <span className="truncate text-sm font-medium">{session.email}</span>
               </div>
             </div>
           </SidebarFooter>

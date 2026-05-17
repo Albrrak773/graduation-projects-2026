@@ -25,10 +25,3 @@ export const DEGREE_LABELS: Record<string, string> = {
   bachelor: "بكالوريوس",
   master: "ماجستير",
 }
-
-export const ADMIN_ROLE_VALUES = ["super_admin", "project_owner"] as const
-
-export const ADMIN_ROLE_LABELS: Record<string, string> = {
-  super_admin: "مشرف عام",
-  project_owner: "مالك المشروع",
-}

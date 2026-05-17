@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Stack
 
-Next.js 16 App Router · React 19 · TypeScript · Tailwind CSS v4 · shadcn/ui · Drizzle ORM · PostgreSQL · Cloudflare R2 · Clerk (auth) · Web Push (VAPID)
+Next.js 16 App Router · React 19 · TypeScript · Tailwind CSS v4 · shadcn/ui · Drizzle ORM · PostgreSQL · Cloudflare R2 · JWT Auth · Web Push (VAPID)
 
 ### Route Structure
 
@@ -33,18 +33,21 @@ app/
   admin/                — protected admin area (role-guarded)
     projects/           — manage projects
     admins/             — manage admin roles
+    login/              — email/password login page
     notifications/      — send push notifications
-  sign-in/, sign-up/    — Clerk auth pages
   notifications/actions.ts — Web Push server actions
 ```
 
 ### Auth & Roles
 
-- Auth is handled by **Clerk** (`@clerk/nextjs`). User roles are stored in Clerk's `publicMetadata.role`.
-- Two roles: `"admin"` (super admin) and `"project_owner"` — defined in `types/globals.d.ts`.
-- `lib/roles.ts:checkRole()` reads `sessionClaims.metadata.role` for server-side role checks.
-- Admin actions (`app/admin/*/actions.ts`) call `checkRole` and redirect to `/not-authorized` on failure.
-- Admin role assignment uses Clerk's `clerkClient().users.updateUserMetadata()`.
+- Auth uses **JWT sessions** (`jose`) stored in an httpOnly cookie (`admin_session`). Passwords are hashed with `bcryptjs`.
+- Admin credentials (email + password_hash + role) are stored in the `admins` DB table.
+- Two roles: `"super_admin"` and `"project_owner"` — defined in `lib/roles.ts` and `db/schema.ts` (`adminRoleEnum`).
+- `lib/auth.ts` provides `createSession`, `verifySession`, `deleteSession`, `authenticateAdmin`, `hashPassword`, `verifyPassword`.
+- `lib/roles.ts:checkRole()` reads the session for server-side role checks.
+- `middleware.ts` guards all `/admin/*` routes (except `/admin/login`) by verifying the JWT cookie — redirects to `/admin/login` if invalid.
+- Admin role assignment is done directly via DB operations in `app/admin/admins/actions.ts`.
+- Seed script: `tsx db/seed-admin.ts <email> <password> [role]` creates the first admin.
 
 ### Database Layer
 

@@ -2,38 +2,25 @@
 
 import { useMemo, useState } from "react"
 import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table"
-import { IconDotsVertical, IconSearch, IconShield, IconTrash, IconUserStar } from "@tabler/icons-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
+import { IconDotsVertical, IconEye, IconEyeOff, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { removeRole, setRole } from "./actions"
+import { addAdmin, deleteAdmin } from "./actions"
 
-type AdminUser = {
+type AdminRow = {
   id: string
   email: string
-  role: string | undefined
-  imageUrl: string
-  createdAt: number
-  lastActiveAt: number | null
+  createdAt: Date | null
 }
 
-const roleLabels: Record<string, { label: string; variant: "default" | "secondary" }> = {
-  admin: { label: "مشرف", variant: "default" },
-  project_owner: { label: "صاحب مشروع", variant: "secondary" },
-}
-
-function formatRelativeTime(epochMs: number): string {
+function formatRelativeDate(date: Date | null): string {
+  if (!date) return "—"
   const now = Date.now()
-  const diff = now - epochMs
+  const diff = now - date.getTime()
   const seconds = Math.floor(diff / 1000)
   if (seconds < 60) return "الآن"
   const minutes = Math.floor(seconds / 60)
@@ -48,25 +35,11 @@ function formatRelativeTime(epochMs: number): string {
   return `منذ ${years} سنة`
 }
 
-function RoleActions({ userId, currentRole }: { userId: string; currentRole: string | undefined }) {
-  function handleSetAdmin() {
+function AdminActions({ adminId }: { adminId: string }) {
+  function handleDelete() {
     const fd = new FormData()
-    fd.set("id", userId)
-    fd.set("role", "admin")
-    setRole(fd)
-  }
-
-  function handleSetProjectOwner() {
-    const fd = new FormData()
-    fd.set("id", userId)
-    fd.set("role", "project_owner")
-    setRole(fd)
-  }
-
-  function handleRemove() {
-    const fd = new FormData()
-    fd.set("id", userId)
-    removeRole(fd)
+    fd.set("id", adminId)
+    deleteAdmin(fd)
   }
 
   return (
@@ -77,36 +50,75 @@ function RoleActions({ userId, currentRole }: { userId: string; currentRole: str
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {currentRole !== "admin" && (
-          <DropdownMenuItem onSelect={handleSetAdmin}>
-            <IconShield className="size-4" />
-            تعيين كمشرف
-          </DropdownMenuItem>
-        )}
-        {currentRole !== "project_owner" && (
-          <DropdownMenuItem onSelect={handleSetProjectOwner}>
-            <IconUserStar className="size-4" />
-            تعيين كصاحب مشروع
-          </DropdownMenuItem>
-        )}
-        {currentRole && (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive" onSelect={handleRemove}>
-              <IconTrash className="size-4" />
-              إزالة الدور
-            </DropdownMenuItem>
-          </>
-        )}
+        <DropdownMenuItem variant="destructive" onSelect={handleDelete}>
+          <IconTrash className="size-4" />
+          حذف المشرف
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
 }
 
-export function AdminsTable({ data }: { data: AdminUser[] }) {
+function AddAdminDialog() {
+  const [open, setOpen] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+
+  async function handleSubmit(formData: FormData) {
+    await addAdmin(formData)
+    setOpen(false)
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button>
+          <IconPlus className="size-4" />
+          إضافة مشرف
+        </Button>
+      </DialogTrigger>
+      <DialogContent dir="rtl">
+        <DialogHeader>
+          <DialogTitle>إضافة مشرف جديد</DialogTitle>
+        </DialogHeader>
+        <form action={handleSubmit} className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="add-email">البريد الإلكتروني</Label>
+            <Input id="add-email" name="email" type="email" required dir="ltr" />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="add-password">كلمة المرور</Label>
+            <div className="relative">
+              <Input
+                id="add-password"
+                name="password"
+                type={showNewPassword ? "text" : "password"}
+                required
+                dir="ltr"
+                minLength={8}
+                className="pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowNewPassword((v) => !v)}
+                className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                tabIndex={-1}
+                aria-label={showNewPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
+              >
+                {showNewPassword ? <IconEyeOff className="size-4" /> : <IconEye className="size-4" />}
+              </button>
+            </div>
+          </div>
+          <Button type="submit">إضافة</Button>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export function AdminsTable({ data }: { data: AdminRow[] }) {
   const [globalFilter, setGlobalFilter] = useState("")
 
-  const columns = useMemo<ColumnDef<AdminUser>[]>(
+  const columns = useMemo<ColumnDef<AdminRow>[]>(
     () => [
       {
         accessorKey: "email",
@@ -115,10 +127,9 @@ export function AdminsTable({ data }: { data: AdminUser[] }) {
           const user = row.original
           return (
             <div className="flex items-center gap-3">
-              <Avatar className="size-8">
-                <AvatarImage src={user.imageUrl} alt={user.email} />
-                <AvatarFallback>{user.email.charAt(0).toUpperCase()}</AvatarFallback>
-              </Avatar>
+              <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary uppercase">
+                {user.email.charAt(0)}
+              </div>
               <span className="font-medium">{user.email}</span>
             </div>
           )
@@ -128,33 +139,14 @@ export function AdminsTable({ data }: { data: AdminUser[] }) {
         accessorKey: "createdAt",
         header: "تاريخ الإنشاء",
         cell: ({ row }) => {
-          const ms = row.original.createdAt
-          return <span className="text-muted-foreground">{formatRelativeTime(ms)}</span>
-        },
-      },
-      {
-        accessorKey: "lastActiveAt",
-        header: "آخر نشاط",
-        cell: ({ row }) => {
-          const ms = row.original.lastActiveAt
-          if (!ms) return <span className="text-muted-foreground">—</span>
-          return <span className="text-muted-foreground">{formatRelativeTime(ms)}</span>
-        },
-      },
-      {
-        accessorKey: "role",
-        header: "الدور",
-        cell: ({ getValue }) => {
-          const role = getValue() as string | undefined
-          if (!role) return null
-          const config = roleLabels[role] ?? { label: role, variant: "outline" as const }
-          return <Badge variant={config.variant}>{config.label}</Badge>
+          const date = row.original.createdAt
+          return <span className="text-muted-foreground">{formatRelativeDate(date)}</span>
         },
       },
       {
         id: "actions",
         header: "",
-        cell: ({ row }) => <RoleActions userId={row.original.id} currentRole={row.original.role} />,
+        cell: ({ row }) => <AdminActions adminId={row.original.id} />,
       },
     ],
     []
@@ -172,14 +164,17 @@ export function AdminsTable({ data }: { data: AdminUser[] }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative">
-        <IconSearch className="absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          placeholder="بحث بالبريد الإلكتروني..."
-          value={globalFilter ?? ""}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="ps-9"
-        />
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1">
+          <IconSearch className="absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="بحث بالبريد الإلكتروني..."
+            value={globalFilter ?? ""}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className="ps-9"
+          />
+        </div>
+        <AddAdminDialog />
       </div>
       <div className="rounded-xl border bg-card">
         <Table>
