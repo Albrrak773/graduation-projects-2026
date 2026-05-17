@@ -10,6 +10,7 @@ import { DirectionProvider } from "@/components/ui/direction"
 import { NotificationProvider } from "@/components/notification-provider"
 import { NotificationBannerSlot } from "@/components/notification-banner-slot"
 import { NotificationModal } from "@/components/notification-modal"
+import { Analytics } from "@vercel/analytics/next"
 
 const fontSans = localFont({
   src: [
@@ -97,6 +98,7 @@ export default function RootLayout({
             </ThemeProvider>
           </DirectionProvider>
         </Suspense>
+        <Analytics />
       </body>
     </html>
   )
