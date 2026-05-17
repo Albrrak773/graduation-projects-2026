@@ -34,15 +34,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { requestProjectImageUpload, processProjectImage } from "@/app/admin/projects/actions"
-import { updateProject } from "@/app/projects/edit/[signature]/actions"
+import { updateProject, uploadProjectImage } from "@/app/projects/edit/[signature]/actions"
 import { projectEditSchema, type ProjectEditFormData } from "@/lib/project-edit-schema"
 import type { Project } from "@/db/types"
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]
 
-type UploadState = "idle" | "uploading" | "processing" | "success" | "error"
+type UploadState = "idle" | "uploading" | "success" | "error"
 
 export function EditProjectForm({ project }: { project: Project }) {
   const [uploadState, setUploadState] = useState<UploadState>("idle")
@@ -99,7 +98,7 @@ export function EditProjectForm({ project }: { project: Project }) {
 
       setSubmitState("success")
       form.reset(data)
-      setTimeout(() => setSubmitState("idle"), 3000)
+      setTimeout(() => setSubmitState("idle"), 8000)
     } catch {
       setSubmitState("error")
       setSubmitError("حدث خطأ غير متوقع")
@@ -115,7 +114,7 @@ export function EditProjectForm({ project }: { project: Project }) {
 
       if (!ALLOWED_TYPES.includes(file.type)) {
         setUploadState("error")
-        setUploadError("نوع الملف غير مدعوم. الأنواع المدعومة: JPEG, PNG, WebP")
+        setUploadError("نوع الملف غير مدعوم. الأنواع المدعومة: JPEG, PNG")
         return
       }
 
@@ -132,44 +131,23 @@ export function EditProjectForm({ project }: { project: Project }) {
       setUploadState("uploading")
 
       try {
-        const uploadResult = await requestProjectImageUpload(project.id, file.type)
+        const formData = new FormData()
+        formData.append("file", file)
 
-        if ("error" in uploadResult || !uploadResult.uploadUrl) {
+        const result = await uploadProjectImage(project.id, formData)
+
+        if ("error" in result) {
           setUploadState("error")
-          setUploadError(uploadResult.error ?? "فشل في إنشاء رفع الصورة")
+          setUploadError(result.error ?? "فشل في رفع الصورة")
           URL.revokeObjectURL(localPreview)
           return
         }
 
-        const putResponse = await fetch(uploadResult.uploadUrl, {
-          method: "PUT",
-          headers: { "Content-Type": file.type },
-          body: file,
-        })
-
-        if (!putResponse.ok) {
-          setUploadState("error")
-          setUploadError("فشل في رفع الصورة إلى التخزين")
-          URL.revokeObjectURL(localPreview)
-          return
-        }
-
-        setUploadState("processing")
-
-        const processResult = await processProjectImage(project.id, uploadResult.tempKey)
-
-        if ("error" in processResult || !processResult.success) {
-          setUploadState("error")
-          setUploadError(processResult.error ?? "فشل في معالجة الصورة")
-          URL.revokeObjectURL(localPreview)
-          return
-        }
-
-        setCurrentImageUrl(processResult.thumbUrl)
+        setCurrentImageUrl(result.thumbUrl)
         setUploadState("success")
         URL.revokeObjectURL(localPreview)
 
-        setTimeout(() => setUploadState("idle"), 3000)
+        setTimeout(() => setUploadState("idle"), 8000)
       } catch {
         setUploadState("error")
         setUploadError("حدث خطأ غير متوقع أثناء رفع الصورة")
@@ -239,7 +217,7 @@ export function EditProjectForm({ project }: { project: Project }) {
                         className="absolute inset-0 h-full w-full object-cover opacity-60 transition-opacity group-hover:opacity-40"
                       />
                       <div className="relative z-10 flex flex-col items-center gap-2 rounded-xl bg-background/80 p-3 shadow-sm backdrop-blur-md transition-transform group-hover:scale-105">
-                        {uploadState === "uploading" || uploadState === "processing" ? (
+                        {uploadState === "uploading" ? (
                           <IconLoader2 className="size-6 animate-spin text-foreground" />
                         ) : uploadState === "success" ? (
                           <IconCircleCheck className="size-6 text-green-500" />
@@ -257,7 +235,7 @@ export function EditProjectForm({ project }: { project: Project }) {
                     accept="image/jpeg,image/png,image/webp"
                     className="absolute inset-0 z-20 h-full w-full cursor-pointer opacity-0"
                     onChange={handleFileSelect}
-                    disabled={uploadState === "uploading" || uploadState === "processing"}
+                    disabled={uploadState === "uploading"}
                   />
                 </div>
                 <div className="space-y-1.5 pb-2">
@@ -267,14 +245,21 @@ export function EditProjectForm({ project }: { project: Project }) {
                     <br />
                     الصيغ المدعومة: JPEG, PNG
                   </p>
-                  {uploadState === "uploading" && <p className="text-xs text-blue-500">جارٍ رفع الصورة...</p>}
-                  {uploadState === "processing" && <p className="text-xs text-blue-500">جارٍ معالجة وضغط الصورة...</p>}
+                  {uploadState === "uploading" && (
+                    <p className="flex items-center gap-1.5 text-sm font-medium text-blue-500">
+                      <IconLoader2 className="size-4 animate-spin" />
+                      جارٍ رفع ومعالجة الصورة...
+                    </p>
+                  )}
                   {uploadState === "success" && (
-                    <p className="text-xs font-medium text-green-500">تم تحديث الصورة بنجاح</p>
+                    <p className="flex items-center gap-1.5 text-sm font-bold text-green-600">
+                      <IconCircleCheck className="size-4" />
+                      تم تحديث الصورة بنجاح
+                    </p>
                   )}
                   {uploadState === "error" && uploadError && (
-                    <p className="flex items-center gap-1 text-xs font-medium text-red-500">
-                      <IconAlertCircle className="size-3 shrink-0" />
+                    <p className="flex items-center gap-1.5 text-sm font-bold text-red-500">
+                      <IconAlertCircle className="size-4 shrink-0" />
                       {uploadError}
                     </p>
                   )}
