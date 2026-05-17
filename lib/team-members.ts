@@ -37,7 +37,7 @@ export const TEAM_MEMBERS: (DeveloperMember | DesignerMember | ManagerMember)[] 
   {
     role: "تصميم الهوية",
     name: "أمل الرحيمي",
-    linkedin: "https://linkedin.com/in/",
-    x: "https://x.com/",
+    linkedin: "https://www.linkedin.com/in/amal-almutairi11",
+    x: "https://x.com/i1amool",
   },
 ]
