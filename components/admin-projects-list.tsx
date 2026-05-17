@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useTransition, useCallback, useEffect } from "react"
+import { useState, useMemo, useTransition, useCallback, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import Fuse from "fuse.js"
@@ -14,15 +14,32 @@ import {
   IconListDetails,
   IconClock,
   IconLoader,
+  IconLoader2,
   IconExternalLink,
   IconUsers,
+  IconPlus,
+  IconTrash,
+  IconUpload,
+  IconPhotoEdit,
+  IconCircleCheck,
+  IconAlertCircle,
 } from "@tabler/icons-react"
 import { useQueryState, parseAsArrayOf, parseAsStringEnum } from "nuqs"
-import { COLLEDGE_VALUES, COLLEDGE_LABELS, SECTION_VALUES, SECTION_LABELS } from "@/db/enums"
+import {
+  COLLEDGE_VALUES,
+  COLLEDGE_LABELS,
+  SECTION_VALUES,
+  SECTION_LABELS,
+  DEGREE_VALUES,
+  DEGREE_LABELS,
+} from "@/db/enums"
 import { CURRENT_YEAR, YEAR_MAP } from "@/lib/years"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Dialog,
@@ -39,6 +56,9 @@ import {
   seedEmptySignatures,
   rotateAllSignatures,
   fetchClerkUsers,
+  createProject,
+  requestProjectImageUpload,
+  processProjectImage,
   type ClerkUserInfo,
 } from "@/app/admin/projects/actions"
 import { fetchProjectVotes } from "@/app/admin/projects/[id]/actions"
@@ -48,6 +68,17 @@ const SEMESTER_VALUES = Object.values(YEAR_MAP) as readonly string[]
 const HIJRI_TO_GREGORIAN: Record<string, number> = Object.fromEntries(
   Object.entries(YEAR_MAP).map(([gregorian, hijri]) => [hijri, Number(gregorian)])
 )
+
+const BASE_VALUES = ["Main", "Unaizah", "Ar-Rass"] as const
+const BASE_LABELS: Record<string, string> = {
+  Main: "الفرع الرئيسي",
+  Unaizah: "عنيزة",
+  "Ar-Rass": "الرس",
+}
+
+const IMAGE_MAX_FILE_SIZE = 10 * 1024 * 1024
+const IMAGE_ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]
+type UploadState = "idle" | "uploading" | "processing" | "success" | "error"
 
 const collegeParser = parseAsArrayOf(parseAsStringEnum([...COLLEDGE_VALUES])).withOptions({ throttleMs: 0 })
 const sectionParser = parseAsArrayOf(parseAsStringEnum([...SECTION_VALUES])).withOptions({ throttleMs: 0 })
@@ -437,6 +468,10 @@ export function AdminProjectsList({
             <IconClock />
             سجل الأصوات
           </TabsTrigger>
+          <TabsTrigger value="create" className="gap-1.5">
+            <IconPlus />
+            إنشاء مشروع
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="projects">
@@ -735,8 +770,484 @@ export function AdminProjectsList({
             </div>
           )}
         </TabsContent>
+
+        <TabsContent value="create">
+          <CreateProjectForm />
+        </TabsContent>
       </Tabs>
     </div>
+  )
+}
+
+function CreateProjectForm() {
+  const [isPending, startTransition] = useTransition()
+  const [result, setResult] = useState<{ type: "success" | "error"; message: string } | null>(null)
+
+  const [title, setTitle] = useState("")
+  const [discription, setDiscription] = useState("")
+  const [supervisor, setSupervisor] = useState("")
+  const [section, setSection] = useState<(typeof SECTION_VALUES)[number]>("male")
+  const [colledge, setColledge] = useState<(typeof COLLEDGE_VALUES)[number]>("CS")
+  const [degree, setDegree] = useState<(typeof DEGREE_VALUES)[number]>("bachelor")
+  const [base, setBase] = useState<"Main" | "Unaizah" | "Ar-Rass">("Main")
+  const [projectExternalLink, setProjectExternalLink] = useState("")
+  const [isPublic, setIsPublic] = useState(true)
+  const [tags, setTags] = useState("")
+  const [participants, setParticipants] = useState<
+    { name: string; uni_id: string; x_url: string; linked_url: string; github_url: string; personal_email: string }[]
+  >([{ name: "", uni_id: "", x_url: "", linked_url: "", github_url: "", personal_email: "" }])
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [uploadState, setUploadState] = useState<UploadState>("idle")
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  function addParticipant() {
+    setParticipants((prev) => [
+      ...prev,
+      { name: "", uni_id: "", x_url: "", linked_url: "", github_url: "", personal_email: "" },
+    ])
+  }
+
+  function removeParticipant(index: number) {
+    setParticipants((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  function updateParticipant(index: number, field: string, value: string) {
+    setParticipants((prev) => prev.map((p, i) => (i === index ? { ...p, [field]: value } : p)))
+  }
+
+  function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    e.target.value = ""
+
+    if (!IMAGE_ALLOWED_TYPES.includes(file.type)) {
+      setUploadState("error")
+      setUploadError("نوع الملف غير مدعوم. الأنواع المدعومة: JPEG, PNG, WebP")
+      return
+    }
+
+    if (file.size > IMAGE_MAX_FILE_SIZE) {
+      setUploadState("error")
+      setUploadError(`حجم الملف يتجاوز الحد المسموح (${IMAGE_MAX_FILE_SIZE / 1024 / 1024}MB)`)
+      return
+    }
+
+    setUploadError(null)
+    setUploadState("idle")
+    setSelectedFile(file)
+    setPreviewUrl(URL.createObjectURL(file))
+  }
+
+  function removeSelectedFile() {
+    setSelectedFile(null)
+    if (previewUrl) URL.revokeObjectURL(previewUrl)
+    setPreviewUrl(null)
+    setUploadState("idle")
+    setUploadError(null)
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setResult(null)
+
+    const tagList = tags
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean)
+
+    startTransition(async () => {
+      const res = await createProject({
+        title,
+        discription: discription || undefined,
+        supervisor,
+        section,
+        colledge,
+        degree,
+        base,
+        project_external_link: projectExternalLink || undefined,
+        is_public: isPublic,
+        tags: tagList.length > 0 ? tagList : undefined,
+        participants: participants.some((p) => p.name.trim() || p.uni_id.trim()) ? participants : undefined,
+      })
+
+      if (res.error) {
+        setResult({ type: "error", message: res.error })
+        return
+      }
+
+      if (selectedFile && res.id) {
+        setUploadState("uploading")
+        try {
+          const uploadResult = await requestProjectImageUpload(res.id, selectedFile.type)
+
+          if ("error" in uploadResult || !uploadResult.uploadUrl) {
+            setUploadState("error")
+            setUploadError(uploadResult.error ?? "فشل في رفع الصورة، لكن المشروع تم إنشاؤه")
+            setResult({ type: "success", message: "تم إنشاء المشروع لكن فشل رفع الصورة" })
+            return
+          }
+
+          const putResponse = await fetch(uploadResult.uploadUrl, {
+            method: "PUT",
+            headers: { "Content-Type": selectedFile.type },
+            body: selectedFile,
+          })
+
+          if (!putResponse.ok) {
+            setUploadState("error")
+            setUploadError("فشل في رفع الصورة إلى التخزين، لكن المشروع تم إنشاؤه")
+            setResult({ type: "success", message: "تم إنشاء المشروع لكن فشل رفع الصورة" })
+            return
+          }
+
+          setUploadState("processing")
+
+          const processResult = await processProjectImage(res.id, uploadResult.tempKey)
+
+          if ("error" in processResult || !processResult.success) {
+            setUploadState("error")
+            setUploadError(processResult.error ?? "فشل في معالجة الصورة، لكن المشروع تم إنشاؤه")
+            setResult({ type: "success", message: "تم إنشاء المشروع لكن فشل معالجة الصورة" })
+            return
+          }
+
+          setUploadState("success")
+          setResult({ type: "success", message: "تم إنشاء المشروع ورفع الصورة بنجاح" })
+        } catch {
+          setUploadState("error")
+          setUploadError("حدث خطأ أثناء رفع الصورة، لكن المشروع تم إنشاؤه")
+          setResult({ type: "success", message: "تم إنشاء المشروع لكن فشل رفع الصورة" })
+        }
+      } else {
+        setResult({ type: "success", message: "تم إنشاء المشروع بنجاح" })
+      }
+
+      setTitle("")
+      setDiscription("")
+      setSupervisor("")
+      setSection("male")
+      setColledge("CS")
+      setDegree("bachelor")
+      setBase("Main")
+      setProjectExternalLink("")
+      setIsPublic(true)
+      setTags("")
+      setParticipants([{ name: "", uni_id: "", x_url: "", linked_url: "", github_url: "", personal_email: "" }])
+      removeSelectedFile()
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      {result && (
+        <div
+          className={`rounded-xl px-4 py-3 text-sm font-medium ${
+            result.type === "success"
+              ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400"
+              : "bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400"
+          }`}
+        >
+          {result.message}
+        </div>
+      )}
+
+      <div className="rounded-2xl border bg-card p-4">
+        <h3 className="mb-4 font-heading text-lg font-bold">صورة المشروع</h3>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+          <div className="group relative flex h-36 w-36 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-border/60 bg-muted/30 transition-all hover:border-primary/50 hover:bg-muted/50">
+            {previewUrl ? (
+              <>
+                <Image
+                  src={previewUrl}
+                  alt="معاينة الصورة"
+                  fill
+                  sizes="144px"
+                  className="absolute inset-0 h-full w-full object-cover opacity-60 transition-opacity group-hover:opacity-40"
+                />
+                <div className="relative z-10 flex flex-col items-center gap-2 rounded-xl bg-background/80 p-3 shadow-sm backdrop-blur-md transition-transform group-hover:scale-105">
+                  {uploadState === "uploading" || uploadState === "processing" ? (
+                    <IconLoader2 className="size-6 animate-spin text-foreground" />
+                  ) : uploadState === "success" ? (
+                    <IconCircleCheck className="size-6 text-green-500" />
+                  ) : (
+                    <IconPhotoEdit className="size-6 text-foreground" />
+                  )}
+                </div>
+              </>
+            ) : (
+              <IconUpload className="size-8 text-muted-foreground transition-transform group-hover:-translate-y-1" />
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="absolute inset-0 z-20 h-full w-full cursor-pointer opacity-0"
+              onChange={handleFileSelect}
+              disabled={isPending || uploadState === "uploading" || uploadState === "processing"}
+            />
+          </div>
+          <div className="space-y-1.5 pb-2">
+            <p className="text-sm font-medium text-foreground">ارفع صورة المشروع</p>
+            <p className="text-xs text-muted-foreground">
+              الحد الأقصى {IMAGE_MAX_FILE_SIZE / 1024 / 1024}MB
+              <br />
+              الصيغ المدعومة: JPEG, PNG, WebP
+            </p>
+            {selectedFile && (
+              <button
+                type="button"
+                onClick={removeSelectedFile}
+                className="text-xs font-medium text-destructive hover:underline"
+              >
+                إزالة الصورة
+              </button>
+            )}
+            {uploadState === "uploading" && (
+              <p className="flex items-center gap-1.5 text-sm font-medium text-blue-500">
+                <IconLoader2 className="size-4 animate-spin" />
+                جارٍ رفع الصورة...
+              </p>
+            )}
+            {uploadState === "processing" && (
+              <p className="flex items-center gap-1.5 text-sm font-medium text-blue-500">
+                <IconLoader2 className="size-4 animate-spin" />
+                جارٍ معالجة الصورة...
+              </p>
+            )}
+            {uploadState === "success" && (
+              <p className="flex items-center gap-1.5 text-sm font-bold text-green-600">
+                <IconCircleCheck className="size-4" />
+                تم رفع الصورة بنجاح
+              </p>
+            )}
+            {uploadState === "error" && uploadError && (
+              <p className="flex items-center gap-1.5 text-sm font-bold text-red-500">
+                <IconAlertCircle className="size-4 shrink-0" />
+                {uploadError}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border bg-card p-4">
+        <h3 className="mb-4 font-heading text-lg font-bold">معلومات أساسية</h3>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="title">عنوان المشروع *</Label>
+            <Input
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              placeholder="عنوان المشروع"
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="supervisor">المشرف *</Label>
+            <Input
+              id="supervisor"
+              value={supervisor}
+              onChange={(e) => setSupervisor(e.target.value)}
+              required
+              placeholder="اسم المشرف"
+            />
+          </div>
+          <div className="flex flex-col gap-1.5 sm:col-span-2">
+            <Label htmlFor="discription">الوصف</Label>
+            <Textarea
+              id="discription"
+              value={discription}
+              onChange={(e) => setDiscription(e.target.value)}
+              placeholder="وصف المشروع"
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="project_external_link">رابط المشروع الخارجي</Label>
+            <Input
+              id="project_external_link"
+              value={projectExternalLink}
+              onChange={(e) => setProjectExternalLink(e.target.value)}
+              placeholder="https://..."
+              dir="ltr"
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="tags">الوسوم</Label>
+            <Input id="tags" value={tags} onChange={(e) => setTags(e.target.value)} placeholder="وسم١، وسم٢، ..." />
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border bg-card p-4">
+        <h3 className="mb-4 font-heading text-lg font-bold">التصنيف</h3>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex flex-col gap-1.5">
+            <Label>الكلية *</Label>
+            <Select value={colledge} onValueChange={(v) => setColledge(v as typeof colledge)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {COLLEDGE_VALUES.map((v) => (
+                  <SelectItem key={v} value={v}>
+                    {COLLEDGE_LABELS[v]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>القسم *</Label>
+            <Select value={section} onValueChange={(v) => setSection(v as typeof section)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {SECTION_VALUES.map((v) => (
+                  <SelectItem key={v} value={v}>
+                    {SECTION_LABELS[v]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>الدرجة</Label>
+            <Select value={degree} onValueChange={(v) => setDegree(v as typeof degree)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {DEGREE_VALUES.map((v) => (
+                  <SelectItem key={v} value={v}>
+                    {DEGREE_LABELS[v]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>الفرع</Label>
+            <Select value={base} onValueChange={(v) => setBase(v as "Main" | "Unaizah" | "Ar-Rass")}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {BASE_VALUES.map((v) => (
+                  <SelectItem key={v} value={v}>
+                    {BASE_LABELS[v]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center gap-3">
+          <Switch id="is-public" checked={isPublic} onCheckedChange={setIsPublic} />
+          <Label htmlFor="is-public">مشروع عام</Label>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border bg-card p-4">
+        <div className="flex items-center justify-between">
+          <h3 className="font-heading text-lg font-bold">المشاركون</h3>
+          <Button type="button" variant="outline" size="sm" className="gap-1.5" onClick={addParticipant}>
+            <IconPlus className="size-3.5" />
+            إضافة مشارك
+          </Button>
+        </div>
+
+        <div className="mt-4 flex flex-col gap-4">
+          {participants.map((p, i) => (
+            <div key={i} className="rounded-xl border bg-background p-3">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-sm font-medium text-muted-foreground">مشارك {i + 1}</span>
+                {participants.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeParticipant(i)}
+                    className="rounded p-1 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+                  >
+                    <IconTrash className="size-4" />
+                  </button>
+                )}
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex flex-col gap-1">
+                  <Label className="text-xs">الاسم</Label>
+                  <Input
+                    value={p.name}
+                    onChange={(e) => updateParticipant(i, "name", e.target.value)}
+                    placeholder="الاسم"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Label className="text-xs">الرقم الجامعي</Label>
+                  <Input
+                    value={p.uni_id}
+                    onChange={(e) => updateParticipant(i, "uni_id", e.target.value)}
+                    placeholder="الرقم الجامعي"
+                    dir="ltr"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Label className="text-xs">رابط X</Label>
+                  <Input
+                    value={p.x_url}
+                    onChange={(e) => updateParticipant(i, "x_url", e.target.value)}
+                    placeholder="https://x.com/..."
+                    dir="ltr"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Label className="text-xs">رابط LinkedIn</Label>
+                  <Input
+                    value={p.linked_url}
+                    onChange={(e) => updateParticipant(i, "linked_url", e.target.value)}
+                    placeholder="https://linkedin.com/..."
+                    dir="ltr"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Label className="text-xs">رابط GitHub</Label>
+                  <Input
+                    value={p.github_url}
+                    onChange={(e) => updateParticipant(i, "github_url", e.target.value)}
+                    placeholder="https://github.com/..."
+                    dir="ltr"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Label className="text-xs">البريد الإلكتروني</Label>
+                  <Input
+                    value={p.personal_email}
+                    onChange={(e) => updateParticipant(i, "personal_email", e.target.value)}
+                    placeholder="email@example.com"
+                    dir="ltr"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Button type="submit" disabled={isPending} className="h-10">
+        {isPending ? (
+          <>
+            <IconLoader className="animate-spin" />
+            جارٍ الإنشاء...
+          </>
+        ) : (
+          "إنشاء المشروع"
+        )}
+      </Button>
+    </form>
   )
 }
 

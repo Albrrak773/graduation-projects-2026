@@ -6,10 +6,12 @@ import { revalidatePath } from "next/cache"
 import { PutObjectCommand } from "@aws-sdk/client-s3"
 import { clerkClient } from "@clerk/nextjs/server"
 import { config } from "@/lib/config"
-import { projectsTable } from "@/db/schema"
+import { projectsTable, tagsTable, projectParticipantsTable } from "@/db/schema"
 import { verifySession } from "@/lib/auth"
 import { getPresignedUploadUrl, deleteR2Object, getR2PublicUrl, getR2Client } from "@/lib/r2"
 import { processOriginalAvif, processThumbnailAvif } from "@/lib/image-processing"
+import { CURRENT_YEAR } from "@/lib/years"
+import { COLLEDGE_VALUES, SECTION_VALUES, DEGREE_VALUES } from "@/db/enums"
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
 const ALLOWED_CONTENT_TYPES = ["image/jpeg", "image/png", "image/webp"]
@@ -244,5 +246,93 @@ export async function processProjectImage(projectId: string, tempKey: string) {
     console.error("Failed to process project image:", error)
     await deleteR2Object(tempKey).catch(() => {})
     return { error: "فشل في معالجة الصورة" }
+  }
+}
+
+type CreateProjectInput = {
+  title: string
+  discription?: string
+  supervisor: string
+  section: (typeof SECTION_VALUES)[number]
+  colledge: (typeof COLLEDGE_VALUES)[number]
+  degree?: (typeof DEGREE_VALUES)[number]
+  base?: "Main" | "Unaizah" | "Ar-Rass"
+  project_external_link?: string
+  year?: number
+  is_public?: boolean
+  tags?: string[]
+  participants?: {
+    name: string
+    uni_id: string
+    x_url?: string
+    linked_url?: string
+    github_url?: string
+    personal_email?: string
+  }[]
+}
+
+export async function createProject(input: CreateProjectInput) {
+  const session = await verifySession()
+  if (!session) return { error: "غير مصرح" }
+
+  if (!input.title?.trim()) return { error: "عنوان المشروع مطلوب" }
+  if (!input.supervisor?.trim()) return { error: "المشرف مطلوب" }
+  if (!input.section) return { error: "القسم مطلوب" }
+  if (!input.colledge) return { error: "الكلية مطلوبة" }
+
+  const base = input.base || "Main"
+  const degree = input.degree || "bachelor"
+  const year = input.year || CURRENT_YEAR
+  const isPublic = input.is_public ?? false
+
+  try {
+    const [project] = await config.db
+      .insert(projectsTable)
+      .values({
+        title: input.title.trim(),
+        discription: input.discription?.trim() || null,
+        supervisor: input.supervisor.trim(),
+        section: input.section,
+        colledge: input.colledge,
+        degree,
+        base,
+        project_external_link: input.project_external_link?.trim() || null,
+        year,
+        is_public: isPublic,
+      })
+      .returning({ id: projectsTable.id })
+
+    if (input.tags && input.tags.length > 0) {
+      await config.db.insert(tagsTable).values(
+        input.tags
+          .filter((t) => t.trim())
+          .map((name) => ({
+            project_id: project.id,
+            name: name.trim(),
+          }))
+      )
+    }
+
+    if (input.participants && input.participants.length > 0) {
+      await config.db.insert(projectParticipantsTable).values(
+        input.participants
+          .filter((p) => p.name?.trim() && p.uni_id?.trim())
+          .map((p) => ({
+            project_id: project.id,
+            name: p.name.trim(),
+            uni_id: p.uni_id.trim(),
+            x_url: p.x_url?.trim() || null,
+            linked_url: p.linked_url?.trim() || null,
+            github_url: p.github_url?.trim() || null,
+            personal_email: p.personal_email?.trim() || null,
+          }))
+      )
+    }
+
+    revalidatePath("/admin/projects")
+    return { success: true, id: project.id }
+  } catch (error) {
+    console.error("Failed to create project:", error)
+    return { error: "فشل في إنشاء المشروع" }
   }
 }
