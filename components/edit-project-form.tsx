@@ -35,13 +35,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { updateProject } from "@/app/projects/edit/[signature]/actions"
+import { requestProjectImageUpload, processProjectImage } from "@/app/admin/projects/actions"
 import { projectEditSchema, type ProjectEditFormData } from "@/lib/project-edit-schema"
 import type { Project } from "@/db/types"
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"]
 
-type UploadState = "idle" | "uploading" | "success" | "error"
+type UploadState = "idle" | "uploading" | "processing" | "success" | "error"
 
 export function EditProjectForm({ project }: { project: Project }) {
   const [uploadState, setUploadState] = useState<UploadState>("idle")
@@ -131,25 +132,40 @@ export function EditProjectForm({ project }: { project: Project }) {
       setUploadState("uploading")
 
       try {
-        const formData = new FormData()
-        formData.append("file", file)
-        formData.append("projectId", project.id)
+        const uploadResult = await requestProjectImageUpload(project.id, file.type)
 
-        const res = await fetch("/api/upload-project-image", {
-          method: "POST",
-          body: formData,
-        })
-
-        const result = await res.json()
-
-        if (!res.ok || result.error) {
+        if ("error" in uploadResult || !uploadResult.uploadUrl) {
           setUploadState("error")
-          setUploadError(result.error ?? "فشل في رفع الصورة")
+          setUploadError(uploadResult.error ?? "فشل في إنشاء رفع الصورة")
           URL.revokeObjectURL(localPreview)
           return
         }
 
-        setCurrentImageUrl(result.thumbUrl)
+        const putResponse = await fetch(uploadResult.uploadUrl, {
+          method: "PUT",
+          headers: { "Content-Type": file.type },
+          body: file,
+        })
+
+        if (!putResponse.ok) {
+          setUploadState("error")
+          setUploadError("فشل في رفع الصورة إلى التخزين")
+          URL.revokeObjectURL(localPreview)
+          return
+        }
+
+        setUploadState("processing")
+
+        const processResult = await processProjectImage(project.id, uploadResult.tempKey)
+
+        if ("error" in processResult || !processResult.success) {
+          setUploadState("error")
+          setUploadError(processResult.error ?? "فشل في معالجة الصورة")
+          URL.revokeObjectURL(localPreview)
+          return
+        }
+
+        setCurrentImageUrl(processResult.thumbUrl)
         setUploadState("success")
         URL.revokeObjectURL(localPreview)
 
@@ -223,7 +239,7 @@ export function EditProjectForm({ project }: { project: Project }) {
                         className="absolute inset-0 h-full w-full object-cover opacity-60 transition-opacity group-hover:opacity-40"
                       />
                       <div className="relative z-10 flex flex-col items-center gap-2 rounded-xl bg-background/80 p-3 shadow-sm backdrop-blur-md transition-transform group-hover:scale-105">
-                        {uploadState === "uploading" ? (
+                        {uploadState === "uploading" || uploadState === "processing" ? (
                           <IconLoader2 className="size-6 animate-spin text-foreground" />
                         ) : uploadState === "success" ? (
                           <IconCircleCheck className="size-6 text-green-500" />
@@ -241,7 +257,7 @@ export function EditProjectForm({ project }: { project: Project }) {
                     accept="image/jpeg,image/png,image/webp"
                     className="absolute inset-0 z-20 h-full w-full cursor-pointer opacity-0"
                     onChange={handleFileSelect}
-                    disabled={uploadState === "uploading"}
+                    disabled={uploadState === "uploading" || uploadState === "processing"}
                   />
                 </div>
                 <div className="space-y-1.5 pb-2">
@@ -254,7 +270,13 @@ export function EditProjectForm({ project }: { project: Project }) {
                   {uploadState === "uploading" && (
                     <p className="flex items-center gap-1.5 text-sm font-medium text-blue-500">
                       <IconLoader2 className="size-4 animate-spin" />
-                      جارٍ رفع ومعالجة الصورة...
+                      جارٍ رفع الصورة...
+                    </p>
+                  )}
+                  {uploadState === "processing" && (
+                    <p className="flex items-center gap-1.5 text-sm font-medium text-blue-500">
+                      <IconLoader2 className="size-4 animate-spin" />
+                      جارٍ معالجة الصورة...
                     </p>
                   )}
                   {uploadState === "success" && (
