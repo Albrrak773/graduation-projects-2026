@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { type ReactNode } from "react"
 import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 import {
   IconBrandGithub,
   IconBrandGithubFilled,
@@ -14,7 +15,7 @@ import {
 } from "@tabler/icons-react"
 import { COLLEDGE_COLORS, COLLEDGE_LABELS, SECTION_LABELS } from "@/db/enums"
 import { toHijri } from "@/lib/years"
-import { getAllProjectIds, getProjectById, getRelatedProjects } from "@/db/queries"
+import { getActiveCampaign, getAllProjectIds, getProjectById, getRelatedProjects } from "@/db/queries"
 import type { Project } from "@/db/types"
 import { Footer } from "@/components/footer"
 import { NavBar } from "@/components/nav-bar"
@@ -26,6 +27,57 @@ import { cn } from "@/lib/utils"
 
 type ProjectPageProps = {
   params: Promise<{ id: string }>
+}
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://graduation.qu.edu.sa"
+
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+  const { id } = await params
+  let project: Project | undefined
+
+  try {
+    project = await getProjectById(id)
+  } catch {
+    project = undefined
+  }
+
+  if (!project || project.is_public === false) {
+    return { title: "مشروع غير موجود" }
+  }
+
+  const tagNames = project.tags.map((t) => t.name)
+  const description = tagNames.length > 0 ? tagNames.join(" · ") : project.discription?.slice(0, 160) || ""
+
+  let ctaSuffix = ""
+  try {
+    const campaign = await getActiveCampaign()
+    if (campaign && campaign.showVoteButton) {
+      ctaSuffix = ` — صوّت في ${campaign.name}`
+    }
+  } catch {}
+
+  const ogDescription = description + ctaSuffix
+  const ogImage = project.image_url || project.image_thumb_url || undefined
+
+  return {
+    title: project.title,
+    description: ogDescription,
+    openGraph: {
+      title: project.title,
+      description: ogDescription,
+      url: `${SITE_URL}/projects/${id}`,
+      siteName: "مشاريع التخرج",
+      locale: "ar_SA",
+      type: "article",
+      ...(ogImage ? { images: [{ url: ogImage, width: 1200, height: 630, alt: project.title }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: ogDescription,
+      ...(ogImage ? { images: [ogImage] } : {}),
+    },
+  }
 }
 
 const BASE_LABELS: Record<string, string> = {
