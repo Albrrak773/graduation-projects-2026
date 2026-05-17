@@ -1,13 +1,11 @@
 import { Suspense } from "react"
 import { cacheLife, cacheTag } from "next/cache"
-import { connection } from "next/server"
 import { eq } from "drizzle-orm"
 import { projectsTable } from "@/db/schema"
-import { getProjectsForCards, getUniqueTags, getActiveCampaign } from "@/db/queries"
+import { getProjectsForCards, getUniqueTags } from "@/db/queries"
 import { NavBar } from "@/components/nav-bar"
 import { Footer } from "@/components/footer"
 import { ProjectsSearch } from "@/components/projects-search"
-import { VotingCampaignCard } from "@/components/voting-campaign-card"
 import type { Project } from "@/db/types"
 
 async function ProjectsData() {
@@ -27,13 +25,6 @@ async function ProjectsData() {
   }
 
   return <ProjectsSearch data={data} tags={tags} />
-}
-
-async function CampaignBanner() {
-  await connection()
-  const campaign = await getActiveCampaign()
-  if (!campaign || !campaign.showVoteButton) return null
-  return <VotingCampaignCard campaignName={campaign.name} />
 }
 
 function ProjectsFallback() {
@@ -59,11 +50,6 @@ export default function ProjectsPage() {
     <div className="relative min-h-screen">
       <div className="relative z-10">
         <NavBar showSearch={false} hideOnScroll />
-        <div className="mx-auto max-w-6xl space-y-6 px-6 md:px-12">
-          <Suspense fallback={null}>
-            <CampaignBanner />
-          </Suspense>
-        </div>
         <Suspense fallback={<ProjectsFallback />}>
           <ProjectsData />
         </Suspense>

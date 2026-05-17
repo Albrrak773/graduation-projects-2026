@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Suspense, type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { notFound } from "next/navigation"
 import {
   IconBrandGithub,
@@ -21,7 +21,7 @@ import { NavBar } from "@/components/nav-bar"
 import { ProjectCard } from "@/components/project-card"
 import { ProjectHeroImage } from "@/components/project-hero-image"
 import { SocialIconLink } from "@/components/social-icon-link"
-import { ProjectVoteButton } from "@/components/project-vote-button"
+import { ProjectVoteCta } from "@/components/project-vote-cta"
 import { cn } from "@/lib/utils"
 
 type ProjectPageProps = {
@@ -106,11 +106,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             >
               {project.title}
             </h1>
-
-            <Suspense fallback={null}>
-              <ProjectVoteButton projectId={project.id} />
-            </Suspense>
           </section>
+
+          <ProjectVoteCta projectId={project.id} projectTitle={project.title} />
 
           <section className="overflow-hidden rounded-3xl border border-white/70 bg-white/82 shadow-[0_30px_90px_rgba(13,43,107,0.12)] backdrop-blur">
             {hasImage ? (
