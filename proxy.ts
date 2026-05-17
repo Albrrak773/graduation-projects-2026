@@ -1,3 +1,4 @@
+import { clerkMiddleware } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
 import { jwtVerify } from "jose"
 import type { NextRequest } from "next/server"
@@ -11,9 +12,8 @@ function getSecret() {
   return new TextEncoder().encode(secret)
 }
 
-export async function proxy(request: NextRequest) {
+async function handleAdminSession(request: NextRequest) {
   const { pathname } = request.nextUrl
-
   const isAdminRoute = ADMIN_ROUTES.some((route) => pathname === route || pathname.startsWith(route + "/"))
   if (!isAdminRoute) return NextResponse.next()
 
@@ -43,6 +43,14 @@ export async function proxy(request: NextRequest) {
   return NextResponse.next()
 }
 
+export default clerkMiddleware(async (_auth, request) => {
+  return handleAdminSession(request)
+})
+
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/(api|trpc)(.*)",
+    "/__clerk/(.*)",
+  ],
 }

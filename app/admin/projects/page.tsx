@@ -1,7 +1,8 @@
 import { Suspense } from "react"
 import { cacheLife, cacheTag } from "next/cache"
-import { getProjects, getUniqueTags } from "@/db/queries"
+import { getProjects, getUniqueTags, getVotesSummaryByProject, getVotesFirehose } from "@/db/queries"
 import { AdminProjectsList } from "@/components/admin-projects-list"
+import { CURRENT_YEAR } from "@/lib/years"
 
 async function AdminProjectsData() {
   "use cache"
@@ -10,16 +11,25 @@ async function AdminProjectsData() {
 
   let data: Awaited<ReturnType<typeof getProjects>> = []
   let tags: string[] = []
+  let votesSummary: Awaited<ReturnType<typeof getVotesSummaryByProject>> = []
+  let firehose: Awaited<ReturnType<typeof getVotesFirehose>> = []
 
   try {
-    ;[data, tags] = await Promise.all([getProjects(), getUniqueTags()])
+    ;[data, tags, votesSummary, firehose] = await Promise.all([
+      getProjects(),
+      getUniqueTags(),
+      getVotesSummaryByProject(CURRENT_YEAR),
+      getVotesFirehose(CURRENT_YEAR),
+    ])
   } catch (error) {
     console.error("Failed to fetch projects data:", error)
     data = []
     tags = []
+    votesSummary = []
+    firehose = []
   }
 
-  return <AdminProjectsList data={data} tags={tags} />
+  return <AdminProjectsList data={data} tags={tags} votesSummary={votesSummary} firehose={firehose} />
 }
 
 function AdminProjectsFallback() {

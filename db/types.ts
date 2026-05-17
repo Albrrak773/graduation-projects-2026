@@ -6,6 +6,7 @@ import {
   projectsTable,
   subscriptionsTable,
   tagsTable,
+  votesTable,
 } from "./schema"
 
 type ProjectRow = InferSelectModel<typeof projectsTable>
@@ -17,3 +18,4 @@ export type Project = ProjectRow & { tags: TagRow[]; participants: ProjectPartic
 export type Subscription = InferSelectModel<typeof subscriptionsTable>
 export type NotificationRow = InferSelectModel<typeof notificationsTable>
 export type Admin = InferSelectModel<typeof adminsTable>
+export type Vote = InferSelectModel<typeof votesTable>

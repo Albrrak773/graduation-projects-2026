@@ -28,6 +28,12 @@ export const config = {
   db: drizzle(pool, { schema }),
   projectImagesKey: "project-images",
   projectThumbnailsKey: "project-thumbnails",
+  votes: {
+    maxPerUser: (() => {
+      const value = Number(process.env.VOTES_MAX_PER_USER)
+      return Number.isFinite(value) ? value : Infinity
+    })(),
+  },
   r2: {
     accessKeyId: assertEnv("R2_ACCESS_KEY_ID", process.env.R2_ACCESS_KEY_ID),
     secretAccessKey: assertEnv("R2_SECRET_ACCESS_KEY", process.env.R2_SECRET_ACCESS_KEY),

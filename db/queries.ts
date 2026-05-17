@@ -1,6 +1,6 @@
 import { config } from "@/lib/config"
-import { and, desc, eq, isNotNull, ne, or, type SQL } from "drizzle-orm"
-import { projectsTable, tagsTable } from "@/db/schema"
+import { and, desc, eq, isNotNull, ne, or, type SQL, sql } from "drizzle-orm"
+import { projectParticipantsTable, projectsTable, tagsTable, votesTable } from "@/db/schema"
 import type { Project } from "@/db/types"
 
 export async function getProjects(where?: SQL) {
@@ -67,4 +67,73 @@ export async function getUniqueTags() {
   const rows = await config.db.select({ name: tagsTable.name }).from(tagsTable)
   const uniqueNames = Array.from(new Set(rows.map((r) => r.name)))
   return uniqueNames
+}
+
+export async function getUserVotedProjectIds(userId: string) {
+  const rows = await config.db
+    .select({ projectId: votesTable.projectId })
+    .from(votesTable)
+    .where(eq(votesTable.userId, userId))
+  return rows.map((row) => row.projectId)
+}
+
+export async function getVotesSummaryByProject(year?: number) {
+  const whereCondition = year ? eq(projectsTable.year, year) : undefined
+
+  const rows = await config.db
+    .select({
+      projectId: projectsTable.id,
+      title: projectsTable.title,
+      year: projectsTable.year,
+      colledge: projectsTable.colledge,
+      section: projectsTable.section,
+      votes: sql<number>`COUNT(DISTINCT ${votesTable.id})`.as("votes"),
+      participants: sql<number>`(
+        SELECT COUNT(*) FROM ${projectParticipantsTable}
+        WHERE ${projectParticipantsTable.project_id} = ${projectsTable.id}
+      )`.as("participants"),
+    })
+    .from(projectsTable)
+    .leftJoin(votesTable, eq(votesTable.projectId, projectsTable.id))
+    .where(whereCondition)
+    .groupBy(projectsTable.id, projectsTable.title, projectsTable.year, projectsTable.colledge, projectsTable.section)
+    .orderBy(desc(sql`COUNT(DISTINCT ${votesTable.id})`), desc(projectsTable.year), desc(projectsTable.id))
+
+  return rows
+}
+
+export async function getVotesFirehose(year?: number) {
+  const whereCondition = year ? eq(projectsTable.year, year) : undefined
+
+  return config.db
+    .select({
+      voteId: votesTable.id,
+      userId: votesTable.userId,
+      projectId: votesTable.projectId,
+      createdAt: votesTable.createdAt,
+      projectTitle: projectsTable.title,
+      projectYear: projectsTable.year,
+      projectColledge: projectsTable.colledge,
+      projectSection: projectsTable.section,
+      projectParticipants: sql<number>`(
+        SELECT COUNT(*) FROM ${projectParticipantsTable}
+        WHERE ${projectParticipantsTable.project_id} = ${projectsTable.id}
+      )`.as("projectParticipants"),
+    })
+    .from(votesTable)
+    .innerJoin(projectsTable, eq(votesTable.projectId, projectsTable.id))
+    .where(whereCondition)
+    .orderBy(desc(votesTable.createdAt))
+}
+
+export async function getProjectVotes(projectId: string) {
+  return config.db
+    .select({
+      voteId: votesTable.id,
+      userId: votesTable.userId,
+      createdAt: votesTable.createdAt,
+    })
+    .from(votesTable)
+    .where(eq(votesTable.projectId, projectId))
+    .orderBy(desc(votesTable.createdAt))
 }

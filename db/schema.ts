@@ -1,4 +1,15 @@
-import { boolean, integer, pgEnum, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core"
+import {
+  boolean,
+  integer,
+  pgEnum,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  uniqueIndex,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core"
 import { relations, sql } from "drizzle-orm"
 import { COLLEDGE_VALUES, DEGREE_VALUES, SECTION_VALUES } from "./enums"
 
@@ -76,9 +87,23 @@ export const adminProjectsTable = pgTable("admin_projects", {
     .notNull(),
 })
 
+export const votesTable = pgTable(
+  "votes",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: varchar("user_id", { length: 255 }).notNull(),
+    projectId: uuid("project_id")
+      .references(() => projectsTable.id, { onDelete: "cascade" })
+      .notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [uniqueIndex("votes_user_project_unique").on(table.userId, table.projectId)]
+)
+
 export const projectsRelations = relations(projectsTable, ({ many }) => ({
   tags: many(tagsTable),
   participants: many(projectParticipantsTable),
+  votes: many(votesTable),
 }))
 
 export const tagsRelations = relations(tagsTable, ({ one }) => ({
@@ -106,6 +131,13 @@ export const adminProjectsRelations = relations(adminProjectsTable, ({ one }) =>
   }),
   project: one(projectsTable, {
     fields: [adminProjectsTable.projectId],
+    references: [projectsTable.id],
+  }),
+}))
+
+export const votesRelations = relations(votesTable, ({ one }) => ({
+  project: one(projectsTable, {
+    fields: [votesTable.projectId],
     references: [projectsTable.id],
   }),
 }))

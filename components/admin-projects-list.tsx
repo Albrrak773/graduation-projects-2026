@@ -1,16 +1,29 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useTransition, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import Fuse from "fuse.js"
-import { IconSearch, IconRefresh, IconSignature, IconCopy, IconCheck, IconAlertTriangle } from "@tabler/icons-react"
+import {
+  IconSearch,
+  IconRefresh,
+  IconSignature,
+  IconCopy,
+  IconCheck,
+  IconAlertTriangle,
+  IconListDetails,
+  IconClock,
+  IconLoader,
+  IconExternalLink,
+  IconUsers,
+} from "@tabler/icons-react"
 import { useQueryState, parseAsArrayOf, parseAsStringEnum } from "nuqs"
 import { COLLEDGE_VALUES, COLLEDGE_LABELS, SECTION_VALUES, SECTION_LABELS } from "@/db/enums"
 import { CURRENT_YEAR, YEAR_MAP } from "@/lib/years"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Dialog,
   DialogContent,
@@ -19,9 +32,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { seedEmptySignatures, rotateAllSignatures } from "@/app/admin/projects/actions"
+import { fetchProjectVotes } from "@/app/admin/projects/[id]/actions"
 import type { Project } from "@/db/types"
 
 const SEMESTER_VALUES = Object.values(YEAR_MAP) as readonly string[]
@@ -33,8 +48,69 @@ const collegeParser = parseAsArrayOf(parseAsStringEnum([...COLLEDGE_VALUES])).wi
 const sectionParser = parseAsArrayOf(parseAsStringEnum([...SECTION_VALUES])).withOptions({ throttleMs: 0 })
 
 type AdminProject = Project & { signature: string | null }
+type VotesSummaryRow = {
+  projectId: string
+  title: string
+  year: number | null
+  colledge: Project["colledge"]
+  section: Project["section"]
+  votes: number
+  participants: number
+}
+type FirehoseRow = {
+  voteId: string
+  userId: string
+  projectId: string
+  createdAt: Date | null
+  projectTitle: string
+  projectYear: number | null
+  projectColledge: Project["colledge"]
+  projectSection: Project["section"]
+  projectParticipants: number
+}
+type ProjectVoteRow = {
+  voteId: string
+  userId: string
+  createdAt: Date | null
+}
 
-export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string[] }) {
+function formatRelativeTime(date: Date | null): string {
+  if (!date) return "غير معروف"
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffSec = Math.floor(diffMs / 1000)
+  const diffMin = Math.floor(diffSec / 60)
+  const diffHour = Math.floor(diffMin / 60)
+  const diffDay = Math.floor(diffHour / 24)
+
+  if (diffSec < 60) return "الآن"
+  if (diffMin < 60) return `منذ ${diffMin} دقيقة`
+  if (diffHour < 24) return `منذ ${diffHour} ساعة`
+  if (diffDay < 30) return `منذ ${diffDay} يوم`
+  return date.toLocaleDateString("ar-SA")
+}
+
+function formatDateTime(date: Date | null): string {
+  if (!date) return "غير معروف"
+  return date.toLocaleDateString("ar-SA", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+}
+
+export function AdminProjectsList({
+  data,
+  votesSummary,
+  firehose,
+}: {
+  data: AdminProject[]
+  tags: string[]
+  votesSummary: VotesSummaryRow[]
+  firehose: FirehoseRow[]
+}) {
   const [search, setSearch] = useQueryState("search", { defaultValue: "", throttleMs: 300 })
   const [selectedColleges, setSelectedColleges] = useQueryState("college", collegeParser)
   const [selectedSections, setSelectedSections] = useQueryState("section", sectionParser)
@@ -49,6 +125,27 @@ export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string
   const [actionResult, setActionResult] = useState<{ type: "success" | "error"; message: string } | null>(null)
   const [seedDialogOpen, setSeedDialogOpen] = useState(false)
   const [rotateDialogOpen, setRotateDialogOpen] = useState(false)
+
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+  const [selectedProjectTitle, setSelectedProjectTitle] = useState<string | null>(null)
+  const [projectVotes, setProjectVotes] = useState<ProjectVoteRow[]>([])
+  const [loadingVotes, setLoadingVotes] = useState(false)
+  const [, startTransition] = useTransition()
+
+  const openProjectVotes = useCallback(
+    (projectId: string, projectTitle: string) => {
+      setSelectedProjectId(projectId)
+      setSelectedProjectTitle(projectTitle)
+      setLoadingVotes(true)
+      setProjectVotes([])
+      startTransition(async () => {
+        const votes = await fetchProjectVotes(projectId)
+        setProjectVotes(votes)
+        setLoadingVotes(false)
+      })
+    },
+    [startTransition]
+  )
 
   const fuseIndex = useMemo(
     () =>
@@ -141,8 +238,10 @@ export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string
     setTimeout(() => setCopiedSig(null), 2000)
   }
 
+  const totalVotes = useMemo(() => votesSummary.reduce((sum, r) => sum + Number(r.votes), 0), [votesSummary])
+
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="font-heading text-2xl font-bold">إدارة المشاريع</h1>
@@ -158,7 +257,7 @@ export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string
             onClick={() => setSeedDialogOpen(true)}
             disabled={seeding}
           >
-            <IconSignature className="size-4" />
+            <IconSignature data-icon="inline-start" />
             تعبئة التواقيع الفارغة
           </Button>
           <Button
@@ -168,14 +267,14 @@ export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string
             onClick={() => setRotateDialogOpen(true)}
             disabled={rotating}
           >
-            <IconRefresh className="size-4" />
+            <IconRefresh data-icon="inline-start" />
             تدوير جميع التواقيع
           </Button>
         </div>
       </div>
 
       <Dialog open={seedDialogOpen} onOpenChange={setSeedDialogOpen}>
-        <DialogContent>
+        <DialogContent className="gap-4">
           <DialogHeader>
             <DialogTitle>تعبئة التواقيع الفارغة</DialogTitle>
             <DialogDescription>
@@ -184,11 +283,11 @@ export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string
           </DialogHeader>
           {emptySigCount === 0 && (
             <div className="flex items-center gap-2 rounded-lg bg-muted/50 px-3 py-2 text-sm text-muted-foreground">
-              <IconCheck className="size-4 text-green-500" />
+              <IconCheck data-icon="inline-start" className="text-green-500" />
               جميع المشاريع لديها تواقيع بالفعل.
             </div>
           )}
-          <DialogFooter>
+          <DialogFooter showCloseButton>
             <Button variant="outline" onClick={() => setSeedDialogOpen(false)}>
               إلغاء
             </Button>
@@ -206,18 +305,18 @@ export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string
       </Dialog>
 
       <Dialog open={rotateDialogOpen} onOpenChange={setRotateDialogOpen}>
-        <DialogContent>
+        <DialogContent className="gap-4">
           <DialogHeader>
             <DialogTitle>تدوير جميع التواقيع</DialogTitle>
             <DialogDescription>
-              سيتم استبدال توقيع كل مشروع بتوقيع جديد. عدد المشاريع المتأثرة: <strong>{data.length}</strong> مشروع.
+              سيتم استبدال توقيع كل مشروع بتوقيع جديد. عدد المشاريع المتأثر: <strong>{data.length}</strong> مشروع.
             </DialogDescription>
           </DialogHeader>
           <div className="flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-400">
-            <IconAlertTriangle className="size-4 shrink-0" />
+            <IconAlertTriangle data-icon="inline-start" />
             هذا الإجراء لا يمكن التراجع عنه. الروابط القديمة ستنقضي.
           </div>
-          <DialogFooter>
+          <DialogFooter showCloseButton>
             <Button variant="outline" onClick={() => setRotateDialogOpen(false)}>
               إلغاء
             </Button>
@@ -235,6 +334,63 @@ export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string
         </DialogContent>
       </Dialog>
 
+      <Dialog
+        open={!!selectedProjectId}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedProjectId(null)
+            setSelectedProjectTitle(null)
+            setProjectVotes([])
+          }
+        }}
+      >
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>أصوات المشروع</DialogTitle>
+            <DialogDescription>{selectedProjectTitle}</DialogDescription>
+          </DialogHeader>
+          {loadingVotes ? (
+            <div className="flex items-center justify-center gap-2 py-8 text-muted-foreground">
+              <IconLoader className="animate-spin" />
+              جارٍ التحميل...
+            </div>
+          ) : projectVotes.length === 0 ? (
+            <div className="py-8 text-center text-muted-foreground">لا توجد أصوات لهذا المشروع</div>
+          ) : (
+            <div className="flex flex-col gap-1">
+              <div className="text-sm font-medium text-muted-foreground">{projectVotes.length} صوت</div>
+              <div className="max-h-[50vh] overflow-y-auto rounded-lg border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-start">#</TableHead>
+                      <TableHead className="text-start">معرّف المستخدم</TableHead>
+                      <TableHead className="text-start">وقت التصويت</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {projectVotes.map((vote, i) => (
+                      <TableRow key={vote.voteId}>
+                        <TableCell className="font-mono text-xs tabular-nums">{i + 1}</TableCell>
+                        <TableCell className="max-w-[200px] truncate font-mono text-xs" dir="ltr">
+                          {vote.userId}
+                        </TableCell>
+                        <TableCell className="text-xs">
+                          <div className="flex flex-col gap-0.5">
+                            <span>{formatDateTime(vote.createdAt)}</span>
+                            <span className="text-muted-foreground">{formatRelativeTime(vote.createdAt)}</span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
       {actionResult && (
         <div
           className={`rounded-xl px-4 py-3 text-sm font-medium ${
@@ -247,85 +403,235 @@ export function AdminProjectsList({ data }: { data: AdminProject[]; tags: string
         </div>
       )}
 
-      <div className="space-y-4 rounded-2xl border bg-card p-4">
-        <div className="relative">
-          <IconSearch className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="ابحث بالعنوان أو التوقيع..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="h-10 rounded-xl bg-background ps-10"
-          />
-        </div>
+      <Tabs defaultValue="projects" className="flex flex-col gap-4">
+        <TabsList variant="line">
+          <TabsTrigger value="projects">المشاريع</TabsTrigger>
+          <TabsTrigger value="votes" className="gap-1.5">
+            <IconListDetails />
+            التصويت
+          </TabsTrigger>
+          <TabsTrigger value="firehose" className="gap-1.5">
+            <IconClock />
+            سجل الأصوات
+          </TabsTrigger>
+        </TabsList>
 
-        <div className="flex flex-wrap items-end gap-4">
-          <FilterGroup title="الكلية">
-            <ToggleGroup
-              type="multiple"
-              variant="pill"
-              value={(selectedColleges ?? []) as string[]}
-              onValueChange={(vals) => setSelectedColleges(vals.length > 0 ? (vals as typeof selectedColleges) : null)}
-            >
-              {COLLEDGE_VALUES.map((c) => (
-                <ToggleGroupItem key={c} value={c}>
-                  {COLLEDGE_LABELS[c]}
-                </ToggleGroupItem>
+        <TabsContent value="projects">
+          <div className="flex flex-col gap-4 rounded-2xl border bg-card p-4">
+            <div className="relative">
+              <IconSearch className="pointer-events-none absolute start-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="ابحث بالعنوان أو التوقيع..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="h-10 rounded-xl bg-background ps-10"
+              />
+            </div>
+
+            <div className="flex flex-wrap items-end gap-4">
+              <FilterGroup title="الكلية">
+                <ToggleGroup
+                  type="multiple"
+                  variant="pill"
+                  value={(selectedColleges ?? []) as string[]}
+                  onValueChange={(vals) =>
+                    setSelectedColleges(vals.length > 0 ? (vals as typeof selectedColleges) : null)
+                  }
+                >
+                  {COLLEDGE_VALUES.map((c) => (
+                    <ToggleGroupItem key={c} value={c}>
+                      {COLLEDGE_LABELS[c]}
+                    </ToggleGroupItem>
+                  ))}
+                </ToggleGroup>
+              </FilterGroup>
+
+              <FilterGroup title="القسم">
+                <ToggleGroup
+                  type="multiple"
+                  variant="pill"
+                  value={(selectedSections ?? []) as string[]}
+                  onValueChange={(vals) =>
+                    setSelectedSections(vals.length > 0 ? (vals as typeof selectedSections) : null)
+                  }
+                >
+                  {SECTION_VALUES.map((s) => (
+                    <ToggleGroupItem key={s} value={s}>
+                      {SECTION_LABELS[s]}
+                    </ToggleGroupItem>
+                  ))}
+                </ToggleGroup>
+              </FilterGroup>
+
+              <FilterGroup title="العام">
+                <Select
+                  value={selectedSemester ?? undefined}
+                  onValueChange={(val) => setSelectedSemester(val as typeof selectedSemester)}
+                >
+                  <SelectTrigger className="h-[34px] rounded-full border-border bg-transparent px-4 text-sm font-medium text-muted-foreground">
+                    <SelectValue placeholder="اختر العام" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SEMESTER_VALUES.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {s}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FilterGroup>
+            </div>
+          </div>
+
+          <div className="text-sm text-muted-foreground">
+            {results.length} نتيجة
+            {search ? ` عن "${search}"` : ""}
+          </div>
+
+          {results.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-border/70 bg-muted/30 py-16 text-center text-muted-foreground">
+              لا توجد نتائج
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {results.map((project) => (
+                <AdminProjectCard key={project.id} project={project} copiedSig={copiedSig} onCopy={copySignature} />
               ))}
-            </ToggleGroup>
-          </FilterGroup>
+            </div>
+          )}
+        </TabsContent>
 
-          <FilterGroup title="القسم">
-            <ToggleGroup
-              type="multiple"
-              variant="pill"
-              value={(selectedSections ?? []) as string[]}
-              onValueChange={(vals) => setSelectedSections(vals.length > 0 ? (vals as typeof selectedSections) : null)}
-            >
-              {SECTION_VALUES.map((s) => (
-                <ToggleGroupItem key={s} value={s}>
-                  {SECTION_LABELS[s]}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          </FilterGroup>
+        <TabsContent value="votes">
+          <div className="mb-2 text-sm text-muted-foreground">
+            إجمالي الأصوات: <strong>{totalVotes.toLocaleString("ar-SA")}</strong> صوت لـ{" "}
+            <strong>{votesSummary.filter((r) => Number(r.votes) > 0).length}</strong> مشروع
+          </div>
+          {votesSummary.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-border/70 bg-muted/30 py-16 text-center text-muted-foreground">
+              لا توجد بيانات تصويت حالياً
+            </div>
+          ) : (
+            <div className="rounded-2xl border bg-card">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>المشروع</TableHead>
+                    <TableHead>الكلية</TableHead>
+                    <TableHead>القسم</TableHead>
+                    <TableHead className="text-center">المشاركون</TableHead>
+                    <TableHead className="text-center">الأصوات</TableHead>
+                    <TableHead className="text-center">تفاصيل</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {votesSummary.map((row) => (
+                    <TableRow key={row.projectId}>
+                      <TableCell className="max-w-[280px] truncate" dir="auto">
+                        <Link
+                          href={`/projects/${row.projectId}`}
+                          className="flex items-center gap-1.5 underline decoration-muted-foreground hover:text-primary"
+                          target="_blank"
+                        >
+                          {row.title}
+                          <IconExternalLink className="shrink-0" />
+                        </Link>
+                      </TableCell>
+                      <TableCell>{COLLEDGE_LABELS[row.colledge]}</TableCell>
+                      <TableCell>{SECTION_LABELS[row.section]}</TableCell>
+                      <TableCell className="text-center tabular-nums">
+                        <span className="inline-flex items-center gap-1">
+                          <IconUsers className="text-muted-foreground" />
+                          {Number(row.participants).toLocaleString("ar-SA")}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-center font-mono font-bold tabular-nums">
+                        {Number(row.votes).toLocaleString("ar-SA")}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="gap-1.5"
+                          onClick={() => openProjectVotes(row.projectId, row.title)}
+                        >
+                          <IconListDetails />
+                          عرض
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+        </TabsContent>
 
-          <FilterGroup title="العام">
-            <Select
-              value={selectedSemester ?? undefined}
-              onValueChange={(val) => setSelectedSemester(val as typeof selectedSemester)}
-            >
-              <SelectTrigger className="h-[34px] rounded-full border-border bg-transparent px-4 text-sm font-medium text-muted-foreground">
-                <SelectValue placeholder="اختر العام" />
-              </SelectTrigger>
-              <SelectContent>
-                {SEMESTER_VALUES.map((s) => (
-                  <SelectItem key={s} value={s}>
-                    {s}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FilterGroup>
-        </div>
-      </div>
-
-      <div className="text-sm text-muted-foreground">
-        {results.length} نتيجة
-        {search ? ` عن "${search}"` : ""}
-      </div>
-
-      {results.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border/70 bg-muted/30 py-16 text-center text-muted-foreground">
-          لا توجد نتائج
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {results.map((project) => (
-            <AdminProjectCard key={project.id} project={project} copiedSig={copiedSig} onCopy={copySignature} />
-          ))}
-        </div>
-      )}
+        <TabsContent value="firehose">
+          {firehose.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-border/70 bg-muted/30 py-16 text-center text-muted-foreground">
+              لا توجد أصوات مسجلة حالياً
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <div className="text-sm text-muted-foreground">{firehose.length.toLocaleString("ar-SA")} صوت مسجّل</div>
+              <div className="rounded-2xl border bg-card">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>المشروع</TableHead>
+                      <TableHead>الكلية</TableHead>
+                      <TableHead>القسم</TableHead>
+                      <TableHead className="text-center">المشاركون</TableHead>
+                      <TableHead>معرّف المستخدم</TableHead>
+                      <TableHead>وقت التصويت</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {firehose.map((row) => (
+                      <TableRow key={row.voteId}>
+                        <TableCell className="max-w-[200px] truncate" dir="auto">
+                          <button
+                            type="button"
+                            className="text-start underline decoration-muted-foreground hover:text-primary"
+                            onClick={() => openProjectVotes(row.projectId, row.projectTitle)}
+                          >
+                            {row.projectTitle}
+                          </button>
+                          <Link
+                            href={`/projects/${row.projectId}`}
+                            className="ms-1.5 inline-flex text-muted-foreground hover:text-primary"
+                            target="_blank"
+                          >
+                            <IconExternalLink className="size-3.5" />
+                          </Link>
+                        </TableCell>
+                        <TableCell>{COLLEDGE_LABELS[row.projectColledge]}</TableCell>
+                        <TableCell>{SECTION_LABELS[row.projectSection]}</TableCell>
+                        <TableCell className="text-center tabular-nums">
+                          <span className="inline-flex items-center gap-1">
+                            <IconUsers className="text-muted-foreground" />
+                            {Number(row.projectParticipants).toLocaleString("ar-SA")}
+                          </span>
+                        </TableCell>
+                        <TableCell className="max-w-[160px] truncate font-mono text-xs" dir="ltr">
+                          {row.userId}
+                        </TableCell>
+                        <TableCell className="text-xs">
+                          <div className="flex flex-col gap-0.5">
+                            <span>{formatDateTime(row.createdAt)}</span>
+                            <span className="text-muted-foreground">{formatRelativeTime(row.createdAt)}</span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
@@ -370,7 +676,7 @@ function AdminProjectCard({
         )}
       </div>
 
-      <div className="space-y-2 p-3">
+      <div className="flex flex-col gap-2 p-3">
         <h3 className="line-clamp-1 font-heading text-sm leading-5 font-bold">{project.title}</h3>
 
         <div className="flex flex-wrap items-center gap-1">
@@ -387,7 +693,7 @@ function AdminProjectCard({
         </div>
 
         <div className="flex items-center gap-1 rounded-lg bg-muted/50 px-2 py-1">
-          <IconSignature className="size-3 shrink-0 text-muted-foreground" />
+          <IconSignature className="shrink-0 text-muted-foreground" />
           {project.signature ? (
             <>
               <code className="flex-1 truncate font-mono text-[0.6875rem]" dir="ltr">
@@ -401,11 +707,7 @@ function AdminProjectCard({
                 }}
                 className="shrink-0 rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground"
               >
-                {copiedSig === project.signature ? (
-                  <IconCheck className="size-3 text-green-500" />
-                ) : (
-                  <IconCopy className="size-3" />
-                )}
+                {copiedSig === project.signature ? <IconCheck className="text-green-500" /> : <IconCopy />}
               </button>
             </>
           ) : (
