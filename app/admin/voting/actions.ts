@@ -7,11 +7,8 @@ import { eq } from "drizzle-orm"
 import { getCampaigns, getCampaignStats } from "@/db/queries"
 import { verifySession } from "@/lib/auth"
 
-const SAUDI_OFFSET_MS = 3 * 60 * 60 * 1000
-
 function saudiLocalToUtc(localDateTimeStr: string): Date {
-  const naive = new Date(localDateTimeStr)
-  return new Date(naive.getTime() + naive.getTimezoneOffset() * 60000 + SAUDI_OFFSET_MS)
+  return new Date(localDateTimeStr + "+03:00")
 }
 
 type CreateCampaignInput = {

@@ -80,7 +80,9 @@ function CountdownDigits({ value, label }: { value: number; label: string }) {
       <span className="font-heading text-2xl leading-none font-black text-white tabular-nums sm:text-4xl">
         {String(value).padStart(2, "0")}
       </span>
-      <span className="text-[0.55rem] font-medium tracking-wider text-white/60 uppercase sm:text-[0.65rem]">{label}</span>
+      <span className="text-[0.55rem] font-medium tracking-wider text-white/60 uppercase sm:text-[0.65rem]">
+        {label}
+      </span>
     </div>
   )
 }
@@ -227,7 +229,7 @@ export function VoteCtaCard({ projectId, projectTitle, campaignName, endsAt, max
       ? "جارٍ التصويت..."
       : "جارٍ الإلغاء..."
     : isVoted
-      ? "تم التصويت ✓"
+      ? "تم التصويت"
       : "صوّت للمشروع"
 
   return (
@@ -253,7 +255,7 @@ export function VoteCtaCard({ projectId, projectTitle, campaignName, endsAt, max
                   <IconHourglassHigh className="size-5 shrink-0 text-yellow-300" />
                   <span className="text-xs font-semibold text-white/80 sm:text-sm">ينتهي التصويت خلال</span>
                 </div>
-                <div className="flex items-center gap-1 ms-auto sm:gap-1.5" dir="ltr">
+                <div className="ms-auto flex items-center gap-1 sm:gap-1.5" dir="ltr">
                   {countdown.days > 0 && <CountdownDigits value={countdown.days} label="يوم" />}
                   {countdown.days > 0 && <span className="text-lg font-bold text-white/40 sm:text-2xl">:</span>}
                   <CountdownDigits value={countdown.hours} label="ساعة" />
@@ -292,11 +294,7 @@ export function VoteCtaCard({ projectId, projectTitle, campaignName, endsAt, max
                   )}
                   onClick={handleVoteClick}
                 >
-                  {isVoted ? (
-                    <IconHeartFilled className="size-5 text-pink-300" />
-                  ) : (
-                    <IconHeart className="size-5" />
-                  )}
+                  {isVoted ? <IconHeartFilled className="size-5 text-pink-300" /> : <IconHeart className="size-5" />}
                   <span>{voteButtonText}</span>
                 </Button>
                 {maxVotesPerUser > 1 && (

@@ -1,10 +1,23 @@
 "use client"
 
-import { UserProfile, SignOutButton } from "@clerk/nextjs"
+import { useEffect } from "react"
+import { useAuth, UserProfile, SignOutButton } from "@clerk/nextjs"
+import { useRouter } from "next/navigation"
 import { IconLogout } from "@tabler/icons-react"
 import { Button } from "@/components/ui/button"
 
 export function ProfileUserProfile() {
+  const { isSignedIn, isLoaded } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.replace("/")
+    }
+  }, [isLoaded, isSignedIn, router])
+
+  if (!isLoaded || !isSignedIn) return null
+
   return (
     <UserProfile routing="path" path="/profile">
       <UserProfile.Page label="تسجيل الخروج" url="signout" labelIcon={<IconLogout className="size-4" />}>
