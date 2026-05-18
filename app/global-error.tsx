@@ -86,7 +86,11 @@ export default function GlobalError({ reset }: { error: Error & { digest?: strin
                   <AlertOctagon className="h-20 w-20 text-muted-foreground md:h-28 md:w-28" />
                   <h2 className="font-heading text-3xl font-bold md:text-5xl">حصل خطأ!</h2>
                   <p className="max-w-lg text-lg text-muted-foreground md:text-xl">
-                    حاول مرة ثانية وذا استمرت المشكلة تواصل معنا وبنحاول نحلها باسرع وقت ان شاء الله
+                    حاول مرة ثانية وذا استمرت المشكلة{" "}
+                    <a href="mailto:albrrak773@gmail.com" className="underline">
+                      تواصل معنا
+                    </a>{" "}
+                    وبنحاول نحلها باسرع وقت ان شاء الله
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-3">
                     <Button variant="default" className="h-11 px-8 text-base md:h-12 md:text-lg" onClick={reset}>

@@ -19,7 +19,7 @@ export function VoteButton({
   maxVotesPerUser: initialMaxVotes,
 }: VoteButtonProps) {
   const { isSignedIn } = useAuth()
-  const { openSignIn } = useClerk()
+  const { openSignUp } = useClerk()
   const [isPending, startTransition] = useTransition()
   const [votedIds, setVotedIds] = useState<string[]>([])
   const [loaded, setLoaded] = useState(false)
@@ -76,7 +76,7 @@ export function VoteButton({
 
   if (!isSignedIn) {
     return (
-      <Button variant="outline" size="sm" className="gap-2 rounded-full" onClick={() => openSignIn()}>
+      <Button variant="outline" size="sm" className="gap-2 rounded-full" onClick={() => openSignUp()}>
         <IconHeart data-icon="inline-start" />
         صوّت للمشروع
       </Button>
