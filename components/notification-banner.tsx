@@ -73,7 +73,7 @@ export function NotificationBanner() {
           </span>
           <div className="min-w-0 flex-1">
             <span className="block text-xs leading-5 font-bold text-white sm:text-base">
-              لا تفوّت تحديثات معرض مشاريع التخرج، فعّل الإشعارات لتصلك أخبار الحفل وأهم التنبيهات أولاً بأول.
+              لا تفوّت تحديثات معرض مشاريع كلية الحاسب، فعّل الإشعارات لتصلك أخبار المعرض وأهم التنبيهات أولاً بأول.
             </span>
           </div>
         </div>

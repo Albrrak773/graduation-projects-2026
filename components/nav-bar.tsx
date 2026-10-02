@@ -78,8 +78,8 @@ export function NavBar({
       >
         <Link href="/" aria-label="الرئيسية" className="shrink-0">
           <Image
-            src="/design/logo white@4x.png"
-            alt="مشاريع التخرج"
+            src="/design/logo-vertical-white.png"
+            alt="معرض مشاريع كلية الحاسب"
             className="h-9 w-auto"
             width={210}
             height={80}

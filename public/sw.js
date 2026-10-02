@@ -12,7 +12,7 @@ self.addEventListener("push", function (event) {
         notificationId: data.notificationId || null,
       },
     }
-    event.waitUntil(self.registration.showNotification(data.title || "مشاريع التخرج", options))
+    event.waitUntil(self.registration.showNotification(data.title || "معرض مشاريع كلية الحاسب", options))
   }
 })
 

@@ -9,8 +9,8 @@ export default function LoginPage() {
         <div className="mb-6 flex flex-col items-center gap-2">
           <Link href="/" aria-label="الرئيسية">
             <Image
-              src="/design/logo.png"
-              alt="مشاريع التخرج"
+              src="/design/logo-vertical.png"
+              alt="معرض مشاريع كلية الحاسب"
               className="h-20 w-auto"
               width={160}
               height={80}

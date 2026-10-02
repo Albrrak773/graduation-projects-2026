@@ -3,9 +3,9 @@ import { CURRENT_YEAR, toHijri } from "@/lib/years"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `حفل ختام مشاريع التخرج ${toHijri(CURRENT_YEAR)}`,
-    short_name: "حفل الختام",
-    description: `حفل ختام الأنشطة ومعرض مشاريع التخرج - موقع لعرض مشاريع التخرج لسنة ${toHijri(CURRENT_YEAR)} ومتابعة أخبار الحفل عن طريق الإشعارات`,
+    name: `معرض مشاريع كلية الحاسب ${toHijri(CURRENT_YEAR)}`,
+    short_name: "معرض الحاسب",
+    description: `معرض مشاريع كلية الحاسب - موقع لعرض مشاريع التخرج لسنة ${toHijri(CURRENT_YEAR)} ومتابعة أخبار المعرض عن طريق الإشعارات`,
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
