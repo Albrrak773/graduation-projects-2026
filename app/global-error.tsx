@@ -73,8 +73,8 @@ export default function GlobalError({ reset }: { error: Error & { digest?: strin
                 <div className="flex justify-center px-6 pt-6 md:pt-10">
                   <Link href="/" aria-label="الرئيسية">
                     <Image
-                      src="/design/logo.png"
-                      alt="مشاريع التخرج"
+                      src="/design/logo-vertical.png"
+                      alt="معرض مشاريع كلية الحاسب"
                       className="h-20 w-auto md:h-24"
                       width={480}
                       height={200}

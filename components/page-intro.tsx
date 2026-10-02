@@ -42,8 +42,8 @@ export function PageIntro() {
             className="relative z-10 flex flex-col items-center gap-8"
           >
             <Image
-              src="/design/logo white@4x.png"
-              alt="مشاريع التخرج"
+              src="/design/logo-vertical-white.png"
+              alt="معرض مشاريع كلية الحاسب"
               width={320}
               height={120}
               className="w-56 sm:w-72 md:w-80"

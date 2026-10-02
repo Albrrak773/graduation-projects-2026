@@ -5,6 +5,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { IconSearch } from "@tabler/icons-react"
 import { YEAR_MAP, CURRENT_YEAR } from "@/lib/years"
+import { AiYearBadge } from "@/components/ai-year-badge"
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -41,8 +42,8 @@ export function Hero() {
         <div className="flex items-center justify-between gap-4">
           <Link href="/" aria-label="الرئيسية" className="shrink-0">
             <Image
-              src="/design/logo white@4x.png"
-              alt="مشاريع التخرج"
+              src="/design/logo-vertical-white.png"
+              alt="معرض مشاريع كلية الحاسب"
               width={210}
               height={80}
               className="h-9 w-auto"
@@ -69,8 +70,8 @@ export function Hero() {
       >
         <Link href="/" className="block w-full max-w-[22rem] sm:max-w-[34rem] md:max-w-[48rem]">
           <Image
-            src="/design/logo white@4x.png"
-            alt="حفل ختام الأنشطة ومعرض مشاريع التخرج"
+            src="/design/logo-vertical-white.png"
+            alt="معرض مشاريع كلية الحاسب"
             width={1200}
             height={600}
             className="h-auto w-full drop-shadow-2xl"
@@ -79,6 +80,10 @@ export function Hero() {
             sizes="(max-width: 640px) 22rem, (max-width: 768px) 34rem, 48rem"
           />
         </Link>
+        <AiYearBadge
+          tone="dark"
+          className="mt-8 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md md:mt-10 md:px-5"
+        />
       </motion.div>
     </section>
   )

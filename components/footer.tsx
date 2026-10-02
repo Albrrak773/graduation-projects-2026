@@ -16,6 +16,7 @@ import {
 import { useUser, useClerk } from "@clerk/nextjs"
 import { TEAM_MEMBERS } from "@/lib/team-members"
 import { SocialIconLink } from "@/components/social-icon-link"
+import { AiYearBadge } from "@/components/ai-year-badge"
 import { Button } from "@/components/ui/button"
 import { useNotification } from "@/components/notification-provider"
 
@@ -29,13 +30,15 @@ export function Footer() {
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 py-12 md:py-16">
         <div className="flex flex-col items-center gap-6">
           <Image
-            src="/design/logo.png"
-            alt="مشاريع التخرج"
+            src="/design/logo-vertical.png"
+            alt="معرض مشاريع كلية الحاسب"
             className="h-20 w-auto md:h-24"
             width={200}
             height={80}
             style={{ width: "auto" }}
           />
+
+          <AiYearBadge />
 
           <div className="flex flex-col items-center gap-4">
             {TEAM_MEMBERS.map((member) => (

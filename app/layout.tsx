@@ -62,7 +62,11 @@ const fontSerif = localFont({
   preload: false,
 })
 
-export const metadata: Metadata = {}
+export const metadata: Metadata = {
+  title: { default: "معرض مشاريع كلية الحاسب", template: "%s | معرض مشاريع كلية الحاسب" },
+  description: "معرض مشاريع كلية الحاسب - عام الذكاء الاصطناعي 2026م",
+  applicationName: "معرض مشاريع كلية الحاسب",
+}
 
 export default function RootLayout({
   children,

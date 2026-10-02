@@ -52,8 +52,8 @@ export function AdminSidebar({ session, children }: { session: SessionPayload; c
                   <Link href="/admin">
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary/10">
                       <Image
-                        src="/design/logo.png"
-                        alt="مشاريع التخرج"
+                        src="/design/logo-mark.png"
+                        alt="معرض مشاريع كلية الحاسب"
                         className="size-5 w-auto"
                         width={20}
                         height={20}
@@ -61,7 +61,7 @@ export function AdminSidebar({ session, children }: { session: SessionPayload; c
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
                       <span className="font-heading text-sm font-bold">لوحة التحكم</span>
-                      <span className="text-[11px] text-muted-foreground">مشاريع التخرج</span>
+                      <span className="text-[11px] text-muted-foreground">معرض مشاريع كلية الحاسب</span>
                     </div>
                   </Link>
                 </SidebarMenuButton>

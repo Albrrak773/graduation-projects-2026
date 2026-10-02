@@ -66,7 +66,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       title: project.title,
       description: ogDescription,
       url: `${SITE_URL}/projects/${id}`,
-      siteName: "مشاريع التخرج",
+      siteName: "معرض مشاريع كلية الحاسب",
       locale: "ar_SA",
       type: "article",
       ...(ogImage ? { images: [{ url: ogImage, width: 1200, height: 630, alt: project.title }] } : {}),
