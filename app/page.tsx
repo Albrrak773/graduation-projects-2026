@@ -146,7 +146,7 @@ function YearBrowseSection() {
           className="group rounded-3xl border border-white/55 bg-white/58 p-6 shadow-[0_20px_70px_rgba(13,43,107,0.08)] backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/72 hover:shadow-xl md:p-8"
         >
           <p className="mb-4 font-heading text-6xl leading-none font-black text-brand-teal md:text-8xl">
-            {toHijri(2026)}
+            {toHijri(CURRENT_YEAR)}
           </p>
           <h2 className="font-heading text-2xl font-black">مشاريع السنة الحالية</h2>
         </Link>
@@ -155,7 +155,7 @@ function YearBrowseSection() {
           className="group rounded-3xl border border-white/55 bg-white/58 p-6 shadow-[0_20px_70px_rgba(13,43,107,0.08)] backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/72 hover:shadow-xl md:p-8"
         >
           <p className="mb-4 font-heading text-6xl leading-none font-black text-brand-blue md:text-8xl">
-            {toHijri(2025)}
+            {toHijri(CURRENT_YEAR - 1)}
           </p>
           <h2 className="font-heading text-2xl font-black">مشاريع السنة السابقة</h2>
         </Link>
@@ -188,8 +188,6 @@ export default async function HomePage() {
 
         <AllProjectsSection projects={projects} />
 
-        <GDGCallout />
-
         {projects.length > 0 && (
           <>
             <div className="flex flex-col gap-10 py-12 md:py-20">
@@ -210,6 +208,8 @@ export default async function HomePage() {
             <ExploreAllProjectsButton />
           </>
         )}
+
+        <GDGCallout />
 
         <PreviousProjectsSection projects={projects} />
 

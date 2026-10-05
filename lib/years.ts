@@ -1,6 +1,6 @@
 export const YEAR_MAP: Record<number, string> = {
   2025: "١٤٤٦",
-  2026: "١٤٤٧",
+  2026: "١٤٤٨",
 }
 
 export const CURRENT_YEAR = 2026
