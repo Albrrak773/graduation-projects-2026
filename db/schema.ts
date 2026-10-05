@@ -120,6 +120,10 @@ export const votesTable = pgTable(
       .references(() => votingCampaignsTable.id, { onDelete: "cascade" })
       .notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
+    // Voter signals captured at vote time for the admin stats page; null on votes cast before they existed.
+    voterEmail: varchar("voter_email", { length: 255 }),
+    ipAddress: varchar("ip_address", { length: 64 }),
+    device: varchar("device", { length: 100 }),
   },
   (table) => [uniqueIndex("votes_user_project_campaign_unique").on(table.userId, table.projectId, table.campaignId)]
 )

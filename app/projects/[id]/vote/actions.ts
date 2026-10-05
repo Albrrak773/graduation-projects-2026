@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache"
 import { config } from "@/lib/config"
 import { projectsTable, votesTable } from "@/db/schema"
 import { getActiveCampaign, getUserVoteCount } from "@/db/queries"
+import { captureVoteSignals } from "@/lib/vote-signals"
 
 type VoteResult = { success: true } | { success: false; error: string }
 
@@ -40,7 +41,11 @@ export async function castVote(projectId: string): Promise<VoteResult> {
     return { success: false, error: "وصلت إلى الحد الأقصى لعدد الأصوات" }
   }
 
-  await config.db.insert(votesTable).values({ userId, projectId, campaignId: campaign.id }).onConflictDoNothing()
+  const signals = await captureVoteSignals()
+  await config.db
+    .insert(votesTable)
+    .values({ userId, projectId, campaignId: campaign.id, ...signals })
+    .onConflictDoNothing()
   revalidatePath(`/projects/${projectId}`)
   revalidatePath("/projects")
   return { success: true }
@@ -60,10 +65,11 @@ export async function switchVote(newProjectId: string): Promise<VoteResult> {
   })
   if (!project) return { success: false, error: "المشروع غير موجود" }
 
+  const signals = await captureVoteSignals()
   await config.db.delete(votesTable).where(and(eq(votesTable.userId, userId), eq(votesTable.campaignId, campaign.id)))
   await config.db
     .insert(votesTable)
-    .values({ userId, projectId: newProjectId, campaignId: campaign.id })
+    .values({ userId, projectId: newProjectId, campaignId: campaign.id, ...signals })
     .onConflictDoNothing()
   revalidatePath(`/projects/${newProjectId}`)
   revalidatePath("/projects")
