@@ -82,7 +82,16 @@ export default function RootLayout({
     >
       <body>
         <Suspense>
-          <ClerkProvider localization={arSA} appearance={{ theme: shadcn }}>
+          <ClerkProvider
+            localization={arSA}
+            appearance={{
+              theme: shadcn,
+              elements: {
+                // Keep verification digits and cursor movement in entry order within the RTL dialog.
+                otpCodeFieldInputContainer: { direction: "ltr" },
+              },
+            }}
+          >
             <DirectionProvider direction="rtl">
               <ThemeProvider>
                 <NuqsAdapter>
