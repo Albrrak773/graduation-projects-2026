@@ -6,7 +6,7 @@ import Fuse from "fuse.js"
 import { useQueryState, parseAsArrayOf, parseAsStringEnum, parseAsString } from "nuqs"
 import { IconSearch, IconX } from "@tabler/icons-react"
 import { COLLEDGE_VALUES, COLLEDGE_LABELS, SECTION_VALUES, SECTION_LABELS } from "@/db/enums"
-import { CURRENT_YEAR, YEAR_MAP } from "@/lib/years"
+import { CURRENT_YEAR, YEAR_MAP, toHijri } from "@/lib/years"
 import { ProjectCard } from "@/components/project-card"
 import {
   Combobox,
@@ -64,7 +64,13 @@ export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[]
         data.map((project) => ({
           id: project.id,
           title: project.title,
-          year: String(project.year ?? ""),
+          year: project.year
+            ? [
+                String(project.year),
+                toHijri(project.year),
+                toHijri(project.year).replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit))),
+              ]
+            : [],
           tagNames: project.tags.map((t) => t.name).join(" "),
           college: COLLEDGE_LABELS[project.colledge],
           section: SECTION_LABELS[project.section],
@@ -141,7 +147,7 @@ export function ProjectsSearch({ data, tags }: { data: Project[]; tags: string[]
             <IconSearch className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="ابحث عن مشروع، مجال، أو سنة مثل ١٤٤٧..."
+              placeholder={`ابحث عن مشروع، مجال، أو سنة مثل ${toHijri(CURRENT_YEAR)}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className={

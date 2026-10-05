@@ -32,6 +32,7 @@ import {
   updateCampaign,
 } from "@/app/admin/voting/actions"
 import type { VotingCampaign } from "@/db/types"
+import { CURRENT_YEAR, toHijri } from "@/lib/years"
 
 type CampaignWithStatus = VotingCampaign & {
   status: "active" | "upcoming" | "ended"
@@ -441,7 +442,7 @@ function CampaignFormDialog({
           <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="مثال: أفضل مشروع ١٤٤٧"
+            placeholder={`مثال: أفضل مشروع ${toHijri(CURRENT_YEAR)}`}
             className="font-heading"
           />
         </div>
