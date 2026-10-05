@@ -19,6 +19,8 @@ import {
 const VOTES_SHOWN = 100
 const BREAKDOWN_ROWS = 12
 const DAY_MINUTES = 1440
+const Y_TICKS = 4
+const X_TICKS = 8
 
 const ALERT_TITLE: Record<VoteFlag, string> = {
   disposable_email: "أصوات من نطاق بريد مؤقت",
@@ -169,40 +171,28 @@ export function AdminVoteStats({ campaigns, campaign, projectId, flaggedOnly, an
         <CardHeader>
           <CardTitle>الأصوات عبر الوقت</CardTitle>
           <CardDescription>
-            كل عمود يمثل {formatBucket(analysis.bucketMinutes)} بتوقيت الرياض · الأعلى{" "}
-            {formatCount(totals.peakBucketVotes)} صوت · الأحمر أصوات مشبوهة · المظلل ساعات الفجر ({QUIET_HOURS.start}–
-            {QUIET_HOURS.end} ص)
+            كل عمود يمثل {formatBucket(analysis.bucketMinutes)} بتوقيت الرياض · الأحمر أصوات مشبوهة · المظلل ساعات الفجر
+            ({QUIET_HOURS.start}–{QUIET_HOURS.end} ص) · مرّر المؤشر على عمود لعرض قيمته
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           {analysis.timeline.length === 0 ? (
             <p className="text-sm text-muted-foreground">لا توجد أصوات بعد.</p>
           ) : (
-            <div dir="ltr">
-              <div className="flex h-48 gap-px">
-                {analysis.timeline.map((bucket) => (
-                  <div
-                    key={bucket.start.getTime()}
-                    title={`${formatTime(bucket.start, withDay)} · ${bucket.votes} صوت · ${bucket.suspect} مشبوه`}
-                    className={cn("flex min-w-0 flex-1 items-end", bucket.quiet && "bg-muted")}
-                  >
-                    <div
-                      className="flex w-full flex-col-reverse overflow-hidden rounded-t-sm bg-primary/70"
-                      style={{ height: `${(bucket.votes / totals.peakBucketVotes) * 100}%` }}
-                    >
-                      <div
-                        className="bg-destructive"
-                        style={{ height: `${bucket.votes ? (bucket.suspect / bucket.votes) * 100 : 0}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-2 flex justify-between font-mono text-xs text-muted-foreground">
-                <span>{formatTime(analysis.timeline[0].start, withDay)}</span>
-                <span>{formatTime(analysis.timeline[analysis.timeline.length - 1].start, withDay)}</span>
-              </div>
-            </div>
+            <BarChart
+              xTitle="الوقت (توقيت الرياض)"
+              bars={analysis.timeline.map((bucket) => ({
+                key: bucket.start.getTime(),
+                value: bucket.votes,
+                accent: bucket.suspect,
+                shaded: bucket.quiet,
+                tick: formatTime(bucket.start, withDay),
+                label: `من ${formatTime(bucket.start, withDay)} إلى ${formatTime(
+                  new Date(bucket.start.getTime() + analysis.bucketMinutes * 60000),
+                  false
+                )}`,
+              }))}
+            />
           )}
           <QuietHoursNote quietHours={analysis.quietHours} />
         </CardContent>
@@ -216,25 +206,17 @@ export function AdminVoteStats({ campaigns, campaign, projectId, flaggedOnly, an
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div dir="ltr" className="flex gap-1">
-            {analysis.hourOfDay.map((votes, hour) => (
-              <div key={hour} className="flex min-w-0 flex-1 flex-col items-center gap-1">
-                <div
-                  title={`${hour}:00 · ${votes} صوت`}
-                  className={cn(
-                    "flex h-32 w-full items-end",
-                    hour >= QUIET_HOURS.start && hour < QUIET_HOURS.end && "bg-muted"
-                  )}
-                >
-                  <div
-                    className="w-full rounded-t-sm bg-primary/70"
-                    style={{ height: `${(votes / Math.max(1, ...analysis.hourOfDay)) * 100}%` }}
-                  />
-                </div>
-                <span className="font-mono text-[0.625rem] text-muted-foreground">{hour}</span>
-              </div>
-            ))}
-          </div>
+          <BarChart
+            xTitle="ساعة اليوم (توقيت الرياض)"
+            everyTick
+            bars={analysis.hourOfDay.map((votes, hour) => ({
+              key: hour,
+              value: votes,
+              shaded: hour >= QUIET_HOURS.start && hour < QUIET_HOURS.end,
+              tick: String(hour),
+              label: `من ${formatHour(hour)} إلى ${formatHour((hour + 1) % 24)}`,
+            }))}
+          />
         </CardContent>
       </Card>
 
@@ -450,6 +432,123 @@ export function AdminVoteStats({ campaigns, campaign, projectId, flaggedOnly, an
           )}
         </CardContent>
       </Card>
+    </div>
+  )
+}
+
+function formatHour(hour: number) {
+  return `${String(hour).padStart(2, "0")}:00`
+}
+
+/** Smallest 1/2/5 × 10ⁿ step that splits `peak` into at most `Y_TICKS` intervals. */
+function axisStep(peak: number) {
+  const rough = Math.max(1, peak) / Y_TICKS
+  const magnitude = 10 ** Math.floor(Math.log10(rough))
+  const step = [1, 2, 5, 10].find((multiple) => multiple * magnitude >= rough)! * magnitude
+  return Math.max(1, step)
+}
+
+type ChartBar = {
+  key: number
+  value: number
+  /** Portion of `value` drawn in red (suspect votes). */
+  accent?: number
+  shaded?: boolean
+  /** X value shown under the bar. */
+  tick: string
+  /** X value shown in the hover card. */
+  label: string
+}
+
+function BarChart({ bars, xTitle, everyTick = false }: { bars: ChartBar[]; xTitle: string; everyTick?: boolean }) {
+  const step = axisStep(Math.max(...bars.map((bar) => bar.value)))
+  const top = step * Math.max(1, Math.ceil(Math.max(...bars.map((bar) => bar.value)) / step))
+  const yTicks = Array.from({ length: top / step + 1 }, (_, index) => index * step)
+  const tickEvery = everyTick ? 1 : Math.ceil(bars.length / X_TICKS)
+
+  return (
+    <div dir="ltr" className="flex flex-col gap-1">
+      <span className="self-start text-xs text-muted-foreground">عدد الأصوات</span>
+      {/* The top padding is headroom for the hover card, which the card's overflow would otherwise clip. */}
+      <div className="flex gap-2 pt-12">
+        <div className="relative h-48 w-8 shrink-0 font-mono text-[0.625rem] text-muted-foreground">
+          {yTicks.map((tick) => (
+            <span key={tick} className="absolute end-0 translate-y-1/2" style={{ bottom: `${(tick / top) * 100}%` }}>
+              {formatCount(tick)}
+            </span>
+          ))}
+        </div>
+        <div className="relative h-48 min-w-0 flex-1">
+          {yTicks.map((tick) => (
+            <div
+              key={tick}
+              className="absolute inset-x-0 border-t border-border/60"
+              style={{ bottom: `${(tick / top) * 100}%` }}
+            />
+          ))}
+          <div className="absolute inset-0 flex gap-px">
+            {bars.map((bar, index) => (
+              <div
+                key={bar.key}
+                tabIndex={0}
+                className={cn(
+                  "group relative flex min-w-0 flex-1 items-end outline-none hover:bg-foreground/5 focus-visible:bg-foreground/5",
+                  bar.shaded && "bg-muted"
+                )}
+              >
+                <div
+                  className="flex w-full flex-col-reverse overflow-hidden rounded-t-sm bg-primary/70 group-hover:bg-primary group-focus-visible:bg-primary"
+                  style={{ height: `${(bar.value / top) * 100}%` }}
+                >
+                  <div
+                    className="bg-destructive"
+                    style={{ height: `${bar.value ? ((bar.accent ?? 0) / bar.value) * 100 : 0}%` }}
+                  />
+                </div>
+                <div
+                  dir="rtl"
+                  className={cn(
+                    "pointer-events-none absolute z-10 mb-1 hidden flex-col rounded-md border bg-popover px-2 py-1 text-xs whitespace-nowrap text-popover-foreground shadow-md group-hover:flex group-focus-visible:flex",
+                    // Keep the card inside the plot when the bar sits near either edge.
+                    index < bars.length / 3
+                      ? "left-0"
+                      : index >= (bars.length * 2) / 3
+                        ? "right-0"
+                        : "left-1/2 -translate-x-1/2"
+                  )}
+                  style={{ bottom: `${(bar.value / top) * 100}%` }}
+                >
+                  <span className="text-muted-foreground">{bar.label}</span>
+                  <span>
+                    <span className="font-mono font-bold">{formatCount(bar.value)}</span> صوت
+                    {bar.accent !== undefined && (
+                      <span className={cn(bar.accent > 0 && "text-destructive")}>
+                        {" · "}
+                        <span className="font-mono font-bold">{formatCount(bar.accent)}</span> مشبوه
+                      </span>
+                    )}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="relative ms-10 h-4 font-mono text-[0.625rem] text-muted-foreground">
+        {bars.map(
+          (bar, index) =>
+            index % tickEvery === 0 && (
+              <span
+                key={bar.key}
+                className="absolute -translate-x-1/2 whitespace-nowrap"
+                style={{ left: `${((index + 0.5) / bars.length) * 100}%` }}
+              >
+                {bar.tick}
+              </span>
+            )
+        )}
+      </div>
+      <span className="text-center text-xs text-muted-foreground">{xTitle}</span>
     </div>
   )
 }
