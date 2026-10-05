@@ -215,3 +215,20 @@ export async function getProjectVotes(projectId: string) {
     .where(eq(votesTable.projectId, projectId))
     .orderBy(desc(votesTable.createdAt))
 }
+
+export async function getVoteSignalRows(campaignId: string) {
+  return config.db
+    .select({
+      voteId: votesTable.id,
+      userId: votesTable.userId,
+      projectId: votesTable.projectId,
+      projectTitle: projectsTable.title,
+      createdAt: votesTable.createdAt,
+      voterEmail: votesTable.voterEmail,
+      ipAddress: votesTable.ipAddress,
+      device: votesTable.device,
+    })
+    .from(votesTable)
+    .innerJoin(projectsTable, eq(votesTable.projectId, projectsTable.id))
+    .where(eq(votesTable.campaignId, campaignId))
+}

@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import { getAllCampaigns } from "./actions"
 import { AdminVotingClient } from "@/components/admin-voting-client"
+import { VotingTabs } from "./voting-tabs"
 
 export default async function AdminVotingPage() {
   const campaigns = await getAllCampaigns()
@@ -11,6 +12,7 @@ export default async function AdminVotingPage() {
         <h1 className="font-heading text-2xl font-bold">إدارة التصويت</h1>
         <p className="mt-1 text-sm text-muted-foreground">إنشاء وإدارة حملات التصويت والاطلاع على الإحصائيات.</p>
       </div>
+      <VotingTabs active="campaigns" />
       <Suspense fallback={<div className="h-64 animate-pulse rounded-xl bg-muted" />}>
         <AdminVotingClient initialCampaigns={campaigns} />
       </Suspense>
