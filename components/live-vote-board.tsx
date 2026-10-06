@@ -52,13 +52,9 @@ export function LiveVoteBoard() {
 
   if (!data) {
     return (
-      <div className="flex flex-col gap-8" aria-busy="true">
-        <div className="h-16 w-2/3 animate-pulse rounded-xl bg-muted" />
-        <div className="flex flex-col gap-5">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <div key={i} className="h-12 animate-pulse rounded-lg bg-muted" />
-          ))}
-        </div>
+      <div className="flex flex-col gap-5" aria-busy="true">
+        <div className="h-36 animate-pulse rounded-2xl border bg-card" />
+        <div className="h-[36rem] animate-pulse rounded-2xl border bg-card" />
       </div>
     )
   }
@@ -67,79 +63,79 @@ export function LiveVoteBoard() {
   const maxVotes = projects[0]?.votes ?? 0
 
   return (
-    <div className="flex flex-1 flex-col gap-8">
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div className="flex flex-col gap-2">
+    <div className="flex flex-1 flex-col gap-5 text-card-foreground">
+      <header className="flex flex-wrap items-center justify-between gap-5 rounded-2xl border bg-card p-5 shadow-sm sm:p-8">
+        <div className="flex flex-col items-start gap-3">
           <LiveStatus isActive={campaign?.isActive ?? false} isStale={isStale} />
           <h1 className="font-heading text-3xl font-bold sm:text-5xl">أعلى 10 مشاريع في التصويت</h1>
-          {campaign && <p className="text-sm text-muted-foreground sm:text-base">{campaign.name}</p>}
+          {campaign && <p className="text-sm font-medium text-card-foreground/75 sm:text-lg">{campaign.name}</p>}
         </div>
-        <div className="flex flex-col items-start sm:items-end">
-          <span className="text-xs text-muted-foreground sm:text-sm">إجمالي الأصوات</span>
-          <span className="font-heading text-4xl font-bold tabular-nums sm:text-6xl">
+        <div className="flex flex-col gap-1 rounded-xl bg-primary px-5 py-3 text-primary-foreground sm:px-7 sm:py-4">
+          <span className="text-xs font-medium sm:text-sm">إجمالي الأصوات</span>
+          <span className="font-heading text-4xl leading-none font-bold tabular-nums sm:text-6xl">
             {numberFormat.format(totalVotes)}
           </span>
         </div>
       </header>
 
-      {projects.length === 0 ? (
-        <p className="rounded-xl border border-dashed p-10 text-center text-muted-foreground">
-          {campaign ? "لم تُسجَّل أي أصوات بعد." : "لا توجد حملة تصويت حالياً."}
-        </p>
-      ) : (
-        <ol className="flex flex-col gap-4 sm:gap-5">
-          {projects.map((project, index) => (
-            <motion.li
-              key={project.projectId}
-              layout="position"
-              transition={{ type: "spring", stiffness: 300, damping: 32 }}
-              className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1.5 sm:gap-x-4"
-            >
-              <span className="row-span-2 w-7 text-center font-heading text-xl font-bold text-muted-foreground tabular-nums sm:w-9 sm:text-2xl">
-                {index + 1}
-              </span>
-              <div className="flex items-baseline justify-between gap-3">
-                <span dir="auto" className="line-clamp-1 text-sm font-medium sm:text-lg">
-                  {project.title}
+      <section className="rounded-2xl border bg-card p-4 shadow-sm sm:p-8">
+        {projects.length === 0 ? (
+          <p className="py-10 text-center text-base font-medium">
+            {campaign ? "لم تُسجَّل أي أصوات بعد." : "لا توجد حملة تصويت حالياً."}
+          </p>
+        ) : (
+          <ol className="flex flex-col gap-4 sm:gap-5">
+            {projects.map((project, index) => (
+              <motion.li
+                key={project.projectId}
+                layout="position"
+                transition={{ type: "spring", stiffness: 300, damping: 32 }}
+                className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 sm:gap-x-4"
+              >
+                <span className="row-span-2 flex size-8 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground tabular-nums sm:size-10 sm:text-lg">
+                  {index + 1}
                 </span>
-                <span className="shrink-0 text-sm font-bold tabular-nums sm:text-lg">
-                  {numberFormat.format(project.votes)}
-                </span>
-              </div>
-              <div className="h-3 sm:h-4">
-                <motion.div
-                  className="h-full min-w-1 rounded-e-sm bg-primary"
-                  initial={false}
-                  animate={{ width: `${maxVotes > 0 ? (project.votes / maxVotes) * 100 : 0}%` }}
-                  transition={{ type: "spring", stiffness: 120, damping: 24 }}
-                />
-              </div>
-            </motion.li>
-          ))}
-        </ol>
-      )}
+                <div className="flex items-baseline justify-between gap-3">
+                  <span dir="auto" className="line-clamp-1 text-sm font-semibold sm:text-lg">
+                    {project.title}
+                  </span>
+                  <span className="shrink-0 text-base font-bold tabular-nums sm:text-xl">
+                    {numberFormat.format(project.votes)}
+                  </span>
+                </div>
+                <div className="h-3 overflow-hidden rounded-full bg-muted sm:h-4">
+                  <motion.div
+                    className="h-full min-w-1 rounded-full bg-primary"
+                    initial={false}
+                    animate={{ width: `${maxVotes > 0 ? (project.votes / maxVotes) * 100 : 0}%` }}
+                    transition={{ type: "spring", stiffness: 120, damping: 24 }}
+                  />
+                </div>
+              </motion.li>
+            ))}
+          </ol>
+        )}
+      </section>
     </div>
   )
 }
 
 function LiveStatus({ isActive, isStale }: { isActive: boolean; isStale: boolean }) {
+  const pill = "rounded-full px-3 py-1 text-xs font-bold sm:text-sm"
+
   if (isStale) {
-    return (
-      <span className="text-xs font-medium text-muted-foreground sm:text-sm">انقطع الاتصال، جارٍ إعادة المحاولة…</span>
-    )
+    return <span className={`${pill} bg-muted text-foreground`}>انقطع الاتصال، جارٍ إعادة المحاولة…</span>
   }
 
   if (!isActive) {
-    return (
-      <span className="text-xs font-medium text-muted-foreground sm:text-sm">انتهى التصويت · النتائج النهائية</span>
-    )
+    return <span className={`${pill} bg-muted text-foreground`}>انتهى التصويت · النتائج النهائية</span>
   }
 
   return (
-    <span className="flex items-center gap-2 text-xs font-medium text-muted-foreground sm:text-sm">
-      <span className="relative flex size-2.5">
-        <span className="absolute inline-flex size-full animate-ping rounded-full bg-red-500 opacity-75" />
-        <span className="relative inline-flex size-2.5 rounded-full bg-red-500" />
+    <span className={`${pill} flex items-center gap-2 bg-red-600 text-white`}>
+      <span className="relative flex size-2">
+        <span className="absolute inline-flex size-full animate-ping rounded-full bg-white opacity-75" />
+        <span className="relative inline-flex size-2 rounded-full bg-white" />
       </span>
       مباشر
     </span>
