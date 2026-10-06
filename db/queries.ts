@@ -232,3 +232,35 @@ export async function getVoteSignalRows(campaignId: string) {
     .innerJoin(projectsTable, eq(votesTable.projectId, projectsTable.id))
     .where(eq(votesTable.campaignId, campaignId))
 }
+
+// The campaign the public live board shows: the running one, otherwise the last one that started.
+export async function getLiveBoardCampaign() {
+  const now = new Date()
+  return config.db.query.votingCampaignsTable.findFirst({
+    where: sql`${votingCampaignsTable.startsAt} <= ${now}`,
+    orderBy: [desc(sql`${votingCampaignsTable.endsAt} >= ${now}`), desc(votingCampaignsTable.startsAt)],
+  })
+}
+
+export async function getVoteLeaderboard(campaignId: string, limit = 10) {
+  const [[total], projects] = await Promise.all([
+    config.db
+      .select({ value: sql<number>`count(*)::int`.as("value") })
+      .from(votesTable)
+      .where(eq(votesTable.campaignId, campaignId)),
+    config.db
+      .select({
+        projectId: projectsTable.id,
+        title: projectsTable.title,
+        votes: sql<number>`count(*)::int`.as("votes"),
+      })
+      .from(votesTable)
+      .innerJoin(projectsTable, eq(votesTable.projectId, projectsTable.id))
+      .where(and(eq(votesTable.campaignId, campaignId), eq(projectsTable.is_public, true)))
+      .groupBy(projectsTable.id, projectsTable.title)
+      .orderBy(desc(sql`count(*)`), projectsTable.title)
+      .limit(limit),
+  ])
+
+  return { totalVotes: total.value, projects }
+}
